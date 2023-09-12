@@ -1,0 +1,4 @@
+name: Project Middle-Earth
+version: '${project.version}'
+main: com.github.mikoli.krolikcraft.Krolikcraft
+api-version: '1.20'
