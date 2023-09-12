@@ -1,6 +1,7 @@
-name: Project Middle-Earth
+name: ${project.name}
 prefix: ChatEmojis
-version: '${project.version}'
+version: ${project.version}
 main: com.github.mikoli.krolikcraft.Krolikcraft
-api-version: '1.20'
-authors: 'Mik_oli'
+api-version: ${apiVersion}
+authors: ${authors}
+website: ${project.url}
