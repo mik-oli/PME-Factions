@@ -1,4 +1,6 @@
 name: Project Middle-Earth
+prefix: ChatEmojis
 version: '${project.version}'
 main: com.github.mikoli.krolikcraft.Krolikcraft
 api-version: '1.20'
+authors: 'Mik_oli'
