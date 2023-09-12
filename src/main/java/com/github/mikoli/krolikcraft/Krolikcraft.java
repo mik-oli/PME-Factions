@@ -13,11 +13,6 @@ public final class Krolikcraft extends JavaPlugin {
         MiningMonitor miningMonitor = new MiningMonitor(this);
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
     public MiningCounter getMiningCounter() {
         return miningCounter;
     }
