@@ -15,3 +15,7 @@ commands:
 permissions:
   krolikcraft.staffwl:
     default: false
+  miningmonitor.track:
+    default: true
+  miningmonitor.monitor:
+    default: false
