@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class CommandsHandler implements CommandExecutor {
+public class StaffWLCommandsHandler implements CommandExecutor {
 
     private final Krolikcraft plugin;
 
-    public CommandsHandler(Krolikcraft plugin) {
+    public StaffWLCommandsHandler(Krolikcraft plugin) {
         this.plugin = plugin;
     }
 

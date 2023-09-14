@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft;
 
-import com.github.mikoli.krolikcraft.commandsManager.CommandsHandler;
+import com.github.mikoli.krolikcraft.commandsManager.StaffWLCommandsHandler;
 import com.github.mikoli.krolikcraft.listeners.PlayerJoinListener;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningCounter;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningMonitor;
@@ -14,7 +14,7 @@ public final class Krolikcraft extends JavaPlugin {
 
     private final MiningCounter miningCounter = new MiningCounter();
     private final StaffWL staffWL = new StaffWL(this);
-    private final CommandsHandler commandsHandler = new CommandsHandler(this);
+    private final StaffWLCommandsHandler staffWLCommandsHandler = new StaffWLCommandsHandler(this);
     private final MiningMonitor miningMonitor = new MiningMonitor(this);
     private final PlayerJoinListener playerJoinListener = new PlayerJoinListener(this);
 
@@ -46,13 +46,13 @@ public final class Krolikcraft extends JavaPlugin {
         return this.staffWL;
     }
 
-    public CommandsHandler getCommandsHandler() {
-        return this.commandsHandler;
+    public StaffWLCommandsHandler getStaffWLCommandsHandler() {
+        return this.staffWLCommandsHandler;
     }
 
 
     private void setCommandsExecutors() {
-        this.getCommand("staffwl").setExecutor(commandsHandler);
+        this.getCommand("staffwl").setExecutor(staffWLCommandsHandler);
     }
 
     private final PluginManager pluginManager = this.getServer().getPluginManager();
