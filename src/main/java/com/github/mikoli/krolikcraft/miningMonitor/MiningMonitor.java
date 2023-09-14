@@ -17,7 +17,6 @@ public class MiningMonitor implements Listener {
 
     public MiningMonitor(Krolikcraft plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
