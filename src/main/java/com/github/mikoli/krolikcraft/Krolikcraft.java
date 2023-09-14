@@ -1,5 +1,6 @@
 package com.github.mikoli.krolikcraft;
 
+import com.github.mikoli.krolikcraft.commandsManager.CommandsHandler;
 import com.github.mikoli.krolikcraft.listeners.PlayerJoinListener;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningCounter;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningMonitor;
@@ -13,6 +14,7 @@ public final class Krolikcraft extends JavaPlugin {
     private final MiningCounter miningCounter = new MiningCounter();
     private final ConfigUtil configUtil = new ConfigUtil(this);
     private final StaffWL staffWL = new StaffWL(this);
+    private final CommandsHandler commandsHandler = new CommandsHandler(this);
 
     @Override
     public void onEnable() {
@@ -20,6 +22,7 @@ public final class Krolikcraft extends JavaPlugin {
         new PlayerJoinListener(this);
 
         this.saveDefaultConfig();
+        this.setCommandsExecutors();
 
         staffWL.loadData();
     }
@@ -41,5 +44,13 @@ public final class Krolikcraft extends JavaPlugin {
 
     public StaffWL getStaffWL() {
         return this.staffWL;
+    }
+
+    public CommandsHandler getCommandsHandler() {
+        return this.commandsHandler;
+    }
+
+    private void setCommandsExecutors() {
+        this.getCommand("staffwl").setExecutor(commandsHandler);
     }
 }

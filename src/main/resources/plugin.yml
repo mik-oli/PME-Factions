@@ -5,3 +5,13 @@ main: com.github.mikoli.krolikcraft.Krolikcraft
 api-version: ${apiVersion}
 authors: ${authors}
 website: ${project.url}
+
+commands:
+  staffwl:
+    aliases: staffwhitelist
+    permission: krolikcraft.staffwl
+    usage: /staffwl [status/on/off/list/add/remove] [player]
+
+permissions:
+  krolikcraft.staffwl:
+    default: false
