@@ -32,11 +32,15 @@ public class StaffWL implements Listener {
         return this.whitelistedPlayers;
     }
 
+    public boolean isPlayerWhitelisted(Player player) {
+        return this.whitelistedPlayers.contains(player.getUniqueId());
+    }
+
     public void addUserToList(Player player) {
         this.whitelistedPlayers.add(player.getUniqueId());
     }
 
-    public void removeUserToList(Player player) {
+    public void removeUserFromList(Player player) {
         this.whitelistedPlayers.remove(player.getUniqueId());
     }
 

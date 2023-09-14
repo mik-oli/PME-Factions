@@ -43,7 +43,7 @@ public class CommandsHandler implements CommandExecutor {
     private boolean staffWLRemove(CommandSender commandSender, String[] args) {
         if (args.length < 2) return false;
         Player player = plugin.getServer().getPlayer(args[1]);
-        if (plugin.getStaffWL().getWhitelistedPlayers().contains(player.getUniqueId())) {
+        if (plugin.getStaffWL().isPlayerWhitelisted(player)) {
             commandSender.sendMessage(Utils.pluginPrefix() + Utils.coloring("&cPlayer is not on the whitelist."));
         }
         else {
@@ -57,7 +57,7 @@ public class CommandsHandler implements CommandExecutor {
     private boolean staffWLAdd(CommandSender commandSender, String[] args) {
         if (args.length < 2) return false;
         Player player = plugin.getServer().getPlayer(args[1]);
-        if (plugin.getStaffWL().getWhitelistedPlayers().contains(player.getUniqueId())) {
+        if (plugin.getStaffWL().isPlayerWhitelisted(player)) {
             commandSender.sendMessage(Utils.pluginPrefix() + Utils.coloring("&cPlayer is already on the whitelist."));
         }
         else {
