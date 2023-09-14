@@ -5,15 +5,14 @@ import com.github.mikoli.krolikcraft.listeners.PlayerJoinListener;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningCounter;
 import com.github.mikoli.krolikcraft.miningMonitor.MiningMonitor;
 import com.github.mikoli.krolikcraft.staffWL.StaffWL;
-import com.github.mikoli.krolikcraft.utils.ConfigUtil;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Krolikcraft extends JavaPlugin {
 
     private final MiningCounter miningCounter = new MiningCounter();
-    private final ConfigUtil configUtil = new ConfigUtil(this);
     private final StaffWL staffWL = new StaffWL(this);
     private final CommandsHandler commandsHandler = new CommandsHandler(this);
     private final MiningMonitor miningMonitor = new MiningMonitor(this);
@@ -35,13 +34,12 @@ public final class Krolikcraft extends JavaPlugin {
         this.saveConfig();
     }
 
+    public FileConfiguration getConfig() {
+        return this.getConfig();
+    }
 
     public MiningCounter getMiningCounter() {
         return miningCounter;
-    }
-
-    public ConfigUtil getConfigUtil() {
-        return this.configUtil;
     }
 
     public StaffWL getStaffWL() {

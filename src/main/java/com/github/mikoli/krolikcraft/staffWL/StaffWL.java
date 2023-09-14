@@ -55,20 +55,20 @@ public class StaffWL implements Listener {
     }
 
     private void loadWLStatus() {
-        whiteListStatus = this.plugin.getConfigUtil().getConfig().getBoolean("status");
+        whiteListStatus = this.plugin.getConfig().getBoolean("status");
     }
 
     private void loadWhitelistedPlayers() {
-        for (String s : this.plugin.getConfigUtil().getConfig().getStringList("whitelisted-users")) {
+        for (String s : this.plugin.getConfig().getStringList("whitelisted-users")) {
             this.whitelistedPlayers.add(UUID.fromString(s));
         }
     }
 
     private void savaWLStatus() {
-        this.plugin.getConfigUtil().getConfig().set("status", this.whiteListStatus);
+        this.plugin.getConfig().set("status", this.whiteListStatus);
     }
 
     private void saveWhitelistedPlayers() {
-        this.plugin.getConfigUtil().getConfig().set("whitelisted-users", this.whitelistedPlayers);
+        this.plugin.getConfig().set("whitelisted-users", this.whitelistedPlayers);
     }
 }
