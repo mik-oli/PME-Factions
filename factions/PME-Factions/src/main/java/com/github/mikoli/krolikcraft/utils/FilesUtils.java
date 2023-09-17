@@ -1,10 +1,11 @@
 package com.github.mikoli.krolikcraft.utils;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
-import org.bukkit.configuration.file.FileConfiguration;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FilesUtils {
 
@@ -24,8 +25,12 @@ public class FilesUtils {
         return this.data;
     }
 
+    public void saveData() throws IOException {
+        this.data.save(dataFile);
+    }
+
     private void createDataFile() {
-        dataFile = new File(plugin.getDataFolder(), fileName + ".yml");
+        dataFile = new File(plugin.getDataFolder() + File.separator + "factions", fileName + ".yml");
         if (!dataFile.exists()) {
             dataFile.getParentFile().mkdirs();
             plugin.saveResource(fileName + ".yml", false);
