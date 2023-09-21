@@ -40,16 +40,13 @@ public class ClaimsManager {
         return null;
     }
 
-    public void createClaim(Faction faction, Chunk inputChunk, ClaimType claimType) {
+    public void createClaim(Faction faction, Set<Chunk> inputChunks, ClaimType claimType) {
         UUID claimId = UUID.randomUUID();
         while (claimsList.contains(claimId)) claimId = UUID.randomUUID();
         claimsList.add(claimId);
         claimsOwnerMap.put(claimId, faction.getName());
         claimsTypesMap.put(claimId, claimType);
-
-        Set<Chunk> chunks = new HashSet<>();
-        chunks.add(inputChunk);
-        claimsChunksMap.put(claimId, chunks);
+        claimsChunksMap.put(claimId, inputChunks);
     }
 
     public void removeClaim(UUID claimId) {
@@ -65,5 +62,27 @@ public class ClaimsManager {
 
     public void changeClaimOwner(UUID claimId, Faction faction) {
         claimsOwnerMap.replace(claimId, faction.getName());
+    }
+
+    public boolean checkIfCanCreateClaim(Faction faction, Chunk inputChunk, Boolean connected) {
+        //if claim covers other claim
+        if (this.getClaimId(inputChunk) != null) return false;
+
+        //if claim borders other claim
+        //TODO if must be connected, config file option
+        if (!connected) return true;
+        int inputX = inputChunk.getX();
+        int inputZ = inputChunk.getZ();
+
+        UUID id;
+        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX + 1, inputZ));
+        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ - 1));
+        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ + 1));
+        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX - 1, inputZ));
+        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        else return false;
     }
 }
