@@ -8,25 +8,24 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class PersistentDataUtil {
 
-    private final PersistentDataType<String, String> dataType = PersistentDataType.STRING;
     private final Krolikcraft plugin;
 
     public PersistentDataUtil(Krolikcraft plugin) {
         this.plugin = plugin;
     }
 
-    public String getPlayerData(Player player, PersistentDataKeys dataKey) {
+    public Object getPlayerData(Player player, PersistentDataKeys dataKey) {
         NamespacedKey key = new NamespacedKey(plugin, dataKey.toString());
-        return player.getPersistentDataContainer().get(key, dataType);
+        return player.getPersistentDataContainer().get(key, dataKey.getPersistentDataType());
     }
 
     public void setPlayerData(Player player, PersistentDataKeys dataKey, String value) {
         NamespacedKey key = new NamespacedKey(plugin, dataKey.toString());
-        player.getPersistentDataContainer().set(key, dataType, value);
+        player.getPersistentDataContainer().set(key, dataKey.getPersistentDataType(), value);
     }
 
     public boolean hasPlayerData(Player player, PersistentDataKeys dataKey) {
         NamespacedKey key = new NamespacedKey(plugin, dataKey.toString());
-        return player.getPersistentDataContainer().has(key, dataType);
+        return player.getPersistentDataContainer().has(key, dataKey.getPersistentDataType());
     }
 }
