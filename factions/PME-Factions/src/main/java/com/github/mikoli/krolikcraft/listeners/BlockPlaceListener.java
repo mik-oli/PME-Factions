@@ -31,8 +31,8 @@ public class BlockPlaceListener implements Listener {
         if (block.getType() != Material.BEDROCK) return; //TODO changing bedrock to other block || checking if block has tag to claim
 
         Player player = event.getPlayer();
-        //TODO checking if player is in a faction
-        //TODO checking if player is a faction leader
+        if (!plugin.getFactionsHashMap().containsKey(plugin.getPersistentDataUtil().getPlayerData(player, PersistentDataKeys.FACTION))) return;
+        if (!Boolean.getBoolean(plugin.getPersistentDataUtil().getPlayerData(player, PersistentDataKeys.ISLEADER).toString())) return;
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = block.getChunk();
