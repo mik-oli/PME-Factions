@@ -17,8 +17,6 @@ public class FilesUtils {
     public FilesUtils(Krolikcraft plugin, String name) {
         this.plugin = plugin;
         this.fileName = name;
-
-        this.createDataFile();
     }
 
     public YamlConfiguration getData() {
@@ -29,8 +27,19 @@ public class FilesUtils {
         this.data.save(dataFile);
     }
 
-    private void createDataFile() {
+    public void createFactionsDataFile() {
         dataFile = new File(plugin.getDataFolder() + File.separator + "factions", fileName + ".yml");
+        if (!dataFile.exists()) {
+            dataFile.getParentFile().mkdirs();
+            plugin.saveResource(fileName + ".yml", false);
+        }
+
+        data = new YamlConfiguration();
+        YamlConfiguration.loadConfiguration(dataFile);
+    }
+
+    public void createClaimsDataFile() {
+        dataFile = new File(plugin.getDataFolder(), fileName + ".yml");
         if (!dataFile.exists()) {
             dataFile.getParentFile().mkdirs();
             plugin.saveResource(fileName + ".yml", false);

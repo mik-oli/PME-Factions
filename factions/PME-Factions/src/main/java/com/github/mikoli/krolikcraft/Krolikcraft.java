@@ -18,13 +18,14 @@ public final class Krolikcraft extends JavaPlugin {
 
     private final HashMap<String, Faction> factionsHashMap = new HashMap<>();
     private final HashMap<String, FilesUtils> factionsFilesHashMap = new HashMap<>();
+    private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
     private final PersistentDataUtil persistentDataUtil = new PersistentDataUtil(this);
     private final ClaimsManager claimsManager = new ClaimsManager(this);
 
     @Override
     public void onEnable() {
-        
         this.loadFactionsData();
+        this.claimsFilesUtil.createClaimsDataFile();
     }
 
     @Override
@@ -45,6 +46,10 @@ public final class Krolikcraft extends JavaPlugin {
         return factionsFilesHashMap;
     }
 
+    public FilesUtils getClaimsFilesUtil() {
+        return claimsFilesUtil;
+    }
+
     public PersistentDataUtil getPersistentDataUtil() {
         return persistentDataUtil;
     }
@@ -59,7 +64,9 @@ public final class Krolikcraft extends JavaPlugin {
 
         for (File factionFile : factionsDirectory.listFiles()) {
             String factionName = factionFile.getName().replace(".yml", "");
-            factionsFilesHashMap.put(factionName, new FilesUtils(this, factionName));
+            FilesUtils factionFilesUtil = new FilesUtils(this, factionName);
+            factionFilesUtil.createClaimsDataFile();
+            factionsFilesHashMap.put(factionName, factionFilesUtil);
         }
 
         for (String str : factionsFilesHashMap.keySet()) {
