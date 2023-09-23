@@ -27,7 +27,6 @@ public final class Krolikcraft extends JavaPlugin {
     public void onEnable() {
         this.loadFactionsData();
         this.loadFactionsData();
-        this.claimsFilesUtil.createClaimsDataFile();
     }
 
     @Override
@@ -80,12 +79,12 @@ public final class Krolikcraft extends JavaPlugin {
 
     private void saveFactionsData() throws IOException {
         for (String str : factionsHashMap.keySet()) {
-            FilesUtils file = factionsFilesHashMap.get(str);
-            if (file == null) {
-                file = new FilesUtils(this, str);
+            if (!factionsFilesHashMap.containsKey(str) || factionsFilesHashMap.get(str) == null) {
+                FilesUtils file = new FilesUtils(this, str);
                 file.createFactionsDataFile();
+                LoadSaveFactionData.saveFactionData(file, factionsHashMap.get(str));
             }
-            LoadSaveFactionData.saveFactionData(file, factionsHashMap.get(str));
+            else LoadSaveFactionData.saveFactionData(factionsFilesHashMap.get(str), factionsHashMap.get(str));
         }
     }
 
@@ -97,6 +96,7 @@ public final class Krolikcraft extends JavaPlugin {
     }
 
     private void saveClaimsData() throws IOException {
+        claimsFilesUtil.createClaimsDataFile();
         LoadSaveClaimsData.saveClaimsData(claimsFilesUtil, claimsManager);
     }
 }
