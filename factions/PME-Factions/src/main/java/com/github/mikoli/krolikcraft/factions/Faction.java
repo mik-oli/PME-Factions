@@ -10,7 +10,7 @@ public class Faction {
     private final Krolikcraft plugin;
     private String name;
     private Player leader;
-    private HashSet<Player> members;
+    private final HashSet<Player> members = new HashSet<>();
 
     public Faction(Krolikcraft plugin) {
         this.plugin = plugin;
