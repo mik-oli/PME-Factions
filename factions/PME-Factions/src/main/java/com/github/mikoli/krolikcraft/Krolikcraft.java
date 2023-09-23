@@ -26,7 +26,7 @@ public final class Krolikcraft extends JavaPlugin {
     @Override
     public void onEnable() {
         this.loadFactionsData();
-        this.loadFactionsData();
+        this.loadClaimsData();
     }
 
     @Override
