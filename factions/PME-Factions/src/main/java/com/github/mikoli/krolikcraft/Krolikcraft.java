@@ -2,6 +2,7 @@ package com.github.mikoli.krolikcraft;
 
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.factions.LoadSaveFactionData;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtil;
@@ -25,6 +26,7 @@ public final class Krolikcraft extends JavaPlugin {
     @Override
     public void onEnable() {
         this.loadFactionsData();
+        this.loadFactionsData();
         this.claimsFilesUtil.createClaimsDataFile();
     }
 
@@ -33,6 +35,7 @@ public final class Krolikcraft extends JavaPlugin {
 
         try {
             this.saveFactionsData();
+            this.saveClaimsData();
         } catch (IOException e) {
             Utils.consoleError(Arrays.toString(e.getStackTrace()));
         }
@@ -60,7 +63,7 @@ public final class Krolikcraft extends JavaPlugin {
 
     private void loadFactionsData() {
         File factionsDirectory = new File(this.getDataFolder().getAbsolutePath() + File.separator + "factions");
-        if (factionsDirectory.exists() || factionsDirectory.listFiles().length < 1) return;
+        if (!factionsDirectory.exists()) return;
 
         for (File factionFile : factionsDirectory.listFiles()) {
             String factionName = factionFile.getName().replace(".yml", "");
@@ -80,5 +83,16 @@ public final class Krolikcraft extends JavaPlugin {
         for (String str : factionsHashMap.keySet()) {
             LoadSaveFactionData.saveFactionData(factionsFilesHashMap.get(str), factionsHashMap.get(str));
         }
+    }
+
+    private void loadClaimsData() {
+        File factionsDirectory = new File(this.getDataFolder().getAbsolutePath() + File.separator + "factions");
+        if (!factionsDirectory.exists()) return;
+
+        LoadSaveClaimsData.loadFClaimsData(claimsFilesUtil, claimsManager);
+    }
+
+    private void saveClaimsData() throws IOException {
+        LoadSaveClaimsData.saveClaimsData(claimsFilesUtil, claimsManager);
     }
 }
