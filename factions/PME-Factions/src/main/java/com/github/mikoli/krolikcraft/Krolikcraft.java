@@ -68,7 +68,6 @@ public final class Krolikcraft extends JavaPlugin {
         for (File factionFile : factionsDirectory.listFiles()) {
             String factionName = factionFile.getName().replace(".yml", "");
             FilesUtils factionFilesUtil = new FilesUtils(this, factionName);
-            factionFilesUtil.createClaimsDataFile();
             factionsFilesHashMap.put(factionName, factionFilesUtil);
         }
 
@@ -81,7 +80,12 @@ public final class Krolikcraft extends JavaPlugin {
 
     private void saveFactionsData() throws IOException {
         for (String str : factionsHashMap.keySet()) {
-            LoadSaveFactionData.saveFactionData(factionsFilesHashMap.get(str), factionsHashMap.get(str));
+            FilesUtils file = factionsFilesHashMap.get(str);
+            if (file == null) {
+                file = new FilesUtils(this, str);
+                file.createFactionsDataFile();
+            }
+            LoadSaveFactionData.saveFactionData(file, factionsHashMap.get(str));
         }
     }
 

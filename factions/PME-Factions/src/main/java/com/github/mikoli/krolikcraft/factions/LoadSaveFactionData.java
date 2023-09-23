@@ -26,7 +26,6 @@ public class LoadSaveFactionData {
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
         YamlConfiguration dataFile = file.getData();
-        Server server = Bukkit.getServer();
         dataFile.set("name", faction.getName());
         dataFile.set("leader", faction.getLeader().getUniqueId());
 
