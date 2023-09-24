@@ -1,5 +1,6 @@
 package com.github.mikoli.krolikcraft;
 
+import com.github.mikoli.krolikcraft.commandsHandler.FactionsCommandsHandler;
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
@@ -25,8 +26,13 @@ public final class Krolikcraft extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.loadFactionsData();
-        this.loadClaimsData();
+
+        try {
+            this.loadFactionsData();
+        } catch (IOException e) {
+            Utils.consoleError(Arrays.toString(e.getStackTrace()));
+        }
+//        this.loadClaimsData();
     }
 
     @Override
@@ -34,7 +40,7 @@ public final class Krolikcraft extends JavaPlugin {
 
         try {
             this.saveFactionsData();
-            this.saveClaimsData();
+//            this.saveClaimsData();
         } catch (IOException e) {
             Utils.consoleError(Arrays.toString(e.getStackTrace()));
         }
@@ -60,13 +66,14 @@ public final class Krolikcraft extends JavaPlugin {
         return claimsManager;
     }
 
-    private void loadFactionsData() {
-        File factionsDirectory = new File(this.getDataFolder().getAbsolutePath() + File.separator + "factions");
+    private void loadFactionsData() throws IOException {
+        File factionsDirectory = new File(this.getDataFolder() + File.separator + "factions");
         if (!factionsDirectory.exists()) return;
 
         for (File factionFile : factionsDirectory.listFiles()) {
             String factionName = factionFile.getName().replace(".yml", "");
             FilesUtils factionFilesUtil = new FilesUtils(this, factionName);
+            factionFilesUtil.createFactionsDataFile();
             factionsFilesHashMap.put(factionName, factionFilesUtil);
         }
 

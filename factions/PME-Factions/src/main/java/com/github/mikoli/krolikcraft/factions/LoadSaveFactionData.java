@@ -3,35 +3,34 @@ package com.github.mikoli.krolikcraft.factions;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class LoadSaveFactionData {
 
     public static void loadFactionData(FilesUtils file, Faction faction) {
-        YamlConfiguration dataFile = file.getData();
-        Server server = Bukkit.getServer();
+        FileConfiguration dataFile = file.getData();
         faction.setName(dataFile.getString("name"));
-        faction.setLeader(server.getPlayer(dataFile.getString("leader")));
+        faction.setLeader(Bukkit.getPlayer(UUID.fromString(dataFile.getString("leader"))));
 
         for (String s : dataFile.getStringList("members")) {
-            faction.addMember(server.getPlayer(s));
+            faction.addMember(Bukkit.getPlayer(UUID.fromString(s)));
         }
     }
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
-        YamlConfiguration dataFile = file.getData();
+        FileConfiguration dataFile = file.getData();
         dataFile.set("name", faction.getName());
-        dataFile.set("leader", faction.getLeader().getUniqueId());
+        dataFile.set("leader", faction.getLeader().getUniqueId().toString());
 
-        HashSet<UUID> membersToSave = new HashSet<>();
+        List<String> membersToSave = new ArrayList<>();
         for (Player player : faction.getMembers()) {
-            membersToSave.add(player.getUniqueId());
+            membersToSave.add(player.getUniqueId().toString());
         }
         dataFile.set("members", membersToSave);
 
