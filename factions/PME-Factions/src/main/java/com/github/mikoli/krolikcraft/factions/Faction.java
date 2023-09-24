@@ -4,13 +4,14 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 public class Faction {
 
     private final Krolikcraft plugin;
     private String name;
-    private Player leader;
-    private final HashSet<Player> members = new HashSet<>();
+    private UUID leader;
+    private final HashSet<UUID> members = new HashSet<>();
 
     public Faction(Krolikcraft plugin) {
         this.plugin = plugin;
@@ -24,27 +25,27 @@ public class Faction {
         return name;
     }
 
-    public void setLeader(Player player) {
+    public void setLeader(UUID player) {
         leader = player;
     }
 
-    public Player getLeader() {
+    public UUID getLeader() {
         return leader;
     }
 
-    public void addMember(Player player) {
+    public void addMember(UUID player) {
         members.add(player);
     }
 
-    public void removeMember(Player player) {
+    public void removeMember(UUID player) {
         members.remove(player);
     }
 
-    public boolean isMember(Player player) {
+    public boolean isMember(UUID player) {
         return members.contains(player);
     }
 
-    public HashSet<Player> getMembers() {
+    public HashSet<UUID> getMembers() {
         return members;
     }
 }
