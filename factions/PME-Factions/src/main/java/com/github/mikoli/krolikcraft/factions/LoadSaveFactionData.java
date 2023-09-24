@@ -16,21 +16,21 @@ public class LoadSaveFactionData {
     public static void loadFactionData(FilesUtils file, Faction faction) {
         FileConfiguration dataFile = file.getData();
         faction.setName(dataFile.getString("name"));
-        faction.setLeader(Bukkit.getPlayer(UUID.fromString(dataFile.getString("leader"))));
+        faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
         for (String s : dataFile.getStringList("members")) {
-            faction.addMember(Bukkit.getPlayer(UUID.fromString(s)));
+            faction.addMember(UUID.fromString(s));
         }
     }
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
         FileConfiguration dataFile = file.getData();
         dataFile.set("name", faction.getName());
-        dataFile.set("leader", faction.getLeader().getUniqueId().toString());
+        dataFile.set("leader", faction.getLeader());
 
         List<String> membersToSave = new ArrayList<>();
-        for (Player player : faction.getMembers()) {
-            membersToSave.add(player.getUniqueId().toString());
+        for (UUID playerUUID : faction.getMembers()) {
+            membersToSave.add(playerUUID.toString());
         }
         dataFile.set("members", membersToSave);
 
