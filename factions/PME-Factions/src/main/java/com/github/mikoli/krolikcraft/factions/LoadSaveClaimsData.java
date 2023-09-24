@@ -4,7 +4,7 @@ import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class LoadSaveClaimsData {
 
     public static void loadFClaimsData(FilesUtils file, ClaimsManager claimsManager) {
-        YamlConfiguration dataFile = file.getData();
+        FileConfiguration dataFile = file.getData();
 
         for (String s : dataFile.getStringList("claims")) {
             UUID uuid = UUID.fromString(s);
@@ -34,7 +34,7 @@ public class LoadSaveClaimsData {
     }
 
     public static void saveClaimsData(FilesUtils file, ClaimsManager claimsManager) throws IOException {
-        YamlConfiguration dataFile = file.getData();
+        FileConfiguration dataFile = file.getData();
         for (UUID id : claimsManager.getClaimsList()) {
             dataFile.set("claims." + id + ".owner", claimsManager.getClaimsOwnerMap().get(id));
             dataFile.set("claims." + id + ".type", claimsManager.getClaimsTypesMap().get(id));
@@ -44,7 +44,6 @@ public class LoadSaveClaimsData {
             }
             dataFile.set("claims." + id + ".chunks", chunksCord);
         }
-
         file.saveData();
     }
 }

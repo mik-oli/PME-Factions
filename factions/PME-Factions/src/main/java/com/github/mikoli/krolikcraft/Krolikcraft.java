@@ -27,6 +27,7 @@ public final class Krolikcraft extends JavaPlugin {
         new FactionsCommandsHandler(this);
         try {
             this.loadFactionsData();
+            this.loadClaimsData();
         } catch (IOException e) {
             Utils.consoleError(Arrays.toString(e.getStackTrace()));
         }
@@ -38,7 +39,7 @@ public final class Krolikcraft extends JavaPlugin {
 
         try {
             this.saveFactionsData();
-//            this.saveClaimsData();
+            this.saveClaimsData();
         } catch (IOException e) {
             Utils.consoleError(Arrays.toString(e.getStackTrace()));
         }
@@ -89,10 +90,10 @@ public final class Krolikcraft extends JavaPlugin {
         }
     }
 
-    private void loadClaimsData() {
-        File factionsDirectory = new File(this.getDataFolder().getAbsolutePath() + File.separator + "factions");
+    private void loadClaimsData() throws IOException {
+        File factionsDirectory = this.getDataFolder();
         if (!factionsDirectory.exists()) return;
-
+        claimsFilesUtil.createClaimsDataFile();
         LoadSaveClaimsData.loadFClaimsData(claimsFilesUtil, claimsManager);
     }
 

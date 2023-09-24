@@ -36,18 +36,14 @@ public class FilesUtils {
             dataFile.getParentFile().mkdirs();
             dataFile.createNewFile();
         }
-
         data = YamlConfiguration.loadConfiguration(dataFile);
     }
 
-    public void createClaimsDataFile() {
+    public void createClaimsDataFile() throws IOException {
         dataFile = new File(plugin.getDataFolder(), fileName + ".yml");
         if (!dataFile.exists()) {
-            dataFile.getParentFile().mkdirs();
-            plugin.saveResource(fileName + ".yml", false);
+            dataFile.createNewFile();
         }
-
-        data = new YamlConfiguration();
-        YamlConfiguration.loadConfiguration(dataFile);
+        data = YamlConfiguration.loadConfiguration(dataFile);
     }
 }
