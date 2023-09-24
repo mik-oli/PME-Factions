@@ -6,7 +6,6 @@ import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.factions.LoadSaveFactionData;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
-import com.github.mikoli.krolikcraft.utils.PersistentDataUtil;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,12 +20,11 @@ public final class Krolikcraft extends JavaPlugin {
     private final HashMap<String, Faction> factionsHashMap = new HashMap<>();
     private final HashMap<String, FilesUtils> factionsFilesHashMap = new HashMap<>();
     private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
-    private final PersistentDataUtil persistentDataUtil = new PersistentDataUtil(this);
     private final ClaimsManager claimsManager = new ClaimsManager(this);
 
     @Override
     public void onEnable() {
-
+        new FactionsCommandsHandler(this);
         try {
             this.loadFactionsData();
         } catch (IOException e) {
@@ -56,10 +54,6 @@ public final class Krolikcraft extends JavaPlugin {
 
     public FilesUtils getClaimsFilesUtil() {
         return claimsFilesUtil;
-    }
-
-    public PersistentDataUtil getPersistentDataUtil() {
-        return persistentDataUtil;
     }
 
     public ClaimsManager getClaimsManager() {
