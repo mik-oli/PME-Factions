@@ -36,7 +36,7 @@ public class BlockPlaceListener implements Listener {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = block.getChunk();
-        Faction faction = plugin.getFactionsHashMap().get(FactionsUtils.getPlayersFaction(plugin, playerUUID));
+        Faction faction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, false)) return;
         Set<Chunk> chunksToClaim = new HashSet<>();
         chunksToClaim.add(chunk);

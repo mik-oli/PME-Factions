@@ -5,9 +5,11 @@ import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.factions.LoadSaveFactionData;
+import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -19,8 +21,9 @@ public final class Krolikcraft extends JavaPlugin {
 
     private final HashMap<String, Faction> factionsHashMap = new HashMap<>();
     private final HashMap<String, FilesUtils> factionsFilesHashMap = new HashMap<>();
-    private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
     private final ClaimsManager claimsManager = new ClaimsManager(this);
+    private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
+    private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
 
     @Override
     public void onEnable() {
@@ -31,7 +34,8 @@ public final class Krolikcraft extends JavaPlugin {
         } catch (IOException e) {
             Utils.consoleError(Arrays.toString(e.getStackTrace()));
         }
-//        this.loadClaimsData();
+
+        this.setEventsListeners();
     }
 
     @Override
@@ -59,6 +63,12 @@ public final class Krolikcraft extends JavaPlugin {
 
     public ClaimsManager getClaimsManager() {
         return claimsManager;
+    }
+
+    //Private methods
+    private final PluginManager pluginManager = this.getServer().getPluginManager();
+    private void setEventsListeners() {
+        pluginManager.registerEvents(blockPlaceListener, this);
     }
 
     private void loadFactionsData() throws IOException {
