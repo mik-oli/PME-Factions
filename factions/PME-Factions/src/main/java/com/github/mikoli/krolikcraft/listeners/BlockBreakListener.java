@@ -4,6 +4,7 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 
+import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,6 +35,7 @@ public class BlockBreakListener implements Listener {
             ClaimsManager claimsManager = plugin.getClaimsManager();
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
             claimsManager.removeClaim(claimId);
+            LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else {
             return;
         }

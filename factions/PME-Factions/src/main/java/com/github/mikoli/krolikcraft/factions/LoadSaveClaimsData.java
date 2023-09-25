@@ -45,4 +45,14 @@ public class LoadSaveClaimsData {
         }
         file.saveData();
     }
+
+    public static void deleteClaimFromFile(FilesUtils file, UUID claimId) {
+        FileConfiguration dataFile = file.getData();
+        dataFile.set(claimId.toString(), null);
+        try {
+            file.saveData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
