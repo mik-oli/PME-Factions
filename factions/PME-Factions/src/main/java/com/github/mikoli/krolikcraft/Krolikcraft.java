@@ -5,6 +5,7 @@ import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.factions.LoadSaveFactionData;
+import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
@@ -24,6 +25,7 @@ public final class Krolikcraft extends JavaPlugin {
     private final ClaimsManager claimsManager = new ClaimsManager(this);
     private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
+    private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
 
     @Override
     public void onEnable() {
@@ -69,6 +71,7 @@ public final class Krolikcraft extends JavaPlugin {
     private final PluginManager pluginManager = this.getServer().getPluginManager();
     private void setEventsListeners() {
         pluginManager.registerEvents(blockPlaceListener, this);
+        pluginManager.registerEvents(blockBreakListener, this);
     }
 
     private void loadFactionsData() throws IOException {
