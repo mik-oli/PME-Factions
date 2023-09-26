@@ -2,9 +2,7 @@ package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;

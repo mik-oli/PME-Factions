@@ -3,8 +3,6 @@ package com.github.mikoli.krolikcraft.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import java.util.logging.Logger;
-
 public class Utils {
 
     public static String coloring(String str)

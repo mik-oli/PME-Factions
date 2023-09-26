@@ -2,8 +2,6 @@ package com.github.mikoli.krolikcraft.utils;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

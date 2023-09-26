@@ -8,7 +8,7 @@ public class FactionsUtils {
 
     public static boolean isPlayerInFaction(Krolikcraft plugin, UUID playerUUID) {
         for (Faction faction : plugin.getFactionsHashMap().values()) {
-            return faction.getMembers().contains(playerUUID);
+           if (faction.getMembers().contains(playerUUID)) return true;
         }
         return false;
     }

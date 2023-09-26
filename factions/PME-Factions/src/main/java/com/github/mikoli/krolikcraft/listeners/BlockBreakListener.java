@@ -3,9 +3,8 @@ package com.github.mikoli.krolikcraft.listeners;
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
-
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
-import org.bukkit.Bukkit;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
