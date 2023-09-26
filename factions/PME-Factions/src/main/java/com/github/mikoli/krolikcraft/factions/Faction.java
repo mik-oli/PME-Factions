@@ -1,7 +1,6 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
-import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -9,12 +8,21 @@ import java.util.UUID;
 public class Faction {
 
     private final Krolikcraft plugin;
+    private UUID id;
     private String name;
     private UUID leader;
     private final HashSet<UUID> members = new HashSet<>();
 
     public Faction(Krolikcraft plugin) {
         this.plugin = plugin;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public void setName(String name) {

@@ -15,6 +15,7 @@ public class LoadSaveFactionData {
 
     public static void loadFactionData(FilesUtils file, Faction faction) {
         FileConfiguration dataFile = file.getData();
+        faction.setId(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
@@ -25,6 +26,7 @@ public class LoadSaveFactionData {
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
         FileConfiguration dataFile = file.getData();
+        dataFile.set("id", faction.getId());
         dataFile.set("name", faction.getName());
         dataFile.set("leader", faction.getLeader().toString());
 

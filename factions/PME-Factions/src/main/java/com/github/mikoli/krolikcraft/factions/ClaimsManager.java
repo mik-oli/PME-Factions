@@ -9,7 +9,7 @@ public class ClaimsManager {
 
     private final Krolikcraft plugin;
     private final Set<UUID> claimsList = new HashSet<>();
-    private final HashMap<UUID, String> claimsOwnerMap = new HashMap<>();
+    private final HashMap<UUID, UUID> claimsOwnerMap = new HashMap<>();
     private final HashMap<UUID, Set<Chunk>> claimsChunksMap = new HashMap<>();
     private final HashMap<UUID, ClaimType> claimsTypesMap = new HashMap<>();
 
@@ -21,7 +21,7 @@ public class ClaimsManager {
         return claimsList;
     }
 
-    public HashMap<UUID, String> getClaimsOwnerMap() {
+    public HashMap<UUID, UUID> getClaimsOwnerMap() {
         return claimsOwnerMap;
     }
 
@@ -44,7 +44,7 @@ public class ClaimsManager {
         UUID claimId = UUID.randomUUID();
         while (claimsList.contains(claimId)) claimId = UUID.randomUUID();
         claimsList.add(claimId);
-        claimsOwnerMap.put(claimId, faction.getName());
+        claimsOwnerMap.put(claimId, faction.getId());
         claimsTypesMap.put(claimId, claimType);
         claimsChunksMap.put(claimId, inputChunks);
     }
@@ -61,7 +61,7 @@ public class ClaimsManager {
     }
 
     public void changeClaimOwner(UUID claimId, Faction faction) {
-        claimsOwnerMap.replace(claimId, faction.getName());
+        claimsOwnerMap.replace(claimId, faction.getId());
     }
 
     public boolean checkIfCanCreateClaim(Faction faction, Chunk inputChunk, Boolean connected) {
@@ -76,13 +76,13 @@ public class ClaimsManager {
 
         UUID id;
         id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX + 1, inputZ));
-        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
         id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ - 1));
-        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
         id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ + 1));
-        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
         id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX - 1, inputZ));
-        if (id != null && this.getClaimsOwnerMap().get(id).equalsIgnoreCase(faction.getName())) return true;
+        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
         else return false;
     }
 }
