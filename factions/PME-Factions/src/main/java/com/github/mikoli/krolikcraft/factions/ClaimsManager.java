@@ -40,6 +40,10 @@ public class ClaimsManager {
         return null;
     }
 
+    public boolean isChunkClaimed(Chunk inputChunk) {
+        return this.getClaimId(inputChunk) != null;
+    }
+
     public void createClaim(Faction faction, Set<Chunk> inputChunks, ClaimType claimType) {
         UUID claimId = UUID.randomUUID();
         while (claimsList.contains(claimId)) claimId = UUID.randomUUID();
