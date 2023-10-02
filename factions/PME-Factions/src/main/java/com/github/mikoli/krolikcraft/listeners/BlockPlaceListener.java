@@ -9,7 +9,9 @@ import com.github.mikoli.krolikcraft.utils.BlockPersistentData;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -29,7 +31,7 @@ public class BlockPlaceListener implements Listener {
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         //checking if placed block is claim flag
-        Block block = event.getBlock();
+        Block block = event.getBlockPlaced();
         if (!BlockPersistentData.hasBlockData(plugin, PersistentDataKeys.CLAIMFLAG, block)) return;
         if (!BlockPersistentData.getBlockData(plugin, PersistentDataKeys.CLAIMFLAG, block).equals("true")) return;
 
@@ -47,6 +49,9 @@ public class BlockPlaceListener implements Listener {
         chunksToClaim.add(chunk);
         claimsManager.createClaim(faction, chunksToClaim, ClaimType.CLAIM);
 
+        Block blockBelow = block.getRelative(BlockFace.DOWN);
+        blockBelow.setType(Material.NOTE_BLOCK);
+        BlockPersistentData.setBlockData(plugin, PersistentDataKeys.CLAIMBLOCK, blockBelow, "true");
         BlockPersistentData.removeBlockData(plugin, PersistentDataKeys.CLAIMFLAG, block);
     }
 }

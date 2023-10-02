@@ -4,8 +4,9 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
+import com.github.mikoli.krolikcraft.utils.BlockPersistentData;
+import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,19 +25,25 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if (block.getType() != Material.BEDROCK) return;
+        if (!BlockPersistentData.hasBlockData(plugin, PersistentDataKeys.CLAIMBLOCK, block)) return;
+        if (!BlockPersistentData.getBlockData(plugin, PersistentDataKeys.CLAIMBLOCK, block).equals("true")) return;
+
+        ClaimsManager claimsManager = plugin.getClaimsManager();
+        if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID playerUUID = event.getPlayer().getUniqueId();
-        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return;
+        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TOTEST test if cancel event is required
+
         //case 1, broken by faction leader -> unclaim
         //case 2, broken by enemy in war -> change owner
-        if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) {
-            ClaimsManager claimsManager = plugin.getClaimsManager();
+        if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) { //TODO if player can unclaim
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else {
             return;
         }
+
+        event.setDropItems(false);
     }
 }

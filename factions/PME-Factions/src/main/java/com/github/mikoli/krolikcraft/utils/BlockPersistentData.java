@@ -32,6 +32,7 @@ public class BlockPersistentData {
         NamespacedKey key = new NamespacedKey(plugin, inputKey.getKey());
 
         dataContainer.set(key, PersistentDataType.STRING, value);
+        state.update();
     }
 
     public static void removeBlockData(Krolikcraft plugin, PersistentDataKeys inputKey, Block targetBlock) {
@@ -40,5 +41,6 @@ public class BlockPersistentData {
         NamespacedKey key = new NamespacedKey(plugin, inputKey.getKey());
 
         dataContainer.remove(key);
+        state.update();
     }
 }
