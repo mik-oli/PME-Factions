@@ -21,4 +21,13 @@ public class FactionsUtils {
         }
         return null;
     }
+
+    public static Faction getFactionFromName(Krolikcraft plugin, String name) {
+        for (UUID uuid : plugin.getFactionsHashMap().keySet()) {
+            if (plugin.getFactionsHashMap().get(uuid).getName().equals(name)) {
+                return plugin.getFactionsHashMap().get(uuid);
+            }
+        }
+        return null;
+    }
 }
