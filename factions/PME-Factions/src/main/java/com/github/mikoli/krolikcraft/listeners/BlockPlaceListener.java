@@ -47,7 +47,8 @@ public class BlockPlaceListener implements Listener {
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, false)) return;
         Set<Chunk> chunksToClaim = new HashSet<>();
         chunksToClaim.add(chunk);
-        claimsManager.createClaim(faction, chunksToClaim, ClaimType.CLAIM);
+        ClaimType claimType = ClaimType.valueOf(BlockPersistentData.getBlockData(plugin, PersistentDataKeys.CLAIMTYPE, block));
+        claimsManager.createClaim(faction, chunksToClaim, claimType);
 
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);

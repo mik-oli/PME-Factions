@@ -3,7 +3,8 @@ package com.github.mikoli.krolikcraft.utils;
 public enum PersistentDataKeys {
 
     CLAIMFLAG("claim-flag"),
-    CLAIMBLOCK("claim-block");
+    CLAIMBLOCK("claim-block"),
+    CLAIMTYPE("claim-type");
 
     private final String key;
 
