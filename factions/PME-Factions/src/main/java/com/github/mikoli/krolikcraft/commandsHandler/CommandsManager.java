@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.*;
 import com.github.mikoli.krolikcraft.factions.ClaimType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
@@ -74,6 +75,6 @@ public class CommandsManager implements CommandExecutor {
     }
 
     private void loadSubCommands() {
-
+        subCommands.add(new ClaimInfo());
     }
 }
