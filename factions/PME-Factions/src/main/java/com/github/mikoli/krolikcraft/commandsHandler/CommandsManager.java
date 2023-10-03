@@ -81,5 +81,6 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new FactionAddMember());
         subCommands.add(new FactionInfo());
         subCommands.add(new FactionRemoveMember());
+        subCommands.add(new FactionsList());
     }
 }
