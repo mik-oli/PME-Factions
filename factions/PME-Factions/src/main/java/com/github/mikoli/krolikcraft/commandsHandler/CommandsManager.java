@@ -75,6 +75,7 @@ public class CommandsManager implements CommandExecutor {
     }
 
     private void loadSubCommands() {
-        subCommands.add(new ClaimInfo());
+        subCommands.add(new Claim());
+        subCommands.add(new ClaimChangeOwner());
     }
 }
