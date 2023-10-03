@@ -3,7 +3,7 @@ package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
-import com.github.mikoli.krolikcraft.factions.ClaimType;
+import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;

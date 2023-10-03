@@ -3,9 +3,9 @@ package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
-import com.github.mikoli.krolikcraft.factions.ClaimsManager;
+import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
-import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
+import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;

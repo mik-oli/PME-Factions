@@ -1,5 +1,7 @@
 package com.github.mikoli.krolikcraft;
 
+import com.github.mikoli.krolikcraft.claims.ClaimsManager;
+import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.commandsHandler.CommandsManager;
 import com.github.mikoli.krolikcraft.factions.*;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;

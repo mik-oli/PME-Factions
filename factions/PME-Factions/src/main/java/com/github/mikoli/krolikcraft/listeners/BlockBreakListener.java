@@ -1,9 +1,9 @@
 package com.github.mikoli.krolikcraft.listeners;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
-import com.github.mikoli.krolikcraft.factions.ClaimsManager;
+import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
-import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
+import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 

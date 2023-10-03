@@ -1,4 +1,4 @@
-package com.github.mikoli.krolikcraft.factions;
+package com.github.mikoli.krolikcraft.claims;
 
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 

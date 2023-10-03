@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.factions;
+package com.github.mikoli.krolikcraft.claims;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.factions.Faction;
 import org.bukkit.Chunk;
 
 import java.util.*;

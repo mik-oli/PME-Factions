@@ -1,4 +1,4 @@
-package com.github.mikoli.krolikcraft.factions;
+package com.github.mikoli.krolikcraft.claims;
 
 public enum ClaimType {
 
