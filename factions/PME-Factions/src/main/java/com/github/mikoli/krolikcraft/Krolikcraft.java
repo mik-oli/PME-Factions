@@ -1,10 +1,7 @@
 package com.github.mikoli.krolikcraft;
 
-import com.github.mikoli.krolikcraft.commandsHandler.FactionsCommandsHandler;
-import com.github.mikoli.krolikcraft.factions.ClaimsManager;
-import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
-import com.github.mikoli.krolikcraft.factions.LoadSaveFactionData;
+import com.github.mikoli.krolikcraft.commandsHandler.CommandsManager;
+import com.github.mikoli.krolikcraft.factions.*;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
@@ -27,10 +24,10 @@ public final class Krolikcraft extends JavaPlugin {
     private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
+    private final CommandsManager commandsManager = new CommandsManager(this);
 
     @Override
     public void onEnable() {
-        new FactionsCommandsHandler(this);
         try {
             this.loadFactionsData();
             this.loadClaimsData();
@@ -108,7 +105,7 @@ public final class Krolikcraft extends JavaPlugin {
         File factionsDirectory = this.getDataFolder();
         if (!factionsDirectory.exists()) return;
         claimsFilesUtil.createClaimsDataFile();
-        LoadSaveClaimsData.loadFClaimsData(claimsFilesUtil, claimsManager);
+        LoadSaveClaimsData.loadClaimsData(claimsFilesUtil, claimsManager);
     }
 
     private void saveClaimsData() throws IOException {
