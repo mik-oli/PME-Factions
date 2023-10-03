@@ -4,7 +4,7 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.factions.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.factions.LoadSaveClaimsData;
-import com.github.mikoli.krolikcraft.utils.BlockPersistentData;
+import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
 import org.bukkit.block.Block;
@@ -25,8 +25,8 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if (!BlockPersistentData.hasBlockData(plugin, PersistentDataKeys.CLAIMBLOCK, block)) return;
-        if (!BlockPersistentData.getBlockData(plugin, PersistentDataKeys.CLAIMBLOCK, block).equals("true")) return;
+        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
+        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return;
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
