@@ -5,3 +5,8 @@ main: com.github.mikoli.krolikcraft.Krolikcraft
 api-version: ${apiVersion}
 authors: ${authors}
 website: ${project.url}
+
+commands:
+  factions:
+    permission: pmefactions.factions
+    default: true

@@ -21,8 +21,8 @@ public class CommandsManager implements CommandExecutor {
 
     public CommandsManager(Krolikcraft plugin) {
         this.plugin = plugin;
-        plugin.getCommand("test").setExecutor(this);
         this.loadSubCommands();
+        plugin.getCommand("factions").setExecutor(this);
     }
 
     @Override
