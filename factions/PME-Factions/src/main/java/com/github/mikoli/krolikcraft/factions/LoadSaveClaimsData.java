@@ -11,13 +11,13 @@ import java.util.*;
 
 public class LoadSaveClaimsData {
 
-    public static void loadFClaimsData(FilesUtils file, ClaimsManager claimsManager) {
+    public static void loadClaimsData(FilesUtils file, ClaimsManager claimsManager) {
         FileConfiguration dataFile = file.getData();
 
         for (String s : dataFile.getKeys(false)) {
             UUID uuid = UUID.fromString(s);
             claimsManager.getClaimsList().add(uuid);
-            String owner = dataFile.getString(uuid + ".owner");
+            UUID owner = UUID.fromString(dataFile.getString(uuid + ".owner"));
             claimsManager.getClaimsOwnerMap().put(uuid, owner);
             ClaimType claimType = ClaimType.valueOf(dataFile.getString(uuid + ".type"));
             claimsManager.getClaimsTypesMap().put(uuid, claimType);
