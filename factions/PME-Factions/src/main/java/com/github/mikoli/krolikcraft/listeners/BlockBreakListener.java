@@ -38,6 +38,7 @@ public class BlockBreakListener implements Listener {
         //case 2, broken by enemy in war -> change owner
         if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) { //TODO if player can unclaim
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
+            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) return; //TOTEST test if cancel event is required
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else {
