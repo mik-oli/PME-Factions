@@ -52,5 +52,6 @@ public class GetClaimFlag extends SubCommand {
         ItemStack item = player.getInventory().getItemInMainHand();
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item), "true");
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMTYPE, PersistentDataUtils.getItemContainer(item), claimType.name());
+        PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item), faction.getId().toString());
     }
 }

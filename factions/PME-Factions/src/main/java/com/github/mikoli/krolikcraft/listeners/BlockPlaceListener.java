@@ -40,6 +40,8 @@ public class BlockPlaceListener implements Listener {
         UUID playerUUID = event.getPlayer().getUniqueId();
         if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return;
         if (!FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) return; //TODO checking if player can claim
+        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item))) return;
+        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item)).equals(FactionsUtils.getPlayersFaction(plugin, playerUUID).getId().toString())) return;
 
         //claiming
         Block block = event.getBlockPlaced();

@@ -4,7 +4,8 @@ public enum PersistentDataKeys {
 
     CLAIMFLAG("claim-flag"),
     CLAIMBLOCK("claim-block"),
-    CLAIMTYPE("claim-type");
+    CLAIMTYPE("claim-type"),
+    CLAIMOWNER("claim-owner");
 
     private final String key;
 
