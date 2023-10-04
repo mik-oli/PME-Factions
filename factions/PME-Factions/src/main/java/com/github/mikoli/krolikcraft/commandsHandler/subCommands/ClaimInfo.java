@@ -40,7 +40,7 @@ public class ClaimInfo extends SubCommand {
     @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
         Player player = Bukkit.getPlayer(commandSender.getName());
-        Chunk chunk = player.getWorld().getChunkAt(player.getLocation());
+        Chunk chunk = player.getLocation().getChunk();
 
         if (plugin.getClaimsManager().isChunkClaimed(chunk))
             commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aThis chunk is not claimed by anyone."));
