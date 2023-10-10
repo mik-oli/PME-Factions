@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import org.bukkit.Location;
 
 import java.util.UUID;
 
@@ -29,5 +30,20 @@ public class FactionsUtils {
             }
         }
         return null;
+    }
+
+    public static void createFaction(Krolikcraft plugin, String name, UUID leader, Location coreLocation) {
+        //TODO checking if faction can be created
+        Faction faction = new Faction(plugin);
+        faction.setName(name);
+        faction.setLeader(leader);
+        faction.addMember(leader);
+
+        UUID factionId = UUID.randomUUID();
+        while (plugin.getFactionsHashMap().containsKey(factionId)) {
+            factionId = UUID.randomUUID();
+        }
+        faction.setId(factionId);
+        plugin.getFactionsHashMap().put(factionId, faction);
     }
 }
