@@ -65,29 +65,46 @@ public class ClaimsManager {
         claimsChunksMap.get(claimId).add(chunk);
     }
 
+    public Faction getClaimOwner(Chunk chunk) {
+        return plugin.getFactionsHashMap().get(this.getClaimsOwnerMap().get(this.getClaimId(chunk)));
+    }
+
     public void changeClaimOwner(UUID claimId, Faction faction) {
         claimsOwnerMap.replace(claimId, faction.getId());
     }
 
-    public boolean checkIfCanCreateClaim(Faction faction, Chunk inputChunk, Boolean connected) {
-        //if claim covers other claim
-        if (this.getClaimId(inputChunk) != null) return false;
+    public boolean checkIfCanCreateClaim(Faction faction, Chunk coreChunk, int range, Boolean connected) {
+        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() + range);
+        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() - range);
 
-        //if claim borders other claim
-        //TODO if must be connected, config file option
-        if (!connected) return true;
-        int inputX = inputChunk.getX();
-        int inputZ = inputChunk.getZ();
+        //checking if claim not overlaps other claim
+        for (int i = topLeftChunk.getX(); i <= bottomRightChunk.getX(); i++) {
+            for (int j = topLeftChunk.getZ(); j >= bottomRightChunk.getZ(); j--) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(i, j);
+                if (this.isChunkClaimed(tempChunk)) return false;
+            }
+        }
 
-        UUID id;
-        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX + 1, inputZ));
-        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
-        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ - 1));
-        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
-        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX, inputZ + 1));
-        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
-        id = this.getClaimId(inputChunk.getWorld().getChunkAt(inputX - 1, inputZ));
-        if (id != null && this.getClaimsOwnerMap().get(id) == faction.getId()) return true;
-        else return false;
+        //checking if is connected
+        if (!connected) {
+            for (int i = topLeftChunk.getX(); i <= bottomRightChunk.getX(); i++) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(i + 1, topLeftChunk.getZ());
+                if (this.getClaimOwner(tempChunk) == faction) return true;
+            }
+            for (int i = bottomRightChunk.getX(); i >= topLeftChunk.getX(); i--) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(i - 1, topLeftChunk.getZ());
+                if (this.getClaimOwner(tempChunk) == faction) return true;
+            }
+            for (int i = topLeftChunk.getZ(); i >= bottomRightChunk.getZ(); i--) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(topLeftChunk.getX(), i - 1);
+                if (this.getClaimOwner(tempChunk) == faction) return true;
+            }
+            for (int i = bottomRightChunk.getZ(); i <= topLeftChunk.getZ(); i++) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(topLeftChunk.getX(), i + 1);
+                if (this.getClaimOwner(tempChunk) == faction) return true;
+            }
+        }
+
+        return true;
     }
 }

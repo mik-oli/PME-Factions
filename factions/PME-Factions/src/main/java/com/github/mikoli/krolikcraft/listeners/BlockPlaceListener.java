@@ -57,7 +57,7 @@ public class BlockPlaceListener implements Listener {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Faction faction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         Chunk chunk = block.getChunk();
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, false)) return;
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, 1, false)) return; //TODO range based on claim type
         Set<Chunk> chunksToClaim = new HashSet<>();
         chunksToClaim.add(chunk);
         ClaimType claimType = ClaimType.valueOf(PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMTYPE,  PersistentDataUtils.getBlockContainer(block)));

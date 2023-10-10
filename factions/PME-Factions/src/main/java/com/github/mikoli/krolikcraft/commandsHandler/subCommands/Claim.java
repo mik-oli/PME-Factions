@@ -66,7 +66,7 @@ public class Claim extends SubCommand {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, false)) return;
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, 1,false)) return; //TODO range based on claim type
         Set<Chunk> chunksToClaim = new HashSet<>();
         chunksToClaim.add(chunk);
         ClaimType claimType = ClaimType.valueOf(args[2]);
