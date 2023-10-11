@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
@@ -73,10 +74,12 @@ public class FactionCreate extends SubCommand {
         }
         else {
             Location location = Bukkit.getPlayer(leader).getLocation();
+            if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, location.getChunk(), ClaimType.CORE, false)) return;
             FactionsUtils.createFaction(plugin, factionName, leader, location);
             Block coreBlock = location.getBlock();
             coreBlock.setType(Material.END_CRYSTAL);
             PersistentDataUtils.setData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(coreBlock), "true");
+            plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE);
         }
     }
 }

@@ -45,12 +45,23 @@ public class ClaimsManager {
         return this.getClaimId(inputChunk) != null;
     }
 
-    public void createClaim(Faction faction, Set<Chunk> inputChunks, ClaimType claimType) {
+    public void createClaim(Faction faction, Chunk coreChunk, ClaimType claimType) {
         UUID claimId = UUID.randomUUID();
         while (claimsList.contains(claimId)) claimId = UUID.randomUUID();
         claimsList.add(claimId);
         claimsOwnerMap.put(claimId, faction.getId());
         claimsTypesMap.put(claimId, claimType);
+
+        int range = claimType.getRange();
+        Set<Chunk> inputChunks = new HashSet<>();
+        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() + range);
+        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() - range);
+        for (int i = topLeftChunk.getX(); i <= bottomRightChunk.getX(); i++) {
+            for (int j = topLeftChunk.getZ(); j >= bottomRightChunk.getZ(); j--) {
+                Chunk tempChunk = coreChunk.getWorld().getChunkAt(i, j);
+                inputChunks.add(tempChunk);
+            }
+        }
         claimsChunksMap.put(claimId, inputChunks);
     }
 
@@ -73,9 +84,10 @@ public class ClaimsManager {
         claimsOwnerMap.replace(claimId, faction.getId());
     }
 
-    public boolean checkIfCanCreateClaim(Faction faction, Chunk coreChunk, int range, Boolean connected) {
-        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() + range);
-        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() - range);
+    public boolean checkIfCanCreateClaim(Faction faction, Chunk coreChunk, ClaimType claimType, Boolean connected) {
+        int range = claimType.getRange();
+        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() + range);
+        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() - range);
 
         //checking if claim not overlaps other claim
         for (int i = topLeftChunk.getX(); i <= bottomRightChunk.getX(); i++) {

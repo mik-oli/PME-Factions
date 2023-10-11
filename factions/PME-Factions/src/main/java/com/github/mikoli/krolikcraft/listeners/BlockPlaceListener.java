@@ -57,11 +57,9 @@ public class BlockPlaceListener implements Listener {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Faction faction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         Chunk chunk = block.getChunk();
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, 1, false)) return; //TODO range based on claim type
-        Set<Chunk> chunksToClaim = new HashSet<>();
-        chunksToClaim.add(chunk);
         ClaimType claimType = ClaimType.valueOf(PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMTYPE,  PersistentDataUtils.getBlockContainer(block)));
-        claimsManager.createClaim(faction, chunksToClaim, claimType);
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType, false)) return;
+        claimsManager.createClaim(faction, chunk, claimType);
 
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);
@@ -80,9 +78,11 @@ public class BlockPlaceListener implements Listener {
         UUID leader = UUID.fromString(lore.get(3).substring(12));
         if (player.getUniqueId() != leader) return; //TODO error
 
+        Location factionLocation = event.getBlockPlaced().getLocation();
+        if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, factionLocation.getChunk(), ClaimType.CORE, false)) return;
         String factionName = lore.get(1).substring(10);
         String factionShortcut = lore.get(2).substring(14);
-        Location factionLocation = event.getBlockPlaced().getLocation();
         FactionsUtils.createFaction(plugin, factionName, leader, factionLocation);
+        plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE);
     }
 }

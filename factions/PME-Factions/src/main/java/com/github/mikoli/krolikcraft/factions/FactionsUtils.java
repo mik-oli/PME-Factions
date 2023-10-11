@@ -33,7 +33,6 @@ public class FactionsUtils {
     }
 
     public static void createFaction(Krolikcraft plugin, String name, UUID leader, Location coreLocation) {
-        //TODO checking if faction can be created
         Faction faction = new Faction(plugin);
         faction.setName(name);
         faction.setLeader(leader);

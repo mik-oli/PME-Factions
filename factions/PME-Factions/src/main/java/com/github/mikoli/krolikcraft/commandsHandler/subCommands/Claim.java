@@ -19,8 +19,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class Claim extends SubCommand {
@@ -66,11 +64,9 @@ public class Claim extends SubCommand {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, 1,false)) return; //TODO range based on claim type
-        Set<Chunk> chunksToClaim = new HashSet<>();
-        chunksToClaim.add(chunk);
         ClaimType claimType = ClaimType.valueOf(args[2]);
-        claimsManager.createClaim(faction, chunksToClaim, claimType);
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) return;
+        claimsManager.createClaim(faction, chunk, claimType);
 
         Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);
