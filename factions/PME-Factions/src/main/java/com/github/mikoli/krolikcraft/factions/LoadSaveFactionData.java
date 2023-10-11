@@ -2,6 +2,8 @@ package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ public class LoadSaveFactionData {
         for (String s : dataFile.getStringList("members")) {
             faction.addMember(UUID.fromString(s));
         }
+        String[] coreCords = dataFile.getString("core-location").split(";");
+        Location coreLocation = new Location(Bukkit.getWorld("world"), Integer.parseInt(coreCords[0]), Integer.parseInt(coreCords[1]), Integer.parseInt(coreCords[2]));
+        faction.setCoreLocation(coreLocation);
     }
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
@@ -27,6 +32,7 @@ public class LoadSaveFactionData {
         dataFile.set("id", faction.getId());
         dataFile.set("name", faction.getName());
         dataFile.set("leader", faction.getLeader().toString());
+        dataFile.set("core-location", faction.getCoreLocation().getX() + ";" + faction.getCoreLocation().getY() + ";" + faction.getCoreLocation().getZ());
 
         List<String> membersToSave = new ArrayList<>();
         for (UUID playerUUID : faction.getMembers()) {

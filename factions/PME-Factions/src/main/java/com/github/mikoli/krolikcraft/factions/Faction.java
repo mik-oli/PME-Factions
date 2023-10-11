@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import org.bukkit.Location;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -11,6 +12,7 @@ public class Faction {
     private UUID id;
     private String name;
     private UUID leader;
+    private Location coreLocation;
     private final HashSet<UUID> members = new HashSet<>();
 
     public Faction(Krolikcraft plugin) {
@@ -39,6 +41,14 @@ public class Faction {
 
     public UUID getLeader() {
         return leader;
+    }
+
+    public void setCoreLocation(Location location) {
+        this.coreLocation = location;
+    }
+
+    public Location getCoreLocation() {
+         return this.coreLocation;
     }
 
     public void addMember(UUID player) {

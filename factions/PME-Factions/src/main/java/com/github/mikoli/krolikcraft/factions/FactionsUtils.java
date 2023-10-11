@@ -43,6 +43,7 @@ public class FactionsUtils {
             factionId = UUID.randomUUID();
         }
         faction.setId(factionId);
+        faction.setCoreLocation(coreLocation);
         plugin.getFactionsHashMap().put(factionId, faction);
     }
 }
