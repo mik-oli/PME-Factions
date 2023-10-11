@@ -7,7 +7,9 @@ import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -47,6 +49,8 @@ public class FactionRemoveMember extends SubCommand {
         Faction faction = plugin.getFactionsHashMap().get(args[0]);
         UUID targetUUID = UUID.fromString(args[1]);
         if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) return; //TODO player is not in that faction member
+        if (faction.getLeader() == targetUUID) return; //TODO message cant kick faction leader
+        if ((commandSender instanceof Player) && Bukkit.getPlayer(commandSender.getName()).getUniqueId() == targetUUID) return; //TODO message cant kick yourself
 
         faction.removeMember(targetUUID);
         commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aPlayer removed from faction."));
