@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Unclaim extends SubCommand {
@@ -44,7 +45,7 @@ public class Unclaim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
 
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getBlock().getChunk();
@@ -53,7 +54,7 @@ public class Unclaim extends SubCommand {
 
         UUID claimId = claimsManager.getClaimId(chunk);
         UUID playerUUID = player.getUniqueId();
-        if (!args[3].equals("true")) {
+        if (!((boolean) args.get(0))) {
             if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TODO player is not in faction
             if (!FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) return; //TODO checking if player can unclaim
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) return;//TODO players and claims faction is different

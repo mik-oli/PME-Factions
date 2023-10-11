@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GetClaimFlag extends SubCommand {
 
@@ -45,9 +46,9 @@ public class GetClaimFlag extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
-        Faction faction = plugin.getFactionsHashMap().get(args[0]);
-        ClaimType claimType = ClaimType.valueOf(args[2]);
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+        Faction faction = (Faction) args.get(0);
+        ClaimType claimType = (ClaimType) args.get(1);
         Player player = Bukkit.getPlayer(commandSender.getName());
         ItemStack item = player.getInventory().getItemInMainHand();
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item), "true");

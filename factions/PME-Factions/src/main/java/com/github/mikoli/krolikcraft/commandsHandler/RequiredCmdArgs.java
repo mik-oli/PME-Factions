@@ -6,5 +6,8 @@ public enum RequiredCmdArgs {
     FACTION,
     TARGETPLAYER,
     CLAIMTYPE,
-    ADMINMODE
+    ADMINMODE,
+    NAME,
+    SHORTCUT,
+    COLOR
 }

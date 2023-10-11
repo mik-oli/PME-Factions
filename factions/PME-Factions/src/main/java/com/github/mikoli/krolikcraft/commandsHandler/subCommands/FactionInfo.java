@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class FactionInfo extends SubCommand {
@@ -41,8 +42,8 @@ public class FactionInfo extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
-        Faction faction = plugin.getFactionsHashMap().get(args[0]);
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+        Faction faction = (Faction) args.get(0);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e===============&bFaction Details&e===============\n"));
         stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eName: &a" + faction.getName() + "\n"));

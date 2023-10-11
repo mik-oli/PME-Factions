@@ -9,6 +9,7 @@ import com.github.mikoli.krolikcraft.utils.Utils;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FactionsList extends SubCommand {
 
@@ -35,7 +36,7 @@ public class FactionsList extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Utils.pluginPrefix()).append(Utils.coloring("&eFactions list: &a"));
         for (Faction faction : plugin.getFactionsHashMap().values()) {

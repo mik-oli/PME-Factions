@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ClaimChangeOwner extends SubCommand {
@@ -42,9 +43,9 @@ public class ClaimChangeOwner extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
 
-        Faction faction = plugin.getFactionsHashMap().get(args[0]);
+        Faction faction = (Faction) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());
         ClaimsManager claimsManager = plugin.getClaimsManager();
         UUID claimId = claimsManager.getClaimId(player.getLocation().getChunk());

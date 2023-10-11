@@ -24,10 +24,14 @@ import java.util.UUID;
 
 public class FactionCreate extends SubCommand {
 
-    @Override
-    public ArrayList<RequiredCmdArgs> requiredArguments() {
-        return null;
-    }
+    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
+        {
+            add(RequiredCmdArgs.TARGETPLAYER);
+            add(RequiredCmdArgs.ADMINMODE);
+            add(RequiredCmdArgs.NAME);
+            add(RequiredCmdArgs.SHORTCUT);
+        }
+    };
 
     @Override
     public String getName() {
@@ -36,7 +40,7 @@ public class FactionCreate extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] create [<leader>] <name>";
+        return "/factions [admin] create [<leader>] <name> <shortcut>";
     }
 
     @Override
@@ -45,18 +49,23 @@ public class FactionCreate extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
-        UUID leader = UUID.fromString(args[0]);
+    public ArrayList<RequiredCmdArgs> requiredArguments() {
+        return requiredArgs;
+    }
+
+    @Override
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+        UUID leader = (UUID) args.get(0);
         //TODO checking if player can create faction
 
-        String factionName = args[1];
-        String factionShortcut = null;
+        String factionName = (String) args.get(2);
+        String factionShortcut = (String) args.get(3);
         //TODO checking if name is longer and shorter than value in config
         //TODO checking if shortcut is longer and shorter than value in config
 
         if (FactionsUtils.getPlayersFaction(plugin, leader) != null) return; //TODO error player is in faction
 
-        boolean adminMode = Boolean.getBoolean(args[2]);
+        boolean adminMode = (boolean) args.get(1);
         if (adminMode) {
             ItemStack coreBlock = new ItemStack(Material.END_CRYSTAL);
             ItemMeta meta = coreBlock.getItemMeta();

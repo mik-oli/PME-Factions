@@ -6,12 +6,15 @@ import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CommandsManager implements CommandExecutor {
@@ -29,12 +32,8 @@ public class CommandsManager implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
         String cmd;
-        if (args[0].equals("admin")) {
-            cmd = args[2];
-        }
-        else {
-            cmd = args[0];
-        }
+        if (args[0].equals("admin")) cmd = args[2];
+        else cmd = args[0];
 
         SubCommand subCommand = null;
         for (SubCommand subCmd : subCommands) {
@@ -47,28 +46,58 @@ public class CommandsManager implements CommandExecutor {
         UUID targetPlayer = null;
         ClaimType claimType = null;
         boolean adminMode = false;
+        String name = null;
+        String shortcut = null;
+        ChatColor color = null;
 
         for (String arg : args) {
-            faction = FactionsUtils.getFactionFromName(plugin, arg);
+            if (faction == null) {
+                faction = FactionsUtils.getFactionFromName(plugin, arg);
+                continue;
+            }
             try {
-                claimType = ClaimType.valueOf(arg);
-                targetPlayer = UUID.fromString(arg);
+                if (claimType == null) {
+                    claimType = ClaimType.valueOf(arg);
+                    continue;
+                }
+                if (targetPlayer == null) {
+                    targetPlayer = UUID.fromString(arg);
+                    continue;
+                }
+                if (color == null) {
+                    color = ChatColor.valueOf(arg);
+                    continue;
+                }
             } catch (IllegalArgumentException ignored) {}
-            adminMode = arg.equalsIgnoreCase("admin");
+            if (arg.equalsIgnoreCase("admin")) {
+                adminMode = true;
+                continue;
+            }
+            if (arg.length() < 4) {
+                shortcut = arg;
+                continue;
+            }
+            name = arg;
         }
 
         //TODO return error and syntax
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION) && faction == null) {
-            return false;
-        }
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER) && targetPlayer == null) {
-            return false;
-        }
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE) && claimType == null) {
-            return false;
-        }
+        List<Object> argsToPass = new ArrayList<>();
 
-        String[] argsToPass = new String[] {faction.getId().toString(), targetPlayer.toString(), claimType.name(), String.valueOf(adminMode)};
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) argsToPass.add(faction.getId());
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) argsToPass.add(targetPlayer);
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) argsToPass.add(claimType);
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.ADMINMODE)) argsToPass.add(adminMode);
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) argsToPass.add(name);
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) argsToPass.add(shortcut);
+        else return false;
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) argsToPass.add(color);
+        else return false;
+
         subCommand.perform(plugin, commandSender, argsToPass);
 
         return true;
@@ -84,5 +113,6 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new FactionsList());
         subCommands.add(new GetClaimFlag());
         subCommands.add(new Unclaim());
+        subCommands.add(new FactionCreate());
     }
 }

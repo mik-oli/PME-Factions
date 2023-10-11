@@ -10,6 +10,7 @@ import com.github.mikoli.krolikcraft.utils.Utils;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class FactionAddMember extends SubCommand {
@@ -43,10 +44,10 @@ public class FactionAddMember extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
 
-        Faction faction = plugin.getFactionsHashMap().get(args[0]);
-        UUID targetUUID = UUID.fromString(args[1]);
+        Faction faction = (Faction) args.get(0);
+        UUID targetUUID = (UUID) args.get(1);
         if (FactionsUtils.isPlayerInFaction(plugin, targetUUID)) return; //TODO player is faction member
 
         faction.addMember(targetUUID);

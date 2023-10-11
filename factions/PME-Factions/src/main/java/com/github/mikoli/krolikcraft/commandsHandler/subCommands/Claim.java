@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Claim extends SubCommand {
@@ -52,19 +53,19 @@ public class Claim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
 
-        Faction faction = plugin.getFactionsHashMap().get(args[0]);
+        Faction faction = (Faction) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());
         UUID playerUUID = player.getUniqueId();
-        if (!args[3].equals("true")) {
+        if (!(boolean) args.get(2)) {
             if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return;
             if (!FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) return; //TODO checking if player can claim
         }
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
-        ClaimType claimType = ClaimType.valueOf(args[2]);
+        ClaimType claimType = (ClaimType) args.get(2);
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) return;
         claimsManager.createClaim(faction, chunk, claimType);
 

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ClaimInfo extends SubCommand {
@@ -38,7 +39,7 @@ public class ClaimInfo extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, String[] args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getChunk();
 
