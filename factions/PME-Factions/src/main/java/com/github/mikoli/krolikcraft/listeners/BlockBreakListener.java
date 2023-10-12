@@ -4,10 +4,12 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -31,12 +33,13 @@ public class BlockBreakListener implements Listener {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
-        UUID playerUUID = event.getPlayer().getUniqueId();
+        Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
         if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TOTEST test if cancel event is required
 
         //case 1, broken by faction leader -> unclaim
         //case 2, broken by enemy in war -> change owner
-        if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) { //TODO if player can unclaim
+        if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("clam"), false)) {
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) return; //TOTEST test if cancel event is required
             claimsManager.removeClaim(claimId);
