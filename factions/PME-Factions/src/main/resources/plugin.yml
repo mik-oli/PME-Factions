@@ -9,4 +9,31 @@ website: ${project.url}
 commands:
   factions:
     permission: pmefactions.factions
+
+permissions:
+  pmefactions.admin:
+    description: Permission allowing admin actions
+    default: op
+  pmefactions.factions:
+    description: Permission for base command
     default: true
+  pmefactions.faction:
+    default: false
+    children:
+      pmefactions.faction.member: true
+      pmefactions.faction.create: true
+      pmefactions.faction.remove: true
+      pmefactions.faction.list: true
+      pmefactions.faction.info: true
+  pmefactions.faction.member:
+    default: false
+    children:
+      pmefactions.faction.member.add: true
+      pmefactions.faction.member.remove: true
+  pmefactions.claim:
+    default: false
+    children:
+      pmefactions.claim.claim: true
+      pmefactions.claim.unclaim: true
+      pmefactions.claim.changeowner: true
+      pmefactions.claim.fetflag: true
