@@ -112,5 +112,6 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new FactionSetShortcut());
         subCommands.add(new FactionSetColor());
         subCommands.add(new ClaimGetId());
+        subCommands.add(new AddChunkToClaim());
     }
 }
