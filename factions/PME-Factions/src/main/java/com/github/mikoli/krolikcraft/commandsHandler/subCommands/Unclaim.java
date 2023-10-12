@@ -7,6 +7,8 @@ import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.CommandSender;
@@ -45,6 +47,16 @@ public class Unclaim extends SubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "pmefactions.claim.unclaim";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return config.getPermission("unclaim");
+    }
+
+    @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
 
         Player player = Bukkit.getPlayer(commandSender.getName());
@@ -55,8 +67,6 @@ public class Unclaim extends SubCommand {
         UUID claimId = claimsManager.getClaimId(chunk);
         UUID playerUUID = player.getUniqueId();
         if (!((boolean) args.get(0))) {
-            if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TODO player is not in faction
-            if (!FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) return; //TODO checking if player can unclaim
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) return;//TODO players and claims faction is different
         }
 

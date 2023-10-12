@@ -49,8 +49,8 @@ public class FactionsUtils {
         plugin.getFactionsHashMap().put(factionId, faction);
     }
 
-    public static boolean hasPlayerPermission(Krolikcraft plugin, Player player, CommandsPermissions permissions) {
-        if (permissions == CommandsPermissions.ADMIN && player.hasPermission("pmefactions.admin")) return true;
+    public static boolean hasPlayerPermission(Krolikcraft plugin, Player player, CommandsPermissions permissions, boolean adminMode) {
+        if ((adminMode || permissions == CommandsPermissions.ADMIN) && player.hasPermission("pmefactions.admin")) return true;
 
         Faction faction = getPlayersFaction(plugin, player.getUniqueId());
         if (faction == null) return false;

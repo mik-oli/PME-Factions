@@ -5,6 +5,8 @@ import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 
@@ -43,6 +45,16 @@ public class GetClaimFlag extends SubCommand {
     @Override
     public ArrayList<RequiredCmdArgs> requiredArguments() {
         return this.requiredArgs;
+    }
+
+    @Override
+    public String getPermission() {
+        return "pmefactions.claim.getflag";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return CommandsPermissions.NULL;
     }
 
     @Override

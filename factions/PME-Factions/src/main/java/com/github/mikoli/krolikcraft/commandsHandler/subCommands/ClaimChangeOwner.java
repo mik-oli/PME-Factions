@@ -6,6 +6,8 @@ import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +42,16 @@ public class ClaimChangeOwner extends SubCommand {
     @Override
     public ArrayList<RequiredCmdArgs> requiredArguments() {
         return this.requiredArgs;
+    }
+
+    @Override
+    public String getPermission() {
+        return "pmefactions.claim.changeowner";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return CommandsPermissions.ADMIN;
     }
 
     @Override

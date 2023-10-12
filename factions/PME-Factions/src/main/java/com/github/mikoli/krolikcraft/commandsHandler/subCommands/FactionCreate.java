@@ -5,9 +5,7 @@ import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
-import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
-import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
-import com.github.mikoli.krolikcraft.utils.Utils;
+import com.github.mikoli.krolikcraft.utils.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -54,16 +52,22 @@ public class FactionCreate extends SubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "pmefactions.faction.create";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return CommandsPermissions.NULL;
+    }
+
+    @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         UUID leader = (UUID) args.get(0);
-        //TODO checking if player can create faction
-
         String factionName = (String) args.get(2);
         String factionShortcut = (String) args.get(3);
         //TODO checking if name is longer and shorter than value in config
         //TODO checking if shortcut is longer and shorter than value in config
-
-        if (FactionsUtils.getPlayersFaction(plugin, leader) != null) return; //TODO error player is in faction
 
         boolean adminMode = (boolean) args.get(1);
         if (adminMode) {
@@ -82,6 +86,7 @@ public class FactionCreate extends SubCommand {
             PersistentDataUtils.setData(plugin, PersistentDataKeys.COREFLAG, PersistentDataUtils.getItemContainer(coreBlock), "true");
         }
         else {
+            if (FactionsUtils.getPlayersFaction(plugin, leader) != null) return; //TODO error player is in faction
             Location location = Bukkit.getPlayer(leader).getLocation();
             if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, location.getChunk(), ClaimType.CORE, false)) return;
             FactionsUtils.createFaction(plugin, factionName, leader, location);

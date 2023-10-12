@@ -4,5 +4,6 @@ public enum CommandsPermissions {
     ADMIN,
     LEADER,
     OFFICER,
-    MEMBER
+    MEMBER,
+    NULL
 }

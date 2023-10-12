@@ -5,6 +5,8 @@ import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.Bukkit;
@@ -46,10 +48,20 @@ public class FactionRemoveMember extends SubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "pmefactions.faction.member.remove";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return config.getPermission("faction-remove-member");
+    }
+
+    @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
-        if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) return; //TODO player is not in that faction member
+        if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) return; //TODO player is not in that faction member message
         if (faction.getLeader() == targetUUID) return; //TODO message cant kick faction leader
         if ((commandSender instanceof Player) && Bukkit.getPlayer(commandSender.getName()).getUniqueId() == targetUUID) return; //TODO message cant kick yourself
 

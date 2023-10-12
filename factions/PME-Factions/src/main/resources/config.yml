@@ -1,9 +1,10 @@
 # member < officer < leader < admin
+#Permissions relates only to faction actions
 commands-permissions:
   claim: 'leader'
   unclaim: 'leader'
-  add-member: 'leader'
-  remove-member: 'leader'
-  change-name: 'leader'
-  change-shortcut: 'leader'
-  change-color: 'admin'
+  faction-add-member: 'leader'
+  faction-remove-member: 'leader'
+  faction-set-name: 'leader'
+  faction-set-shortcut: 'leader'
+  faction-set-color: 'admin'

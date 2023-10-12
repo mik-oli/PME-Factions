@@ -4,6 +4,8 @@ import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.Bukkit;
@@ -39,6 +41,16 @@ public class FactionInfo extends SubCommand {
     @Override
     public ArrayList<RequiredCmdArgs> requiredArguments() {
         return this.requiredArgs;
+    }
+
+    @Override
+    public String getPermission() {
+        return "pmefactions.faction.info";
+    }
+
+    @Override
+    public CommandsPermissions requiredPermission(ConfigUtils config) {
+        return CommandsPermissions.NULL;
     }
 
     @Override
