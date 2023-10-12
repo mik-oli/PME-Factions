@@ -82,7 +82,7 @@ public class BlockPlaceListener implements Listener {
         if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, factionLocation.getChunk(), ClaimType.CORE, false)) return;
         String factionName = lore.get(1).substring(10);
         String factionShortcut = lore.get(2).substring(14);
-        FactionsUtils.createFaction(plugin, factionName, leader, factionLocation);
+        FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, factionLocation);
         plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE);
     }
 }

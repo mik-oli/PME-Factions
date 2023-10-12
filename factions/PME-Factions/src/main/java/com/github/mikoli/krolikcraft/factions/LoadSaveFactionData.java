@@ -17,6 +17,7 @@ public class LoadSaveFactionData {
         FileConfiguration dataFile = file.getData();
         faction.setId(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
+        faction.setShortcut(dataFile.getString("shortcut"));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
         for (String s : dataFile.getStringList("members")) {
@@ -31,6 +32,7 @@ public class LoadSaveFactionData {
         FileConfiguration dataFile = file.getData();
         dataFile.set("id", faction.getId());
         dataFile.set("name", faction.getName());
+        dataFile.set("shortcut", faction.getShortcut());
         dataFile.set("leader", faction.getLeader().toString());
         dataFile.set("core-location", faction.getCoreLocation().getX() + ";" + faction.getCoreLocation().getY() + ";" + faction.getCoreLocation().getZ());
 

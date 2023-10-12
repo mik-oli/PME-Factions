@@ -109,5 +109,6 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new Unclaim());
         subCommands.add(new FactionCreate());
         subCommands.add(new FactionSetName());
+        subCommands.add(new FactionSetShortcut());
     }
 }

@@ -34,9 +34,10 @@ public class FactionsUtils {
         return null;
     }
 
-    public static void createFaction(Krolikcraft plugin, String name, UUID leader, Location coreLocation) {
+    public static void createFaction(Krolikcraft plugin, String name, String shortcut, UUID leader, Location coreLocation) {
         Faction faction = new Faction(plugin);
         faction.setName(name);
+        faction.setShortcut(shortcut);
         faction.setLeader(leader);
         faction.addMember(leader);
 

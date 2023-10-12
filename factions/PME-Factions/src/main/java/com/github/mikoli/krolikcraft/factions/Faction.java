@@ -11,6 +11,7 @@ public class Faction {
     private final Krolikcraft plugin;
     private UUID id;
     private String name;
+    private String shortcut;
     private UUID leader;
     private Location coreLocation;
     private final HashSet<UUID> members = new HashSet<>();
@@ -33,6 +34,14 @@ public class Faction {
 
     public String getName() {
         return name;
+    }
+
+    public void setShortcut(String shortcut) {
+        this.shortcut = shortcut;
+    }
+
+    public String getShortcut() {
+        return shortcut;
     }
 
     public void setLeader(UUID player) {
