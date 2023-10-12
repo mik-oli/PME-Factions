@@ -17,6 +17,7 @@ permissions:
     children:
       pmefactions.claim.changeowner: true
       pmefactions.claim.setflag: true
+      pmefactions.claim.getid: true
   pmefactions.factions:
     description: Permission for base command
     default: true
