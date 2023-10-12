@@ -26,6 +26,7 @@ permissions:
       pmefactions.faction.member: true
       pmefactions.faction.create: true
       pmefactions.faction.remove: true
+      pmefactions.faction.setname: true
       pmefactions.faction.list: true
       pmefactions.faction.info: true
   pmefactions.faction.member:
