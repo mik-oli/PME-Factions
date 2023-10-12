@@ -1,7 +1,9 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -45,5 +47,16 @@ public class FactionsUtils {
         faction.setId(factionId);
         faction.setCoreLocation(coreLocation);
         plugin.getFactionsHashMap().put(factionId, faction);
+    }
+
+    public static boolean hasPlayerPermission(Krolikcraft plugin, Player player, CommandsPermissions permissions) {
+        if (permissions == CommandsPermissions.ADMIN && player.hasPermission("pmefactions.admin")) return true;
+
+        Faction faction = getPlayersFaction(plugin, player.getUniqueId());
+        if (faction == null) return false;
+        if (permissions == CommandsPermissions.MEMBER && faction.isMember(player.getUniqueId())) return true;
+//        else if (permissions == CommandsPermissions.OFFICER && faction.getLeader() == player.getUniqueId()) return true;
+        else if (permissions == CommandsPermissions.LEADER && faction.getLeader() == player.getUniqueId()) return true;
+        else return false;
     }
 }

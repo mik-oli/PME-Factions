@@ -1,0 +1,9 @@
+# member < officer < leader < admin
+commands-permissions:
+  claim: 'leader'
+  unclaim: 'leader'
+  add-member: 'leader'
+  remove-member: 'leader'
+  change-name: 'leader'
+  change-shortcut: 'leader'
+  change-color: 'admin'

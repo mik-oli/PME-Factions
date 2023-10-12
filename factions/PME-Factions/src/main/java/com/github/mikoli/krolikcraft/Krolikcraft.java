@@ -6,6 +6,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.CommandsManager;
 import com.github.mikoli.krolikcraft.factions.*;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
+import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
@@ -27,6 +28,7 @@ public final class Krolikcraft extends JavaPlugin {
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
     private final CommandsManager commandsManager = new CommandsManager(this);
+    private final ConfigUtils configUtils = new ConfigUtils(this);
 
     @Override
     public void onEnable() {
@@ -65,6 +67,10 @@ public final class Krolikcraft extends JavaPlugin {
 
     public ClaimsManager getClaimsManager() {
         return claimsManager;
+    }
+
+    public ConfigUtils getConfigUtils() {
+        return configUtils;
     }
 
     //Private methods
