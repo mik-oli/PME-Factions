@@ -14,6 +14,9 @@ permissions:
   pmefactions.admin:
     description: Permission allowing admin actions
     default: op
+    children:
+      pmefactions.claim.changeowner: true
+      pmefactions.claim.setflag: true
   pmefactions.factions:
     description: Permission for base command
     default: true
@@ -35,5 +38,3 @@ permissions:
     children:
       pmefactions.claim.claim: true
       pmefactions.claim.unclaim: true
-      pmefactions.claim.changeowner: true
-      pmefactions.claim.fetflag: true
