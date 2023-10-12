@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ public class Faction {
     private UUID id;
     private String name;
     private String shortcut;
+    private ChatColor color;
     private UUID leader;
     private Location coreLocation;
     private final HashSet<UUID> members = new HashSet<>();
@@ -42,6 +44,14 @@ public class Faction {
 
     public String getShortcut() {
         return shortcut;
+    }
+
+    public void setColor(ChatColor color) {
+        this.color = color;
+    }
+
+    public ChatColor getColor() {
+        return color;
     }
 
     public void setLeader(UUID player) {

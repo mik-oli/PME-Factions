@@ -28,6 +28,7 @@ permissions:
       pmefactions.faction.remove: true
       pmefactions.faction.setname: true
       pmefactions.faction.setshortcut: true
+      pmefactions.faction.setcolor: true
       pmefactions.faction.list: true
       pmefactions.faction.info: true
   pmefactions.faction.member:

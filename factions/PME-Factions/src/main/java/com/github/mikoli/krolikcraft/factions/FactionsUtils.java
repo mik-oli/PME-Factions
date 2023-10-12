@@ -2,6 +2,7 @@ package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -38,6 +39,7 @@ public class FactionsUtils {
         Faction faction = new Faction(plugin);
         faction.setName(name);
         faction.setShortcut(shortcut);
+        faction.setColor(ChatColor.WHITE);
         faction.setLeader(leader);
         faction.addMember(leader);
 

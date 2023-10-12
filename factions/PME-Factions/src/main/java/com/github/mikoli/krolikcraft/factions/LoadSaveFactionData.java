@@ -3,6 +3,7 @@ package com.github.mikoli.krolikcraft.factions;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -18,6 +19,7 @@ public class LoadSaveFactionData {
         faction.setId(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
         faction.setShortcut(dataFile.getString("shortcut"));
+        faction.setColor(ChatColor.valueOf(dataFile.getString("color")));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
         for (String s : dataFile.getStringList("members")) {
@@ -33,6 +35,7 @@ public class LoadSaveFactionData {
         dataFile.set("id", faction.getId());
         dataFile.set("name", faction.getName());
         dataFile.set("shortcut", faction.getShortcut());
+        dataFile.set("color", faction.getColor().toString());
         dataFile.set("leader", faction.getLeader().toString());
         dataFile.set("core-location", faction.getCoreLocation().getX() + ";" + faction.getCoreLocation().getY() + ";" + faction.getCoreLocation().getZ());
 
