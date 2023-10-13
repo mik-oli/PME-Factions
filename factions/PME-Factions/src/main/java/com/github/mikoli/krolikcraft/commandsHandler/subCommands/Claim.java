@@ -71,7 +71,7 @@ public class Claim extends SubCommand {
         Chunk chunk = player.getLocation().getChunk();
         ClaimType claimType = (ClaimType) args.get(1);
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) return;
-        claimsManager.createClaim(faction, chunk, claimType);
+        claimsManager.createClaim(faction, chunk, claimType, player.getLocation());
 
         Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);

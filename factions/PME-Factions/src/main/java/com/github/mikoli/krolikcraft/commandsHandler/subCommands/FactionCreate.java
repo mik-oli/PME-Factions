@@ -93,7 +93,7 @@ public class FactionCreate extends SubCommand {
             Block coreBlock = location.getBlock();
             coreBlock.setType(Material.END_CRYSTAL);
             PersistentDataUtils.setData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(coreBlock), "true");
-            plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE);
+            plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE, location);
         }
     }
 }

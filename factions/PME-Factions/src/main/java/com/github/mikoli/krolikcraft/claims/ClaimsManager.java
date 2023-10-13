@@ -3,6 +3,7 @@ package com.github.mikoli.krolikcraft.claims;
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 
 import java.util.*;
 
@@ -13,6 +14,7 @@ public class ClaimsManager {
     private final HashMap<UUID, UUID> claimsOwnerMap = new HashMap<>();
     private final HashMap<UUID, Set<Chunk>> claimsChunksMap = new HashMap<>();
     private final HashMap<UUID, ClaimType> claimsTypesMap = new HashMap<>();
+    private final HashMap<UUID, Location> claimCoreLocation = new HashMap<>();
 
     public ClaimsManager(Krolikcraft plugin) {
         this.plugin = plugin;
@@ -34,6 +36,10 @@ public class ClaimsManager {
         return claimsTypesMap;
     }
 
+    public HashMap<UUID, Location> getClaimCoreLocation() {
+        return claimCoreLocation;
+    }
+
     public UUID getClaimId(Chunk inputChunk) {
         for (UUID uuid : claimsChunksMap.keySet())
             if (claimsChunksMap.get(uuid).contains(inputChunk)) return uuid;
@@ -45,12 +51,13 @@ public class ClaimsManager {
         return this.getClaimId(inputChunk) != null;
     }
 
-    public void createClaim(Faction faction, Chunk coreChunk, ClaimType claimType) {
+    public void createClaim(Faction faction, Chunk coreChunk, ClaimType claimType, Location coreLocation) {
         UUID claimId = UUID.randomUUID();
         while (claimsList.contains(claimId)) claimId = UUID.randomUUID();
         claimsList.add(claimId);
         claimsOwnerMap.put(claimId, faction.getId());
         claimsTypesMap.put(claimId, claimType);
+        claimCoreLocation.put(claimId, coreLocation);
 
         int range = claimType.getRange();
         Set<Chunk> inputChunks = new HashSet<>();

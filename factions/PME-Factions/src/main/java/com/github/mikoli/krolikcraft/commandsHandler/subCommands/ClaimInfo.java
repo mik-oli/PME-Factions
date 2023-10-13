@@ -9,6 +9,7 @@ import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -47,7 +48,7 @@ public class ClaimInfo extends SubCommand {
 
     @Override
     public CommandsPermissions requiredPermission(ConfigUtils config) {
-        return CommandsPermissions.ALL;
+        return CommandsPermissions.NULL;
     }
 
     @Override
@@ -55,13 +56,15 @@ public class ClaimInfo extends SubCommand {
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getChunk();
 
-        if (plugin.getClaimsManager().isChunkClaimed(chunk))
+        if (!plugin.getClaimsManager().isChunkClaimed(chunk))
             commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aThis chunk is not claimed by anyone."));
         else {
             UUID claimId = plugin.getClaimsManager().getClaimId(chunk);
             UUID claimOwner = plugin.getClaimsManager().getClaimsOwnerMap().get(claimId);
             String ownerName = plugin.getFactionsHashMap().get(claimOwner).getName();
-            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eThis chunk is not claimed by: &b" + ownerName + "&e."));
+            Location location = plugin.getClaimsManager().getClaimCoreLocation().get(claimId);
+            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eThis chunk is claimed by: &b" + ownerName + "&e."));
+            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eClaim block is at (X, Y, Z): &b" + location.getX() + " " + location.getY() + " " + location.getZ() + "&e."));
         }
     }
 }

@@ -20,9 +20,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class BlockPlaceListener implements Listener {
@@ -59,7 +57,7 @@ public class BlockPlaceListener implements Listener {
         Chunk chunk = block.getChunk();
         ClaimType claimType = ClaimType.valueOf(PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMTYPE,  PersistentDataUtils.getBlockContainer(block)));
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType, false)) return;
-        claimsManager.createClaim(faction, chunk, claimType);
+        claimsManager.createClaim(faction, chunk, claimType, block.getLocation());
 
         Block blockBelow = block.getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);
@@ -83,6 +81,6 @@ public class BlockPlaceListener implements Listener {
         String factionName = lore.get(1).substring(10);
         String factionShortcut = lore.get(2).substring(14);
         FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, factionLocation);
-        plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE);
+        plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE, factionLocation);
     }
 }
