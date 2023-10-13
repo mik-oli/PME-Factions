@@ -50,21 +50,22 @@ public class CommandsManager implements CommandExecutor {
         if (commandSender instanceof Player && !FactionsUtils.hasPlayerPermission(plugin, Bukkit.getPlayer(commandSender.getName()), subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) return true;
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) return true;
 
-        Faction faction = null;
+        Faction faction1 = null;
         UUID targetPlayer = null;
         ClaimType claimType = null;
         String name = null;
         String shortcut = null;
         ChatColor color = null;
+        Faction faction2 = null;
 
         //TODO return error and syntax
         for (String arg : args) {
             if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) {
-                if (faction == null) {
-                    if (adminMode) faction = FactionsUtils.getFactionFromName(plugin, arg);
-                    else faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+                if (faction1 == null) {
+                    if (adminMode) faction1 = FactionsUtils.getFactionFromName(plugin, arg);
+                    else faction1 = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
 
-                    if (faction == null) return false; //TODO faction not found
+                    if (faction1 == null) return false; //TODO faction not found
                     continue;
                 }
             }
@@ -115,7 +116,7 @@ public class CommandsManager implements CommandExecutor {
         }
 
         List<Object> argsToPass = new ArrayList<>();
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION) && faction != null) argsToPass.add(faction.getId());
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION) && faction1 != null) argsToPass.add(faction1.getId());
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER) && targetPlayer != null) argsToPass.add(targetPlayer);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE) && claimType != null) argsToPass.add(claimType);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.ADMINMODE)) argsToPass.add(adminMode);
@@ -144,5 +145,7 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new FactionSetColor());
         subCommands.add(new ClaimGetId());
         subCommands.add(new AddChunkToClaim());
+        subCommands.add(new WarDeclare());
+        subCommands.add(new WarPeace());
     }
 }

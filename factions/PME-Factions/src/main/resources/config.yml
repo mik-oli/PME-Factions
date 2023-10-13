@@ -7,4 +7,6 @@ commands-permissions:
   faction-remove-member: 'leader'
   faction-set-name: 'leader'
   faction-set-shortcut: 'leader'
-  faction-set-color: 'admin'
+  faction-set-color: 'leader'
+  war-declare: 'leader'
+  war-peace: 'leader'

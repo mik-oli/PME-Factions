@@ -33,6 +33,8 @@ permissions:
       pmefactions.faction.setcolor: true
       pmefactions.faction.list: true
       pmefactions.faction.info: true
+      pmefactions.faction.war: true
+      pmefactions.faction.peace: true
   pmefactions.faction.member:
     default: false
     children:
