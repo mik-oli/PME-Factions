@@ -32,7 +32,7 @@ public class FactionAddMember extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] add <player>";
+        return "/factions [admin] add [<faction>] <player>";
     }
 
     @Override

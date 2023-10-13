@@ -28,7 +28,7 @@ public class FactionSetName extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] setname <name>";
+        return "/factions [admin] setname [<faction>] <name>";
     }
 
     @Override

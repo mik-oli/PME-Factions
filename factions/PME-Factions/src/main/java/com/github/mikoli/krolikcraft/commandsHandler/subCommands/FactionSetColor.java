@@ -29,7 +29,7 @@ public class FactionSetColor extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] setcolor <color>";
+        return "/factions [admin] setcolor [<faction>] <color>";
     }
 
     @Override

@@ -34,7 +34,7 @@ public class FactionRemoveMember extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] remove <player>";
+        return "/factions [admin] remove [<faction>] <player>";
     }
 
     @Override

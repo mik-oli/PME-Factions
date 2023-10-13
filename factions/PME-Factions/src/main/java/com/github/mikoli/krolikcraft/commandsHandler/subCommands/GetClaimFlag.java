@@ -34,7 +34,7 @@ public class GetClaimFlag extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions admin <faction> get-claim-flag <claim type>";
+        return "/factions admin get-claim-flag <faction> <claim type>";
     }
 
     @Override

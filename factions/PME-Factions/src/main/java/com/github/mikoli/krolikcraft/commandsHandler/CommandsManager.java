@@ -9,6 +9,7 @@ import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -56,33 +57,63 @@ public class CommandsManager implements CommandExecutor {
         String shortcut = null;
         ChatColor color = null;
 
+        //TODO return error and syntax
         for (String arg : args) {
-            if (faction == null) {
-                faction = FactionsUtils.getFactionFromName(plugin, arg);
-                continue;
-            }
-            try {
-                if (claimType == null) {
-                    claimType = ClaimType.valueOf(arg);
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) {
+                if (faction == null) {
+                    if (adminMode) faction = FactionsUtils.getFactionFromName(plugin, arg);
+                    else faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+
+                    if (faction == null) return false; //TODO faction not found
                     continue;
                 }
+            }
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
                 if (targetPlayer == null) {
-                    targetPlayer = UUID.fromString(arg);
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(arg));
+                    if (!offlinePlayer.hasPlayedBefore()) return false; //TODO player not found
+                    targetPlayer = offlinePlayer.getUniqueId();
                     continue;
                 }
-                if (color == null) {
-                    color = ChatColor.valueOf(arg);
+            }
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
+                if (claimType == null) {
+                    try {
+                        claimType = ClaimType.valueOf(arg);
+                    } catch (IllegalArgumentException ignored) {}
+
+                    if (claimType == null) return false; //TODO claim not found
                     continue;
                 }
-            } catch (IllegalArgumentException ignored) {}
-            if (arg.length() < 4) {
-                shortcut = arg;
+            }
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
+                if (claimType == null) {
+                    try {
+                        claimType = ClaimType.valueOf(arg);
+                    } catch (IllegalArgumentException ignored) {}
+
+                    if (claimType == null) return false; //TODO claim not found
+                    continue;
+                }
+            }
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) {
+                if (name == null) name = args[args.length - 2];
                 continue;
             }
-            name = arg;
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) {
+                if (shortcut == null) shortcut = args[args.length - 1];
+                continue;
+            }
+            if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) {
+                if (color == null) {
+                    try {
+                        color = ChatColor.valueOf(arg);
+                    } catch (IllegalArgumentException ignored) {}
+                    if (color == null) return false; //TODO color not found
+                }
+            }
         }
 
-        //TODO return error and syntax
         List<Object> argsToPass = new ArrayList<>();
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION) && faction != null) argsToPass.add(faction.getId());
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER) && targetPlayer != null) argsToPass.add(targetPlayer);

@@ -28,7 +28,7 @@ public class FactionSetShortcut extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] setshortcut <shortcut>";
+        return "/factions [admin] setshortcut [<faction>] <shortcut>";
     }
 
     @Override

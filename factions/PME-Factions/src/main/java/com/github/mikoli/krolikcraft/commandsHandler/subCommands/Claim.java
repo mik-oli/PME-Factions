@@ -6,7 +6,6 @@ import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
@@ -22,7 +21,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Claim extends SubCommand {
 
@@ -40,7 +38,7 @@ public class Claim extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] [<faction>] claim [<claim type>]";
+        return "/factions [admin] claim [<faction>] [<claim type>]";
     }
 
     @Override
