@@ -17,6 +17,7 @@ public class Faction {
     private UUID leader;
     private Location coreLocation;
     private final HashSet<UUID> members = new HashSet<>();
+    private final HashSet<UUID> enemies = new HashSet<>();
 
     public Faction(Krolikcraft plugin) {
         this.plugin = plugin;
@@ -84,5 +85,13 @@ public class Faction {
 
     public HashSet<UUID> getMembers() {
         return members;
+    }
+
+    public HashSet<UUID> getEnemies() {
+        return enemies;
+    }
+
+    public boolean isAtWarWith(Faction faction) {
+        return enemies.contains(faction.id);
     }
 }

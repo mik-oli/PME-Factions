@@ -25,6 +25,11 @@ public class LoadSaveFactionData {
         for (String s : dataFile.getStringList("members")) {
             faction.addMember(UUID.fromString(s));
         }
+
+        for (String s : dataFile.getStringList("enemies")) {
+            faction.getEnemies().add(UUID.fromString(s));
+        }
+
         String[] coreCords = dataFile.getString("core-location").split(";");
         Location coreLocation = new Location(Bukkit.getWorld("world"), Integer.parseInt(coreCords[0]), Integer.parseInt(coreCords[1]), Integer.parseInt(coreCords[2]));
         faction.setCoreLocation(coreLocation);
@@ -44,6 +49,13 @@ public class LoadSaveFactionData {
             membersToSave.add(playerUUID.toString());
         }
         dataFile.set("members", membersToSave);
+
+        List<String> enemiesToSave = new ArrayList<>();
+        for (UUID enemyId : faction.getEnemies()) {
+            enemiesToSave.add(enemyId.toString());
+        }
+        dataFile.set("enemies", enemiesToSave);
+
 
         file.saveData();
     }
