@@ -65,7 +65,13 @@ public class FactionInfo extends SubCommand {
             String playerName = Bukkit.getOfflinePlayer(playerUUID).getName();
             stringBuilder.append(Utils.coloring("&a" + playerName + "&e, "));
         }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.deleteCharAt(stringBuilder.length() - 2);
+        stringBuilder.append("\n");
+        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eEnemies: "));
+        for (UUID enemy : faction.getEnemies()) {
+            stringBuilder.append(Utils.coloring("&a" + plugin.getFactionsHashMap().get(enemy).getName() + "&e, "));
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 2);
         stringBuilder.append("\n");
         stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e============================================="));
 
