@@ -6,6 +6,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.CommandsManager;
 import com.github.mikoli.krolikcraft.factions.*;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
+import com.github.mikoli.krolikcraft.listeners.InteractListener;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
@@ -24,11 +25,12 @@ public final class Krolikcraft extends JavaPlugin {
     private final HashMap<UUID, Faction> factionsHashMap = new HashMap<>();
     private final HashMap<UUID, FilesUtils> factionsFilesHashMap = new HashMap<>();
     private final ClaimsManager claimsManager = new ClaimsManager(this);
+    private final CommandsManager commandsManager = new CommandsManager(this);
+    private final ConfigUtils configUtils = new ConfigUtils(this);
     private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
-    private final CommandsManager commandsManager = new CommandsManager(this);
-    private final ConfigUtils configUtils = new ConfigUtils(this);
+    private final InteractListener interactListener = new InteractListener(this);
 
     @Override
     public void onEnable() {
@@ -78,6 +80,7 @@ public final class Krolikcraft extends JavaPlugin {
     private void setEventsListeners() {
         pluginManager.registerEvents(blockPlaceListener, this);
         pluginManager.registerEvents(blockBreakListener, this);
+        pluginManager.registerEvents(interactListener, this);
     }
 
     private void loadFactionsData() throws IOException {

@@ -2,9 +2,9 @@ package com.github.mikoli.krolikcraft.listeners;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
+import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
-import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
@@ -24,7 +24,7 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
         if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
@@ -37,15 +37,16 @@ public class BlockBreakListener implements Listener {
         UUID playerUUID = player.getUniqueId();
         if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TOTEST test if cancel event is required
 
-        //case 1, broken by faction leader -> unclaim
-        //case 2, broken by enemy in war -> change owner
-        if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("clam"), false)) {
+        Faction claimFaction = FactionsUtils.getFactionFromName(plugin, PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getBlockContainer(block)));
+        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
+        if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false) && claimFaction == playerFaction) {
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) return; //TOTEST test if cancel event is required
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
-        } else {
-            return;
+        } else if (claimFaction.getEnemies().contains(playerFaction.getId())) {
+            claimsManager.changeClaimOwner(claimsManager.getClaimId(block.getChunk()), playerFaction);
+            //TOTEST test if cancel event is required
         }
 
         event.setDropItems(false);

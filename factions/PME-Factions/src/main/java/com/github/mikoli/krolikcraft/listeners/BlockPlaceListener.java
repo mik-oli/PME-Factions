@@ -31,7 +31,7 @@ public class BlockPlaceListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         createClaim(event);
         createFaction(event);
