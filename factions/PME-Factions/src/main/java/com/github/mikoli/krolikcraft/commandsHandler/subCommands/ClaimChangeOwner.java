@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
@@ -61,6 +62,7 @@ public class ClaimChangeOwner extends SubCommand {
         Player player = Bukkit.getPlayer(commandSender.getName());
         ClaimsManager claimsManager = plugin.getClaimsManager();
         UUID claimId = claimsManager.getClaimId(player.getLocation().getChunk());
+        if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.CORE) return; //TODO cant change owner of core
         claimsManager.changeClaimOwner(claimId, faction);
         //TODO message faction changed
     }
