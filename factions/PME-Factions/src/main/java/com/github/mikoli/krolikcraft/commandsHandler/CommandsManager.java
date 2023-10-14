@@ -147,5 +147,6 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new AddChunkToClaim());
         subCommands.add(new WarDeclare());
         subCommands.add(new WarPeace());
+        subCommands.add(new FactionDelete());
     }
 }

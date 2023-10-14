@@ -27,6 +27,7 @@ permissions:
     children:
       pmefactions.faction.member: true
       pmefactions.faction.create: true
+      pmefactions.faction.delete: true
       pmefactions.faction.remove: true
       pmefactions.faction.setname: true
       pmefactions.faction.setshortcut: true

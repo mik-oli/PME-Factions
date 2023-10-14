@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.listeners;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
@@ -40,15 +41,31 @@ public class BlockBreakListener implements Listener {
         Faction claimFaction = FactionsUtils.getFactionFromName(plugin, PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getBlockContainer(block)));
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false) && claimFaction == playerFaction) {
+            if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
+            if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return; //TOTEST test if cancel event is required
+
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) return; //TOTEST test if cancel event is required
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else if (claimFaction.getEnemies().contains(playerFaction.getId())) {
-            claimsManager.changeClaimOwner(claimsManager.getClaimId(block.getChunk()), playerFaction);
-            //TOTEST test if cancel event is required
+            if (PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) {
+                boolean hasOutposts = false;
+                for (UUID claimID : claimsManager.getClaimsOwnerMap().keySet()) {
+                    if (claimsManager.getClaimsOwnerMap().get(claimID) != claimFaction.getId()) continue;
+                    if (claimsManager.getClaimsTypesMap().get(claimID) == ClaimType.OUTPOST) {
+                        hasOutposts = true;
+                        break;
+                    }
+                }
+                if (!hasOutposts) {
+                    FactionsUtils.removeFaction(plugin, claimFaction);
+                }
+            } else {
+                claimsManager.changeClaimOwner(claimsManager.getClaimId(block.getChunk()), playerFaction);
+                //TOTEST test if cancel event is required
+            }
         }
-
         event.setDropItems(false);
     }
 }

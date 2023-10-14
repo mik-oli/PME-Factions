@@ -44,4 +44,8 @@ public class FilesUtils {
         }
         data = YamlConfiguration.loadConfiguration(dataFile);
     }
+
+    public void deleteFile() {
+        dataFile.delete();
+    }
 }

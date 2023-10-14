@@ -1,9 +1,14 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+
+import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -61,5 +66,24 @@ public class FactionsUtils {
 //        else if (permissions == CommandsPermissions.OFFICER && faction.getLeader() == player.getUniqueId()) return true;
         else if (permissions == CommandsPermissions.LEADER && faction.getLeader() == player.getUniqueId()) return true;
         else return false;
+    }
+
+    public static void removeFaction(Krolikcraft plugin, Faction faction) {
+        plugin.getFactionsHashMap().remove(faction.getId());
+        plugin.getFactionsFilesHashMap().remove(faction.getId());
+
+        ClaimsManager claimsManager = plugin.getClaimsManager();
+        for (UUID id : claimsManager.getClaimsOwnerMap().keySet()) {
+            if (claimsManager.getClaimsOwnerMap().get(id) != faction.getId()) continue;
+            claimsManager.getClaimsList().remove(id);
+            claimsManager.getClaimsOwnerMap().remove(id);
+            claimsManager.getClaimsChunksMap().remove(id);
+            claimsManager.getClaimsTypesMap().remove(id);
+            claimsManager.getClaimCoreLocation().remove(id);
+        }
+        Block coreBlock = faction.getCoreLocation().getBlock();
+        coreBlock.setType(Material.AIR);
+        plugin.getFactionsFilesHashMap().get(faction.getId()).deleteFile();
+        plugin.getFactionsFilesHashMap().remove(faction.getId());
     }
 }
