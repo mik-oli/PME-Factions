@@ -59,7 +59,10 @@ public class FactionSetShortcut extends SubCommand {
         String newShortcut = (String) args.get(1);
 
         for (Faction f : plugin.getFactionsHashMap().values()) {
-            if (f.getShortcut().equals(newShortcut)) return; //TODO error name exists
+            if (f.getShortcut().equals(newShortcut)){
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-exists"));
+                return;
+            }
         }
         faction.setShortcut(newShortcut);
     }

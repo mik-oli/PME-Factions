@@ -74,7 +74,7 @@ public class BlockPlaceListener implements Listener {
         ItemMeta itemMeta = item.getItemMeta();
         List<String> lore = itemMeta.getLore();
         UUID leader = UUID.fromString(lore.get(3).substring(12));
-        if (player.getUniqueId() != leader) return; //TODO error
+        if (player.getUniqueId() != leader) return;
 
         Location factionLocation = event.getBlockPlaced().getLocation();
         if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, factionLocation.getChunk(), ClaimType.CORE, false)) return;

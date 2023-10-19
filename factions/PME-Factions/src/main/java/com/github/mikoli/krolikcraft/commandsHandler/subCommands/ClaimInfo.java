@@ -57,14 +57,14 @@ public class ClaimInfo extends SubCommand {
         Chunk chunk = player.getLocation().getChunk();
 
         if (!plugin.getClaimsManager().isChunkClaimed(chunk))
-            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aThis chunk is not claimed by anyone."));
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
         else {
             UUID claimId = plugin.getClaimsManager().getClaimId(chunk);
             UUID claimOwner = plugin.getClaimsManager().getClaimsOwnerMap().get(claimId);
             String ownerName = plugin.getFactionsHashMap().get(claimOwner).getName();
             Location location = plugin.getClaimsManager().getClaimCoreLocation().get(claimId);
-            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eThis chunk is claimed by: &b" + ownerName + "&e."));
-            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eClaim block is at (X, Y, Z): &b" + location.getX() + " " + location.getY() + " " + location.getZ() + "&e."));
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed-by") + ownerName);
+            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eClaim block (X, Y, Z): &b" + location.getX() + " " + location.getY() + " " + location.getZ() + "&e."));
         }
     }
 }

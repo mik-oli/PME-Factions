@@ -62,8 +62,11 @@ public class ClaimChangeOwner extends SubCommand {
         Player player = Bukkit.getPlayer(commandSender.getName());
         ClaimsManager claimsManager = plugin.getClaimsManager();
         UUID claimId = claimsManager.getClaimId(player.getLocation().getChunk());
-        if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.CORE) return; //TODO cant change owner of core
+        if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.CORE) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-change-owner"));
+            return;
+        }
         claimsManager.changeClaimOwner(claimId, faction);
-        //TODO message faction changed
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
     }
 }

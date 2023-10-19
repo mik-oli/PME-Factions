@@ -61,9 +61,18 @@ public class FactionRemoveMember extends SubCommand {
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
-        if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) return; //TODO player is not in that faction member message
-        if (faction.getLeader() == targetUUID) return; //TODO message cant kick faction leader
-        if ((commandSender instanceof Player) && Bukkit.getPlayer(commandSender.getName()).getUniqueId() == targetUUID) return; //TODO message cant kick yourself
+        if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-not-member"));
+            return;
+        }
+        if (faction.getLeader() == targetUUID) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-kick-leader"));
+            return;
+        }
+        if ((commandSender instanceof Player) && Bukkit.getPlayer(commandSender.getName()).getUniqueId() == targetUUID) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-kick-leader"));
+            return;
+        }
 
         faction.removeMember(targetUUID);
         commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aPlayer removed from faction."));

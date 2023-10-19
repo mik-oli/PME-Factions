@@ -55,11 +55,13 @@ public class WarPeace extends SubCommand {
 
         Faction faction1 = (Faction) args.get(0);
         Faction faction2 = (Faction) args.get(1);
-        if (!faction1.getEnemies().contains(faction2.getId())) return;
-        if (!faction2.getEnemies().contains(faction1.getId())) return; //TODO there is no war message
+        if (!faction1.getEnemies().contains(faction2.getId()) && !faction2.getEnemies().contains(faction1.getId())) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-at-peace"));
+            return;
+        }
 
         faction1.getEnemies().remove(faction2.getId());
         faction2.getEnemies().remove(faction1.getId());
-        //TODO war declared message
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("signed-peace"));
     }
 }

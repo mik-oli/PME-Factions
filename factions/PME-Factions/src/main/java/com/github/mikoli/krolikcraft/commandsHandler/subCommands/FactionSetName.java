@@ -59,7 +59,10 @@ public class FactionSetName extends SubCommand {
         String newName = (String) args.get(1);
 
         for (Faction f : plugin.getFactionsHashMap().values()) {
-            if (f.getName().equals(newName)) return; //TODO error name exists
+            if (f.getName().equals(newName)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-exists"));
+                return;
+            }
         }
         faction.setName(newName);
     }

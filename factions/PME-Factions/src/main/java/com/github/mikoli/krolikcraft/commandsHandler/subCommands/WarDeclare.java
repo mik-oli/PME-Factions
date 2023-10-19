@@ -56,11 +56,12 @@ public class WarDeclare extends SubCommand {
 
         Faction faction1 = (Faction) args.get(0);
         Faction faction2 = (Faction) args.get(1);
-        if (faction1.getEnemies().contains(faction2.getId())) return;
-        if (faction2.getEnemies().contains(faction1.getId())) return; //TODO there is already war message
-
+        if (faction1.getEnemies().contains(faction2.getId()) && faction2.getEnemies().contains(faction1.getId())) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-at-war"));
+            return;
+        }
         faction1.getEnemies().add(faction2.getId());
         faction2.getEnemies().add(faction1.getId());
-        //TODO war declared message
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("war-declared"));
     }
 }

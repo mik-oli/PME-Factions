@@ -70,11 +70,15 @@ public class Claim extends SubCommand {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
         ClaimType claimType = (ClaimType) args.get(1);
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) return;
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
+            return;
+        }
         claimsManager.createClaim(faction, chunk, claimType, player.getLocation());
 
         Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(blockBelow), "true");
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
 }

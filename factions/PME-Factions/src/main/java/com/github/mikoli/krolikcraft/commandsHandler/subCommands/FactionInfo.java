@@ -57,22 +57,23 @@ public class FactionInfo extends SubCommand {
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e===============&bFaction Details&e===============\n"));
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eName: &a" + faction.getName() + "\n"));
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eLeader: &a" + Bukkit.getOfflinePlayer(faction.getLeader()).getName() + "\n"));
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eMembers: "));
+        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e===============&bFaction Info&e===============\n"));
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-name") + faction.getName() + "\n");
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-shortcut") + faction.getShortcut() + "\n");
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-core-loc") + faction.getCoreLocation().getX() + " " + faction.getCoreLocation().getY() + " " + faction.getCoreLocation().getZ() + "\n");
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-leader") + Bukkit.getOfflinePlayer(faction.getLeader()).getName() + "\n");
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-members"));
         for (UUID playerUUID : faction.getMembers()) {
             String playerName = Bukkit.getOfflinePlayer(playerUUID).getName();
             stringBuilder.append(Utils.coloring("&a" + playerName + "&e, "));
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 2);
         stringBuilder.append("\n");
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&eEnemies: "));
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-enemies"));
         for (UUID enemy : faction.getEnemies()) {
             stringBuilder.append(Utils.coloring("&a" + plugin.getFactionsHashMap().get(enemy).getName() + "&e, "));
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 2);
-        stringBuilder.append("\n");
         stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e============================================="));
 
         commandSender.sendMessage(stringBuilder.toString());

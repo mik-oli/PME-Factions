@@ -36,16 +36,21 @@ public class BlockBreakListener implements Listener {
 
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
-        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return; //TOTEST test if cancel event is required
+        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) {
+            event.setCancelled(true);
+        }
 
         Faction claimFaction = FactionsUtils.getFactionFromName(plugin, PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getBlockContainer(block)));
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false) && claimFaction == playerFaction) {
             if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
-            if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return; //TOTEST test if cancel event is required
+            if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return;
 
             UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) return; //TOTEST test if cancel event is required
+            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) {
+                player.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
+                event.setCancelled(true);
+            }
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else if (claimFaction.getEnemies().contains(playerFaction.getId())) {
@@ -60,10 +65,11 @@ public class BlockBreakListener implements Listener {
                 }
                 if (!hasOutposts) {
                     FactionsUtils.removeFaction(plugin, claimFaction);
+                    //TODO Faction destroyed message with input for faction
                 }
             } else {
                 claimsManager.changeClaimOwner(claimsManager.getClaimId(block.getChunk()), playerFaction);
-                //TOTEST test if cancel event is required
+                player.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
             }
         }
         event.setDropItems(false);

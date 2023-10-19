@@ -61,5 +61,6 @@ public class FactionSetColor extends SubCommand {
         } catch (IllegalArgumentException ignore) {}
         Faction faction = (Faction) args.get(0);
         faction.setColor(color);
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("color-changed"));
     }
 }

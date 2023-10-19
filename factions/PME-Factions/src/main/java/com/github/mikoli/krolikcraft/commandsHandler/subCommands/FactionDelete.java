@@ -60,6 +60,7 @@ public class FactionDelete extends SubCommand {
         Faction faction = (Faction) args.get(0);
         if ((boolean) args.get(2) || FactionsUtils.getPlayersFaction(plugin, (UUID) args.get(1)).equals(faction.getLeader())) {
             FactionsUtils.removeFaction(plugin, faction);
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-deleted"));
         }
     }
 }

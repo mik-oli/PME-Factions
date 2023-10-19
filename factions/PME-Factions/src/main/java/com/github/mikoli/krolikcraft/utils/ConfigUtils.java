@@ -19,4 +19,8 @@ public class ConfigUtils {
     public CommandsPermissions getPermission(String command) {
         return CommandsPermissions.valueOf(config.getString("commands-permissions." + command));
     }
+
+    public String getLocalisation(String key) {
+        return Utils.pluginPrefix() + Utils.coloring(config.getString("localisation." + key));
+    }
 }

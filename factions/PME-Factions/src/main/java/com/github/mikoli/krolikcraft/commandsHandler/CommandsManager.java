@@ -45,9 +45,19 @@ public class CommandsManager implements CommandExecutor {
         for (SubCommand subCmd : subCommands) {
             if (subCmd.getName().equalsIgnoreCase(cmd)) subCommand = subCmd;
         }
-        if (subCommand == null) return false; //TODO command not found
-        if (subCommand.playerOnly() && !(commandSender instanceof Player)) return true; //todo player only command message
-        if (commandSender instanceof Player && !FactionsUtils.hasPlayerPermission(plugin, Bukkit.getPlayer(commandSender.getName()), subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) return true;
+        if (subCommand == null) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-not-found"));
+
+            return false;
+        }
+        if (subCommand.playerOnly() && !(commandSender instanceof Player)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-player-only"));
+            return true;
+        }
+        if (commandSender instanceof Player && !FactionsUtils.hasPlayerPermission(plugin, Bukkit.getPlayer(commandSender.getName()), subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
+            return true;
+        }
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) return true;
 
         Faction faction1 = null;

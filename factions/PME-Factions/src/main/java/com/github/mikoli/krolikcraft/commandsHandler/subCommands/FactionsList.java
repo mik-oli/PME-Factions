@@ -50,7 +50,7 @@ public class FactionsList extends SubCommand {
     @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Utils.pluginPrefix()).append(Utils.coloring("&eFactions list: &a"));
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("factions-list"));
         for (Faction faction : plugin.getFactionsHashMap().values()) {
             stringBuilder.append(faction.getName());
             stringBuilder.append(Utils.coloring("&e, &b"));

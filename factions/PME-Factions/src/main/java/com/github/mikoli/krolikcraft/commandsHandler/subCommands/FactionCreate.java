@@ -86,7 +86,10 @@ public class FactionCreate extends SubCommand {
             PersistentDataUtils.setData(plugin, PersistentDataKeys.COREFLAG, PersistentDataUtils.getItemContainer(coreBlock), "true");
         }
         else {
-            if (FactionsUtils.getPlayersFaction(plugin, leader) != null) return; //TODO error player is in faction
+            if (FactionsUtils.getPlayersFaction(plugin, leader) != null) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
+                return;
+            }
             Location location = Bukkit.getPlayer(leader).getLocation();
             if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, location.getChunk(), ClaimType.CORE, false)) return;
             FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, location);

@@ -53,7 +53,11 @@ public class AddChunkToClaim extends SubCommand {
 
         UUID claimId = (UUID) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());
-        if (plugin.getClaimsManager().isChunkClaimed(player.getLocation().getChunk())) return; //TODO chunk already claimed message
-        plugin.getClaimsManager().addChunkToClaim(claimId, player.getLocation().getChunk()); //TODO confirmation message
+        if (plugin.getClaimsManager().isChunkClaimed(player.getLocation().getChunk())) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
+            return;
+        }
+        plugin.getClaimsManager().addChunkToClaim(claimId, player.getLocation().getChunk());
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
 }

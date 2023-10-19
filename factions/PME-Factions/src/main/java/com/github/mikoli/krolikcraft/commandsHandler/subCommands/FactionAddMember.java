@@ -60,9 +60,12 @@ public class FactionAddMember extends SubCommand {
 
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
-        if (FactionsUtils.isPlayerInFaction(plugin, targetUUID)) return; //TODO target is faction member message
+        if (FactionsUtils.isPlayerInFaction(plugin, targetUUID)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
+            return;
+        }
 
         faction.addMember(targetUUID);
-        commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aPlayer added to faction."));
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("player-added"));
     }
 }

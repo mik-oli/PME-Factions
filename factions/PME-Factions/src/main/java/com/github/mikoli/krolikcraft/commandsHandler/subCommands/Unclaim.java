@@ -67,7 +67,10 @@ public class Unclaim extends SubCommand {
         UUID claimId = claimsManager.getClaimId(chunk);
         UUID playerUUID = player.getUniqueId();
         if (!((boolean) args.get(0))) {
-            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) return;//TODO players and claims faction is different
+            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-unclaim"));
+                return;
+            }
         }
 
         claimsManager.removeClaim(claimId);
