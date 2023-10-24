@@ -6,6 +6,7 @@ import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,7 +48,6 @@ public class CommandsManager implements CommandExecutor {
         }
         if (subCommand == null) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-not-found"));
-
             return false;
         }
         if (subCommand.playerOnly() && !(commandSender instanceof Player)) {
@@ -61,78 +61,55 @@ public class CommandsManager implements CommandExecutor {
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) return true;
 
         Faction faction1 = null;
+        Faction faction2 = null;
         UUID targetPlayer = null;
         ClaimType claimType = null;
         String name = null;
         String shortcut = null;
         ChatColor color = null;
-        Faction faction2 = null;
 
-        //TODO return error and syntax
-        for (String arg : args) {
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) {
-                if (faction1 == null) {
-                    if (adminMode) faction1 = FactionsUtils.getFactionFromName(plugin, arg);
-                    else faction1 = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) {
+            faction1 = this.getFaction(adminMode, commandSender, args);
+            if (faction1 == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
 
-                    if (faction1 == null) return false; //TODO faction not found
-                    continue;
-                }
+            int i = 0;
+            for (RequiredCmdArgs requiredArgs : subCommand.requiredArguments()) {
+                if (requiredArgs == RequiredCmdArgs.FACTION) i++;
             }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
-                if (targetPlayer == null) {
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(arg));
-                    if (!offlinePlayer.hasPlayedBefore()) return false; //TODO player not found
-                    targetPlayer = offlinePlayer.getUniqueId();
-                    continue;
-                }
-            }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
-                if (claimType == null) {
-                    try {
-                        claimType = ClaimType.valueOf(arg);
-                    } catch (IllegalArgumentException ignored) {}
-
-                    if (claimType == null) return false; //TODO claim not found
-                    continue;
-                }
-            }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
-                if (claimType == null) {
-                    try {
-                        claimType = ClaimType.valueOf(arg);
-                    } catch (IllegalArgumentException ignored) {}
-
-                    if (claimType == null) return false; //TODO claim not found
-                    continue;
-                }
-            }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) {
-                if (name == null) name = args[args.length - 2];
-                continue;
-            }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) {
-                if (shortcut == null) shortcut = args[args.length - 1];
-                continue;
-            }
-            if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) {
-                if (color == null) {
-                    try {
-                        color = ChatColor.valueOf(arg);
-                    } catch (IllegalArgumentException ignored) {}
-                    if (color == null) return false; //TODO color not found
-                }
-            }
+            if (i == 2) faction2 = this.getSecondFaction(adminMode, args);
+            if (faction2 == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
+        }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
+            targetPlayer = this.getTargetPlayer(adminMode, args);
+            if (targetPlayer == null) return this.returnSyntax(commandSender, "cmd-player-not-found", subCommand.getSyntax());
+        }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
+            claimType = this.getClaimType(adminMode, args);
+            if (claimType == null) return this.returnSyntax(commandSender, "cmd-claim-type-not-found", subCommand.getSyntax());
+        }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) {
+            color = this.getFactionColor(adminMode, args);
+            if (color == null) return this.returnSyntax(commandSender, "cmd-color-not-found", subCommand.getSyntax());
+        }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME) && subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) {
+            name = args[args.length - 2];
+            shortcut = args[args.length - 1];
+        }
+        else if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) {
+            name = args[args.length - 1];
+        }
+        else if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) {
+            shortcut = args[args.length - 1];
         }
 
         List<Object> argsToPass = new ArrayList<>();
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION) && faction1 != null) argsToPass.add(faction1.getId());
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER) && targetPlayer != null) argsToPass.add(targetPlayer);
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE) && claimType != null) argsToPass.add(claimType);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) argsToPass.add(faction1.getId());
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) argsToPass.add(targetPlayer);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) argsToPass.add(claimType);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.ADMINMODE)) argsToPass.add(adminMode);
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME) && name != null) argsToPass.add(name);
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT) && shortcut != null) argsToPass.add(shortcut);
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR) && color != null) argsToPass.add(color);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) argsToPass.add(name);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) argsToPass.add(shortcut);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) argsToPass.add(color);
         if (argsToPass.size() < subCommand.requiredArguments().size()) return false;
 
         subCommand.perform(plugin, commandSender, argsToPass);
@@ -158,5 +135,71 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new WarDeclare());
         subCommands.add(new WarPeace());
         subCommands.add(new FactionDelete());
+    }
+
+    private boolean returnSyntax(CommandSender commandSender, String error, String syntax) {
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation(error));
+        commandSender.sendMessage(Utils.pluginPrefix() + Utils.coloring("&e" + syntax));
+        return true;
+    }
+
+    private Faction getFaction(boolean admin, CommandSender commandSender, String[] args) {
+        Faction faction;
+        if (admin) {
+            faction = FactionsUtils.getFactionFromName(plugin, args[2]);
+        } else {
+            faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+        }
+        return faction;
+    }
+
+    private Faction getSecondFaction(boolean admin, String[] args) {
+        Faction faction;
+        if (admin) {
+            faction = FactionsUtils.getFactionFromName(plugin, args[3]);
+        } else {
+            faction = FactionsUtils.getFactionFromName(plugin, args[1]);
+        }
+        return faction;
+    }
+
+    private UUID getTargetPlayer(boolean admin, String[] args) {
+        UUID uuid = null;
+        if (admin) {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[3]));
+            if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
+        } else {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[1]));
+            if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
+        }
+        return uuid;
+    }
+
+    private ClaimType getClaimType(boolean admin, String[] args) {
+        ClaimType claimType = null;
+        if (admin) {
+            try {
+                claimType = ClaimType.valueOf(args[3]);
+            } catch (IllegalArgumentException ignored) {}
+        } else {
+            try {
+                claimType = ClaimType.valueOf(args[1]);
+            } catch (IllegalArgumentException ignored) {}
+        }
+        return claimType;
+    }
+
+    private ChatColor getFactionColor(boolean admin, String[] args) {
+        ChatColor color = null;
+        if (admin) {
+            try {
+                color = ChatColor.valueOf(args[3]);
+            } catch (IllegalArgumentException ignored) {}
+        } else {
+            try {
+                color = ChatColor.valueOf(args[1]);
+            } catch (IllegalArgumentException ignored) {}
+        }
+        return color;
     }
 }
