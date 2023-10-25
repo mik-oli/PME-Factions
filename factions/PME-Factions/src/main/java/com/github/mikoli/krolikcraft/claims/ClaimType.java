@@ -2,7 +2,7 @@ package com.github.mikoli.krolikcraft.claims;
 
 import org.bukkit.ChatColor;
 
-public enum ClaimType extends ChatColor {
+public enum ClaimType {
 
     CLAIM_1x1(0),
     CLAIM_3x3(1),
