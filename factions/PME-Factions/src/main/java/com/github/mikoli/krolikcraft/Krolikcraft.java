@@ -42,6 +42,7 @@ public final class Krolikcraft extends JavaPlugin {
         }
 
         this.setEventsListeners();
+        saveDefaultConfig();
     }
 
     @Override
