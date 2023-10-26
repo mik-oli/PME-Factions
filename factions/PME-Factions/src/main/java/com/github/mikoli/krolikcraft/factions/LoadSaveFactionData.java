@@ -19,7 +19,7 @@ public class LoadSaveFactionData {
         faction.setId(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
         faction.setShortcut(dataFile.getString("shortcut"));
-        faction.setColor(ChatColor.valueOf(dataFile.getString("color").replace("§", "&")));
+        faction.setColor(ChatColor.getByChar(dataFile.getString("color")));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
         for (String s : dataFile.getStringList("members")) {
@@ -40,9 +40,9 @@ public class LoadSaveFactionData {
         dataFile.set("id", faction.getId().toString());
         dataFile.set("name", faction.getName());
         dataFile.set("shortcut", faction.getShortcut());
-        dataFile.set("color", faction.getColor().toString());
+        dataFile.set("color", faction.getColor().toString().substring(1));
         dataFile.set("leader", faction.getLeader().toString());
-        dataFile.set("core-location", faction.getCoreLocation().getX() + ";" + faction.getCoreLocation().getY() + ";" + faction.getCoreLocation().getZ());
+        dataFile.set("core-location", (int)faction.getCoreLocation().getX() + ";" + (int)faction.getCoreLocation().getY() + ";" + (int)faction.getCoreLocation().getZ());
 
         List<String> membersToSave = new ArrayList<>();
         for (UUID playerUUID : faction.getMembers()) {

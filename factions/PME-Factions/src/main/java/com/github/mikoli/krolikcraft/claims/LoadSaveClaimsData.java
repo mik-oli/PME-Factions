@@ -23,7 +23,7 @@ public class LoadSaveClaimsData {
             ClaimType claimType = ClaimType.valueOf(dataFile.getString(uuid + ".type"));
             claimsManager.getClaimsTypesMap().put(uuid, claimType);
             String[] coreCords = dataFile.getString(uuid + ".core-location").split(";");
-            Location claimCoreLocation = new Location(Bukkit.getWorld("world"), Integer.parseInt(coreCords[0]), Integer.parseInt(coreCords[1]), Integer.parseInt(coreCords[2]));
+            Location claimCoreLocation = new Location(Bukkit.getWorld("world"), Double.parseDouble(coreCords[0]), Double.parseDouble(coreCords[1]), Double.parseDouble(coreCords[2]));
             claimsManager.getClaimCoreLocation().put(uuid, claimCoreLocation);
             Set<Chunk> chunksList = new HashSet<>();
             for (String cords : dataFile.getStringList(uuid + ".chunks")) {
@@ -41,7 +41,7 @@ public class LoadSaveClaimsData {
         for (UUID id : claimsManager.getClaimsList()) {
             dataFile.set(id + ".owner", claimsManager.getClaimsOwnerMap().get(id).toString());
             dataFile.set(id + ".type", claimsManager.getClaimsTypesMap().get(id).toString());
-            dataFile.set(id + ".core-location", claimsManager.getClaimCoreLocation().get(id).getX() + ";" + claimsManager.getClaimCoreLocation().get(id).getY() + ";" + claimsManager.getClaimCoreLocation().get(id).getZ());
+            dataFile.set(id + ".core-location", (int)claimsManager.getClaimCoreLocation().get(id).getX() + ";" + (int)claimsManager.getClaimCoreLocation().get(id).getY() + ";" + (int)claimsManager.getClaimCoreLocation().get(id).getZ());
             List<String> chunksCord = new ArrayList<>();
             for (Chunk chunk : claimsManager.getClaimsChunksMap().get(id)) {
                 chunksCord.add(chunk.getX() + "," + chunk.getZ());
