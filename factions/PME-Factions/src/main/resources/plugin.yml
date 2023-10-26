@@ -7,7 +7,7 @@ authors: ${authors}
 website: ${project.url}
 
 commands:
-  factions:
+  owo:
     permission: pmefactions.factions
 
 permissions:
@@ -19,6 +19,11 @@ permissions:
       pmefactions.claim.setflag: true
       pmefactions.claim.getid: true
       pmefactions.claim.addchunk: true
+      pmefactions.factions: true
+      pmefactions.faction: true
+      pmefactions.faction.member: true
+      pmefactions.claim: true
+
   pmefactions.factions:
     description: Permission for base command
     default: true

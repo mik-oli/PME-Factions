@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CommandsManager implements CommandExecutor {
@@ -28,7 +29,6 @@ public class CommandsManager implements CommandExecutor {
     public CommandsManager(Krolikcraft plugin) {
         this.plugin = plugin;
         this.loadSubCommands();
-        plugin.getCommand("factions").setExecutor(this);
     }
 
     @Override
@@ -54,11 +54,16 @@ public class CommandsManager implements CommandExecutor {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-player-only"));
             return true;
         }
-        if (commandSender instanceof Player && !FactionsUtils.hasPlayerPermission(plugin, Bukkit.getPlayer(commandSender.getName()), subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+        if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
+            Bukkit.broadcastMessage("uwu");
             return true;
         }
-        if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) return true;
+        else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
+            Bukkit.broadcastMessage("uwu1");
+            return true;
+        }
 
         Faction faction1 = null;
         Faction faction2 = null;
@@ -80,7 +85,7 @@ public class CommandsManager implements CommandExecutor {
             if (faction2 == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
         }
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
-            targetPlayer = this.getTargetPlayer(adminMode, args);
+            targetPlayer = this.getTargetPlayer(adminMode, commandSender, args);
             if (targetPlayer == null) return this.returnSyntax(commandSender, "cmd-player-not-found", subCommand.getSyntax());
         }
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
@@ -163,15 +168,17 @@ public class CommandsManager implements CommandExecutor {
         return faction;
     }
 
-    private UUID getTargetPlayer(boolean admin, String[] args) {
+    private UUID getTargetPlayer(boolean admin, CommandSender commandSender, String[] args) {
         UUID uuid = null;
+        OfflinePlayer offlinePlayer = null;
         if (admin) {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[3]));
+            offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[3]));
             if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
         } else {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[1]));
-            if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
+            offlinePlayer = Bukkit.getOfflinePlayer(commandSender.getName());
         }
+
+        if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
         return uuid;
     }
 

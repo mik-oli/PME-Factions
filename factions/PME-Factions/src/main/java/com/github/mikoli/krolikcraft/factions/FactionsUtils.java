@@ -5,10 +5,12 @@ import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -57,9 +59,10 @@ public class FactionsUtils {
         plugin.getFactionsHashMap().put(factionId, faction);
     }
 
-    public static boolean hasPlayerPermission(Krolikcraft plugin, Player player, CommandsPermissions permissions, boolean adminMode) {
-        if ((adminMode || permissions == CommandsPermissions.ADMIN) && player.hasPermission("pmefactions.admin")) return true;
+    public static boolean hasPlayerPermission(Krolikcraft plugin, CommandSender commandSender, CommandsPermissions permissions, boolean adminMode) {
+        if ((adminMode || permissions == CommandsPermissions.ADMIN) && commandSender.hasPermission("pmefactions.admin")) return true;
 
+        Player player = Bukkit.getPlayer(commandSender.getName());
         Faction faction = getPlayersFaction(plugin, player.getUniqueId());
         if (faction == null) return false;
         if (permissions == CommandsPermissions.MEMBER && faction.isMember(player.getUniqueId())) return true;

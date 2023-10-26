@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public final class Krolikcraft extends JavaPlugin {
@@ -43,6 +44,7 @@ public final class Krolikcraft extends JavaPlugin {
 
         this.setEventsListeners();
         saveDefaultConfig();
+        Objects.requireNonNull(this.getCommand("owo")).setExecutor(commandsManager);
     }
 
     @Override
