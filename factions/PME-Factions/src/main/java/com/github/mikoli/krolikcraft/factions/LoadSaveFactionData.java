@@ -37,7 +37,7 @@ public class LoadSaveFactionData {
 
     public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
         FileConfiguration dataFile = file.getData();
-        dataFile.set("id", faction.getId());
+        dataFile.set("id", faction.getId().toString());
         dataFile.set("name", faction.getName());
         dataFile.set("shortcut", faction.getShortcut());
         dataFile.set("color", faction.getColor().toString());
