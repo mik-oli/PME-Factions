@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
@@ -20,11 +21,12 @@ import java.util.UUID;
 
 public class Unclaim extends SubCommand {
 
-    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
-        {
-            add(RequiredCmdArgs.ADMINMODE);
-        }
-    };
+    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {};
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.CLAIM;
+    }
 
     @Override
     public String getName() {
@@ -33,7 +35,12 @@ public class Unclaim extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] unclaim";
+        return "/claim unclaim";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/claim-admin unclaim";
     }
 
     @Override
@@ -62,7 +69,7 @@ public class Unclaim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getBlock().getChunk();
@@ -71,7 +78,7 @@ public class Unclaim extends SubCommand {
 
         UUID claimId = claimsManager.getClaimId(chunk);
         UUID playerUUID = player.getUniqueId();
-        if (!((boolean) args.get(0))) {
+        if (adminMode) {
             if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) {
                 commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-unclaim"));
                 return;

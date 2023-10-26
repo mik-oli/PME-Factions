@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
@@ -19,9 +20,14 @@ public class FactionInfo extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.TARGETFACTION);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
 
     @Override
     public String getName() {
@@ -30,6 +36,11 @@ public class FactionInfo extends SubCommand {
 
     @Override
     public String getSyntax() {
+        return "/factions info <faction>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
         return "/factions info <faction>";
     }
 
@@ -59,10 +70,10 @@ public class FactionInfo extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e===============&bFaction Info&e===============\n"));
+        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e========&bFaction Info&e========\n"));
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-name") + faction.getName() + "\n");
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-shortcut") + faction.getShortcut() + "\n");
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-core-loc") + faction.getCoreLocation().getX() + " " + faction.getCoreLocation().getY() + " " + faction.getCoreLocation().getZ() + "\n");
@@ -78,8 +89,8 @@ public class FactionInfo extends SubCommand {
         for (UUID enemy : faction.getEnemies()) {
             stringBuilder.append(Utils.coloring("&a" + plugin.getFactionsHashMap().get(enemy).getName() + "&e, "));
         }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 2);
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e============================================="));
+        stringBuilder.deleteCharAt(stringBuilder.length() - 3);
+        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e==============================="));
 
         commandSender.sendMessage(stringBuilder.toString());
     }

@@ -1,8 +1,11 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
-import com.github.mikoli.krolikcraft.commandsHandler.subCommands.*;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim.*;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction.*;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.FactionsList;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.GetClaimFlag;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
@@ -33,18 +36,12 @@ public class CommandsManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
-        String cmd;
-        boolean adminMode = false;
-        if (args[0].equals("admin")) {
-            cmd = args[2];
-            adminMode = true;
-        }
-        else cmd = args[0];
-
+        boolean adminMode = command.getName().contains("-admin");
         SubCommand subCommand = null;
         for (SubCommand subCmd : subCommands) {
-            if (subCmd.getName().equalsIgnoreCase(cmd)) subCommand = subCmd;
+            if (command.getName().equalsIgnoreCase(subCmd.getBaseCmd().name()) && subCmd.getName().equalsIgnoreCase(args[0])) subCommand = subCmd;
         }
+
         if (subCommand == null) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-not-found"));
             return false;
@@ -60,32 +57,27 @@ public class CommandsManager implements CommandExecutor {
         }
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
-            Bukkit.broadcastMessage("uwu");
             return true;
         } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
-            Bukkit.broadcastMessage("uwu1");
             return true;
         }
 
-        Faction faction1 = null;
-        Faction faction2 = null;
+        Faction requestFaction = null;
+        Faction targetFaction = null;
         UUID targetPlayer = null;
         ClaimType claimType = null;
         String name = null;
         String shortcut = null;
         ChatColor color = null;
 
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) {
-            faction1 = this.getFaction(adminMode, commandSender, args);
-            if (faction1 == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
-
-            int i = 0;
-            for (RequiredCmdArgs requiredArgs : subCommand.requiredArguments()) {
-                if (requiredArgs == RequiredCmdArgs.FACTION) i++;
-            }
-            if (i == 2) faction2 = this.getSecondFaction(adminMode, args);
-            if (faction2 == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.REQUESTFACTION)) {
+            requestFaction = this.getRequestFaction(adminMode, commandSender, args);
+            if (requestFaction == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
+        }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETFACTION)) {
+            targetFaction = this.getTargetFaction(adminMode, args);
+            if (targetFaction == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
         }
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
             targetPlayer = this.getTargetPlayer(adminMode, commandSender, args);
@@ -111,16 +103,16 @@ public class CommandsManager implements CommandExecutor {
         }
 
         List<Object> argsToPass = new ArrayList<>();
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.FACTION)) argsToPass.add(faction1.getId());
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.REQUESTFACTION)) argsToPass.add(requestFaction);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETFACTION)) argsToPass.add(targetFaction);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) argsToPass.add(targetPlayer);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) argsToPass.add(claimType);
-        if (subCommand.requiredArguments().contains(RequiredCmdArgs.ADMINMODE)) argsToPass.add(adminMode);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) argsToPass.add(name);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) argsToPass.add(shortcut);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) argsToPass.add(color);
-        if (argsToPass.size() < subCommand.requiredArguments().size()) return false;
+        if (argsToPass.size() < subCommand.requiredArguments().size()) return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
 
-        subCommand.perform(plugin, commandSender, argsToPass);
+        subCommand.perform(plugin, commandSender, adminMode, argsToPass);
         return true;
     }
 
@@ -151,20 +143,18 @@ public class CommandsManager implements CommandExecutor {
         return true;
     }
 
-    private Faction getFaction(boolean admin, CommandSender commandSender, String[] args) {
+    private Faction getRequestFaction(boolean admin, CommandSender commandSender, String[] args) {
         Faction faction;
-        if (admin) {
-            faction = FactionsUtils.getFactionFromName(plugin, args[2]);
-        } else {
-            faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
-        }
+        if (admin) faction = FactionsUtils.getFactionFromName(plugin, args[1]);
+        else faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+
         return faction;
     }
 
-    private Faction getSecondFaction(boolean admin, String[] args) {
+    private Faction getTargetFaction(boolean admin, String[] args) {
         Faction faction;
         if (admin) {
-            faction = FactionsUtils.getFactionFromName(plugin, args[3]);
+            faction = FactionsUtils.getFactionFromName(plugin, args[2]);
         } else {
             faction = FactionsUtils.getFactionFromName(plugin, args[1]);
         }
@@ -173,13 +163,10 @@ public class CommandsManager implements CommandExecutor {
 
     private UUID getTargetPlayer(boolean admin, CommandSender commandSender, String[] args) {
         UUID uuid = null;
-        OfflinePlayer offlinePlayer = null;
-        if (admin) {
-            offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[3]));
-            if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
-        } else {
-            offlinePlayer = Bukkit.getOfflinePlayer(commandSender.getName());
-        }
+        OfflinePlayer offlinePlayer;
+
+        if (admin) offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[2]));
+        else offlinePlayer = Bukkit.getOfflinePlayer(commandSender.getName());
 
         if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
         return uuid;
@@ -189,7 +176,7 @@ public class CommandsManager implements CommandExecutor {
         ClaimType claimType = null;
         if (admin) {
             try {
-                claimType = ClaimType.valueOf(args[3]);
+                claimType = ClaimType.valueOf(args[2]);
             } catch (IllegalArgumentException ignored) {}
         } else {
             try {
@@ -203,7 +190,7 @@ public class CommandsManager implements CommandExecutor {
         ChatColor color = null;
         if (admin) {
             try {
-                color = ChatColor.valueOf(args[3]);
+                color = ChatColor.valueOf(args[2]);
             } catch (IllegalArgumentException ignored) {}
         } else {
             try {

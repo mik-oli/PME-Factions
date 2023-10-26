@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.other;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
@@ -22,10 +23,15 @@ public class GetClaimFlag extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.REQUESTFACTION);
             add(RequiredCmdArgs.CLAIMTYPE);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTIONS;
+    }
 
     @Override
     public String getName() {
@@ -35,6 +41,11 @@ public class GetClaimFlag extends SubCommand {
     @Override
     public String getSyntax() {
         return "/factions admin get-claim-flag <faction> <claim type>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/factions get-claim-flag <faction> <claim type>";
     }
 
     @Override
@@ -63,7 +74,8 @@ public class GetClaimFlag extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+
         Faction faction = (Faction) args.get(0);
         ClaimType claimType = (ClaimType) args.get(1);
         Player player = Bukkit.getPlayer(commandSender.getName());
@@ -72,4 +84,5 @@ public class GetClaimFlag extends SubCommand {
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMTYPE, PersistentDataUtils.getItemContainer(item), claimType.name());
         PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item), faction.getId().toString());
     }
+
 }

@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
@@ -22,13 +23,23 @@ public class ClaimInfo extends SubCommand {
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {};
 
     @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.CLAIM;
+    }
+
+    @Override
     public String getName() {
-        return "claim-info";
+        return "info";
     }
 
     @Override
     public String getSyntax() {
-        return "/factions claim-info";
+        return "/claim info";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/claim-admin info";
     }
 
     @Override
@@ -57,7 +68,8 @@ public class ClaimInfo extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getChunk();
 

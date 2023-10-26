@@ -1,13 +1,13 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.command.CommandSender;
 
@@ -19,11 +19,15 @@ public class FactionAddMember extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.REQUESTFACTION);
             add(RequiredCmdArgs.TARGETPLAYER);
-            add(RequiredCmdArgs.ADMINMODE);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
 
     @Override
     public String getName() {
@@ -32,7 +36,12 @@ public class FactionAddMember extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] add [<faction>] <player>";
+        return "/factions add <player>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/faction-admin add <faction> <player>";
     }
 
     @Override
@@ -61,7 +70,7 @@ public class FactionAddMember extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);

@@ -1,7 +1,8 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
@@ -25,11 +26,15 @@ public class FactionCreate extends SubCommand {
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
             add(RequiredCmdArgs.TARGETPLAYER);
-            add(RequiredCmdArgs.ADMINMODE);
             add(RequiredCmdArgs.NAME);
             add(RequiredCmdArgs.SHORTCUT);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
 
     @Override
     public String getName() {
@@ -38,7 +43,12 @@ public class FactionCreate extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] create [<leader>] <name> <shortcut>";
+        return "/faction create <name> <shortcut>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/faction-admin create <leader> <name> <shortcut>";
     }
 
     @Override
@@ -67,14 +77,13 @@ public class FactionCreate extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         UUID leader = (UUID) args.get(0);
-        String factionName = (String) args.get(2);
-        String factionShortcut = (String) args.get(3);
+        String factionName = (String) args.get(1);
+        String factionShortcut = (String) args.get(2);
         //TODO checking if name is longer and shorter than value in config
         //TODO checking if shortcut is longer and shorter than value in config
 
-        boolean adminMode = (boolean) args.get(1);
         if (adminMode) {
             ItemStack coreBlock = new ItemStack(Material.END_CRYSTAL);
             ItemMeta meta = coreBlock.getItemMeta();

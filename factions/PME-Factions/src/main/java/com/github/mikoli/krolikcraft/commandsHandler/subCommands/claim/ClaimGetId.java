@@ -1,36 +1,47 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-
+import com.github.mikoli.krolikcraft.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class AddChunkToClaim extends SubCommand {
+public class ClaimGetId extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {};
 
     @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.CLAIM;
+    }
+
+    @Override
     public String getName() {
-        return "claim-add-chunk";
+        return "getid";
     }
 
     @Override
     public String getSyntax() {
-        return "/factions claim-add-chunk <claim id>";
+        return "/claim getid";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/claim-admin getid";
     }
 
     @Override
     public int getArgsLength() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -45,7 +56,7 @@ public class AddChunkToClaim extends SubCommand {
 
     @Override
     public String getPermission() {
-        return "pmefactions.claim.addchunk";
+        return "pmefactions.claim.getid";
     }
 
     @Override
@@ -54,15 +65,10 @@ public class AddChunkToClaim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
-        UUID claimId = (UUID) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());
-        if (plugin.getClaimsManager().isChunkClaimed(player.getLocation().getChunk())) {
-            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
-            return;
-        }
-        plugin.getClaimsManager().addChunkToClaim(claimId, player.getLocation().getChunk());
-        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
+        Location location = player.getLocation();
+        commandSender.sendMessage(Utils.pluginPrefix() + Utils.coloring("&eClaim id: &b" + plugin.getClaimsManager().getClaimId(location.getChunk()).toString()));
     }
 }

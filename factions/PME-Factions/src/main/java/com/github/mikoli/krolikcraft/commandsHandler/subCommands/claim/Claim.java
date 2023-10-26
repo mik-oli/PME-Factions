@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
@@ -24,10 +25,15 @@ public class Claim extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.REQUESTFACTION);
             add(RequiredCmdArgs.CLAIMTYPE);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.CLAIM;
+    }
 
     @Override
     public String getName() {
@@ -36,7 +42,12 @@ public class Claim extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] claim [<faction>] [<claim type>]";
+        return "/claim claim [<claim type>]";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/claim claim <faction> <claim type>";
     }
 
     @Override
@@ -65,7 +76,7 @@ public class Claim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Faction faction = (Faction) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());

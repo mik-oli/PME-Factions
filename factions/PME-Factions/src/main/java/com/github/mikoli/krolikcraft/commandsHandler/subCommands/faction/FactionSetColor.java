@@ -1,34 +1,46 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactionSetName extends SubCommand {
+public class FactionSetColor extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
-            add(RequiredCmdArgs.NAME);
+            add(RequiredCmdArgs.REQUESTFACTION);
+            add(RequiredCmdArgs.COLOR);
         }
     };
 
     @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
+
+    @Override
     public String getName() {
-        return "setname";
+        return "setcolor";
     }
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] setname [<faction>] <name>";
+        return "/faction setcolor <color>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/faction-admin setcolor <faction> <color>";
     }
 
     @Override
@@ -48,27 +60,23 @@ public class FactionSetName extends SubCommand {
 
     @Override
     public String getPermission() {
-        return "pmefactions.faction.setname";
+        return "pmefactions.faction.setcolor";
     }
 
     @Override
     public CommandsPermissions requiredPermission(ConfigUtils config) {
-        return config.getPermission("faction-set-name");
+        return config.getPermission("faction-set-color");
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
-        //TODO checking if name is correct length
+        ChatColor color = ChatColor.WHITE;
+        try {
+            color = ChatColor.valueOf((String) args.get(1));
+        } catch (IllegalArgumentException ignore) {}
         Faction faction = (Faction) args.get(0);
-        String newName = (String) args.get(1);
-
-        for (Faction f : plugin.getFactionsHashMap().values()) {
-            if (f.getName().equals(newName)) {
-                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-exists"));
-                return;
-            }
-        }
-        faction.setName(newName);
+        faction.setColor(color);
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("color-changed"));
     }
 }

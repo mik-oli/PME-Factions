@@ -43,8 +43,8 @@ public final class Krolikcraft extends JavaPlugin {
         }
 
         this.setEventsListeners();
+        this.setCommandsExecutors();
         saveDefaultConfig();
-        Objects.requireNonNull(this.getCommand("owo")).setExecutor(commandsManager);
     }
 
     @Override
@@ -84,6 +84,14 @@ public final class Krolikcraft extends JavaPlugin {
         pluginManager.registerEvents(blockPlaceListener, this);
         pluginManager.registerEvents(blockBreakListener, this);
         pluginManager.registerEvents(interactListener, this);
+    }
+
+    private void setCommandsExecutors() {
+        this.getCommand("faction").setExecutor(commandsManager);
+        this.getCommand("faction-admin").setExecutor(commandsManager);
+        this.getCommand("claim").setExecutor(commandsManager);
+        this.getCommand("claim-admin").setExecutor(commandsManager);
+        this.getCommand("factions").setExecutor(commandsManager);
     }
 
     private void loadFactionsData() throws IOException {

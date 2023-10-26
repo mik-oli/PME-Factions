@@ -7,8 +7,16 @@ authors: ${authors}
 website: ${project.url}
 
 commands:
-  owo:
+  factions:
     permission: pmefactions.factions
+  faction:
+    permission: pmefactions.faction
+  faction-admin:
+    permission: pmefactions.faction-admin
+  claim:
+    permission: pmefactions.claim
+  calim-admin:
+    permission: pmefactions.claim-admin
 
 permissions:
   pmefactions.admin:

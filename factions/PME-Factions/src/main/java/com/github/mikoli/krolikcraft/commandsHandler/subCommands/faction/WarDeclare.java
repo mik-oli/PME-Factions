@@ -1,33 +1,45 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
+
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarPeace extends SubCommand {
+public class WarDeclare extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.REQUESTFACTION);
+            add(RequiredCmdArgs.TARGETFACTION);
         }
     };
 
     @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
+
+    @Override
     public String getName() {
-        return "peace";
+        return "war";
     }
 
     @Override
     public String getSyntax() {
-        return "/factions [<admin>] peace <faction> [<faction>]";
+        return "/faction war <faction>";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/faction-admin war <faction 1> <faction 2>";
     }
 
     @Override
@@ -47,7 +59,7 @@ public class WarPeace extends SubCommand {
 
     @Override
     public String getPermission() {
-        return "pmefactions.faction.peace";
+        return "pmefactions.faction.war";
     }
 
     @Override
@@ -56,17 +68,16 @@ public class WarPeace extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Faction faction1 = (Faction) args.get(0);
         Faction faction2 = (Faction) args.get(1);
-        if (!faction1.getEnemies().contains(faction2.getId()) && !faction2.getEnemies().contains(faction1.getId())) {
-            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-at-peace"));
+        if (faction1.getEnemies().contains(faction2.getId()) && faction2.getEnemies().contains(faction1.getId())) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-at-war"));
             return;
         }
-
-        faction1.getEnemies().remove(faction2.getId());
-        faction2.getEnemies().remove(faction1.getId());
-        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("signed-peace"));
+        faction1.getEnemies().add(faction2.getId());
+        faction2.getEnemies().add(faction1.getId());
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("war-declared"));
     }
 }

@@ -1,6 +1,7 @@
-package com.github.mikoli.krolikcraft.commandsHandler.subCommands;
+package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
@@ -18,11 +19,15 @@ public class FactionDelete extends SubCommand {
 
     private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
         {
-            add(RequiredCmdArgs.FACTION);
+            add(RequiredCmdArgs.REQUESTFACTION);
             add(RequiredCmdArgs.TARGETPLAYER);
-            add(RequiredCmdArgs.ADMINMODE);
         }
     };
+
+    @Override
+    public BaseCommand getBaseCmd() {
+        return BaseCommand.FACTION;
+    }
 
     @Override
     public String getName() {
@@ -31,7 +36,12 @@ public class FactionDelete extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/factions [admin] delete [<faction>]";
+        return "/factions delete";
+    }
+
+    @Override
+    public String getAdminSyntax() {
+        return "/faction-admin delete <faction>";
     }
 
     @Override
@@ -56,14 +66,14 @@ public class FactionDelete extends SubCommand {
 
     @Override
     public CommandsPermissions requiredPermission(ConfigUtils config) {
-        return CommandsPermissions.LEADER;
+        return CommandsPermissions.NULL;
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, List<Object> args) {
+    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Faction faction = (Faction) args.get(0);
-        if ((boolean) args.get(2) || FactionsUtils.getPlayersFaction(plugin, (UUID) args.get(1)).equals(faction.getLeader())) {
+        if (adminMode || FactionsUtils.getPlayersFaction(plugin, (UUID) args.get(1)).equals(faction.getLeader())) {
             FactionsUtils.removeFaction(plugin, faction);
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-deleted"));
         }
