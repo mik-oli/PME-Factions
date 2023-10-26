@@ -42,6 +42,11 @@ public class Claim extends SubCommand {
     }
 
     @Override
+    public int getArgsLength() {
+        return 0;
+    }
+
+    @Override
     public boolean playerOnly() {
         return true;
     }

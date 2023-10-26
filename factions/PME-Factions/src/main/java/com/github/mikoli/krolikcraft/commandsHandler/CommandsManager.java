@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class CommandsManager implements CommandExecutor {
@@ -50,6 +49,11 @@ public class CommandsManager implements CommandExecutor {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-not-found"));
             return false;
         }
+        if (adminMode && args.length < subCommand.getArgsLength() + 2) {
+            return this.returnSyntax(commandSender, plugin.getConfigUtils().getLocalisation("cmd-wrong-args"), subCommand.getSyntax());
+        } else if (args.length < subCommand.getArgsLength() + 1) {
+            return this.returnSyntax(commandSender, plugin.getConfigUtils().getLocalisation("cmd-wrong-args"), subCommand.getSyntax());
+        }
         if (subCommand.playerOnly() && !(commandSender instanceof Player)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-player-only"));
             return true;
@@ -58,8 +62,7 @@ public class CommandsManager implements CommandExecutor {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             Bukkit.broadcastMessage("uwu");
             return true;
-        }
-        else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+        } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             Bukkit.broadcastMessage("uwu1");
             return true;

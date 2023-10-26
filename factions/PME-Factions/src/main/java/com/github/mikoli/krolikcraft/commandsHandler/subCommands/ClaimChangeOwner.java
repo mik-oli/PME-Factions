@@ -36,6 +36,11 @@ public class ClaimChangeOwner extends SubCommand {
     }
 
     @Override
+    public int getArgsLength() {
+        return 1;
+    }
+
+    @Override
     public boolean playerOnly() {
         return true;
     }

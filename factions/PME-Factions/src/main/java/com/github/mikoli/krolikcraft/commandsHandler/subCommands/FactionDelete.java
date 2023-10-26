@@ -35,6 +35,11 @@ public class FactionDelete extends SubCommand {
     }
 
     @Override
+    public int getArgsLength() {
+        return 0;
+    }
+
+    @Override
     public boolean playerOnly() {
         return false;
     }

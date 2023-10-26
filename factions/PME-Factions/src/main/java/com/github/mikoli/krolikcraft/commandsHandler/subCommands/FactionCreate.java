@@ -42,6 +42,11 @@ public class FactionCreate extends SubCommand {
     }
 
     @Override
+    public int getArgsLength() {
+        return 2;
+    }
+
+    @Override
     public boolean playerOnly() {
         return true;
     }

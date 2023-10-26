@@ -13,6 +13,7 @@ commands-permissions:
 
 localisation:
   cmd-not-found: "&cCommand not found."
+  cmd-wrong-args: "&cCommand is missing arguments."
   cmd-player-only: "&cCommand is player only."
   cmd-no-permission: "&cYou have not permission to perform this command."
   cmd-faction-not-found: "&cFaction not found, incorrect name or faction does not exist."

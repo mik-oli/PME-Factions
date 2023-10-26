@@ -13,6 +13,7 @@ public abstract class SubCommand {
 
     public abstract String getName();
     public abstract String getSyntax();
+    public abstract int getArgsLength();
     public abstract boolean playerOnly();
     public abstract ArrayList<RequiredCmdArgs> requiredArguments();
     public abstract String getPermission();
