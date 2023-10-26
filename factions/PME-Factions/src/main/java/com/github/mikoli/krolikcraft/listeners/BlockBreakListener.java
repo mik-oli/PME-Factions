@@ -6,8 +6,6 @@ import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
-import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
-import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -28,8 +26,6 @@ public class BlockBreakListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
-        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return;
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
@@ -40,21 +36,24 @@ public class BlockBreakListener implements Listener {
             event.setCancelled(true);
         }
 
-        Faction claimFaction = FactionsUtils.getFactionFromName(plugin, PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getBlockContainer(block)));
+        UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
+        Faction claimFaction = claimsManager.getClaimOwner(block.getChunk());
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
-        if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false) && claimFaction == playerFaction) {
-            if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block))) return;
-            if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) return;
-
-            UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() == claimsManager.getClaimsOwnerMap().get(claimId)) {
+        if (claimFaction == playerFaction) {
+            if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.CORE) {
+                event.setCancelled(true);
+                return;
+            }
+            if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
                 event.setCancelled(true);
+                return;
             }
+
             claimsManager.removeClaim(claimId);
             LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         } else if (claimFaction.getEnemies().contains(playerFaction.getId())) {
-            if (PersistentDataUtils.getData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(block)).equals("true")) {
+            if (claimFaction.getCoreLocation() == block.getLocation()) {
                 boolean hasOutposts = false;
                 for (UUID claimID : claimsManager.getClaimsOwnerMap().keySet()) {
                     if (claimsManager.getClaimsOwnerMap().get(claimID) != claimFaction.getId()) continue;
@@ -68,9 +67,12 @@ public class BlockBreakListener implements Listener {
                     //TODO Faction destroyed message with input for faction
                 }
             } else {
-                claimsManager.changeClaimOwner(claimsManager.getClaimId(block.getChunk()), playerFaction);
+                claimsManager.changeClaimOwner(claimId, playerFaction);
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
             }
+        } else {
+            player.sendMessage(plugin.getConfigUtils().getLocalisation("terrain-claimed"));
+            event.setCancelled(true);
         }
         event.setDropItems(false);
     }

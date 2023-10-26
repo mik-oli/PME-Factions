@@ -98,9 +98,14 @@ public class FactionCreate extends SubCommand {
             Location location = Bukkit.getPlayer(leader).getLocation();
             if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, location.getChunk(), ClaimType.CORE, false)) return;
             FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, location);
+
+//            EnderCrystal enderCrystal = (EnderCrystal) location.getWorld().spawnEntity(location, EntityType.ENDER_CRYSTAL);
+//            enderCrystal.setShowingBottom(false);
+//            Block coreBlock = location.subtract(0, 1, 0).getBlock();
+//            coreBlock.setType(Material.OBSIDIAN);
+
             Block coreBlock = location.getBlock();
-            coreBlock.setType(Material.END_CRYSTAL);
-            PersistentDataUtils.setData(plugin, PersistentDataKeys.COREBLOCK, PersistentDataUtils.getBlockContainer(coreBlock), "true");
+            coreBlock.setType(Material.GLOWSTONE);
             plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE, location);
         }
     }

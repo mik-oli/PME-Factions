@@ -3,8 +3,6 @@ package com.github.mikoli.krolikcraft.utils;
 import com.github.mikoli.krolikcraft.Krolikcraft;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.block.TileState;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -29,10 +27,6 @@ public class PersistentDataUtils {
     public static void removeData(Krolikcraft plugin, PersistentDataKeys inputKey, PersistentDataContainer dataContainer) {
         NamespacedKey key = new NamespacedKey(plugin, inputKey.getKey());
         dataContainer.remove(key);
-    }
-
-    public static PersistentDataContainer getBlockContainer(Block block) {
-        return ((TileState) block.getState()).getPersistentDataContainer();
     }
 
     public static PersistentDataContainer getItemContainer(ItemStack item) {

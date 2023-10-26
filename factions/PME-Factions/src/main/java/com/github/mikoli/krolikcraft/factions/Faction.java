@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -93,5 +94,6 @@ public class Faction {
 
     public boolean isAtWarWith(Faction faction) {
         return enemies.contains(faction.id);
+
     }
 }

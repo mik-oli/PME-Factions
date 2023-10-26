@@ -8,8 +8,6 @@ import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
-import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -83,7 +81,6 @@ public class Claim extends SubCommand {
 
         Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         blockBelow.setType(Material.NOTE_BLOCK);
-        PersistentDataUtils.setData(plugin, PersistentDataKeys.CLAIMBLOCK, PersistentDataUtils.getBlockContainer(blockBelow), "true");
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
 }
