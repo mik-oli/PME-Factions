@@ -76,7 +76,10 @@ public class FactionInfo extends SubCommand {
         stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e========&bFaction Info&e========\n"));
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-name") + faction.getName() + "\n");
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-shortcut") + faction.getShortcut() + "\n");
-        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-core-loc") + faction.getCoreLocation().getX() + " " + faction.getCoreLocation().getY() + " " + faction.getCoreLocation().getZ() + "\n");
+        stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-core-loc")
+                + (int)faction.getCoreLocation().getX() + " "
+                + (int)faction.getCoreLocation().getY() + " "
+                + (int)faction.getCoreLocation().getZ() + "\n");
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-leader") + Bukkit.getOfflinePlayer(faction.getLeader()).getName() + "\n");
         stringBuilder.append(plugin.getConfigUtils().getLocalisation("faction-members"));
         for (UUID playerUUID : faction.getMembers()) {
@@ -89,8 +92,9 @@ public class FactionInfo extends SubCommand {
         for (UUID enemy : faction.getEnemies()) {
             stringBuilder.append(Utils.coloring("&a" + plugin.getFactionsHashMap().get(enemy).getName() + "&e, "));
         }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 3);
-        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e==============================="));
+        stringBuilder.append("\n");
+        stringBuilder.deleteCharAt(stringBuilder.length() - 2);
+        stringBuilder.append(Utils.pluginPrefix() + Utils.coloring("&e=========================="));
 
         commandSender.sendMessage(stringBuilder.toString());
     }
