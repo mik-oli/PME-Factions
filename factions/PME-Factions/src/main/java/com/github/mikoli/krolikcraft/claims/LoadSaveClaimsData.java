@@ -39,7 +39,7 @@ public class LoadSaveClaimsData {
     public static void saveClaimsData(FilesUtils file, ClaimsManager claimsManager) throws IOException {
         FileConfiguration dataFile = file.getData();
         for (UUID id : claimsManager.getClaimsList()) {
-            dataFile.set(id + ".owner", claimsManager.getClaimsOwnerMap().get(id));
+            dataFile.set(id + ".owner", claimsManager.getClaimsOwnerMap().get(id).toString());
             dataFile.set(id + ".type", claimsManager.getClaimsTypesMap().get(id).toString());
             dataFile.set(id + ".core-location", claimsManager.getClaimCoreLocation().get(id).getX() + ";" + claimsManager.getClaimCoreLocation().get(id).getY() + ";" + claimsManager.getClaimCoreLocation().get(id).getZ());
             List<String> chunksCord = new ArrayList<>();
