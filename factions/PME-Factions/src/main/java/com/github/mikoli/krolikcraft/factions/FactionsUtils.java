@@ -67,8 +67,9 @@ public class FactionsUtils {
         if (faction == null) return false;
         if (permissions == CommandsPermissions.MEMBER && faction.isMember(player.getUniqueId())) return true;
 //        else if (permissions == CommandsPermissions.OFFICER && faction.getLeader() == player.getUniqueId()) return true;
-        else if (permissions == CommandsPermissions.LEADER && faction.getLeader() == player.getUniqueId()) return true;
-        else return false;
+        if (permissions == CommandsPermissions.LEADER && faction.getLeader().equals(player.getUniqueId())) return true;
+
+        return false;
     }
 
     public static void removeFaction(Krolikcraft plugin, Faction faction) {

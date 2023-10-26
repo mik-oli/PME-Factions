@@ -56,6 +56,7 @@ public class CommandsManager implements CommandExecutor {
             return true;
         }
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
+            Bukkit.broadcastMessage("owo");
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
         } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {

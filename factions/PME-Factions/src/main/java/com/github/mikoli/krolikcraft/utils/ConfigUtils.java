@@ -17,7 +17,7 @@ public class ConfigUtils {
     }
 
     public CommandsPermissions getPermission(String command) {
-        return CommandsPermissions.valueOf(config.getString("commands-permissions." + command));
+        return CommandsPermissions.valueOf(config.getString("commands-permissions." + command).toUpperCase());
     }
 
     public String getLocalisation(String key) {
