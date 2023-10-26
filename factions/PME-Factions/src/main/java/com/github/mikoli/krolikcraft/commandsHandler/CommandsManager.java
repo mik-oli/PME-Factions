@@ -50,9 +50,9 @@ public class CommandsManager implements CommandExecutor {
             return false;
         }
         if (adminMode && args.length < subCommand.getArgsLength() + 2) {
-            return this.returnSyntax(commandSender, plugin.getConfigUtils().getLocalisation("cmd-wrong-args"), subCommand.getSyntax());
+            return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
         } else if (args.length < subCommand.getArgsLength() + 1) {
-            return this.returnSyntax(commandSender, plugin.getConfigUtils().getLocalisation("cmd-wrong-args"), subCommand.getSyntax());
+            return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
         }
         if (subCommand.playerOnly() && !(commandSender instanceof Player)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-player-only"));
