@@ -19,7 +19,7 @@ public class LoadSaveFactionData {
         faction.setId(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
         faction.setShortcut(dataFile.getString("shortcut"));
-        faction.setColor(ChatColor.valueOf(dataFile.getString("color")));
+        faction.setColor(ChatColor.valueOf(dataFile.getString("color").replace("§", "&")));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
         for (String s : dataFile.getStringList("members")) {
