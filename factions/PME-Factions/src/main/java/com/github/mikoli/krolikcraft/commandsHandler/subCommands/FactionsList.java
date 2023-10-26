@@ -60,7 +60,7 @@ public class FactionsList extends SubCommand {
             stringBuilder.append(faction.getName());
             stringBuilder.append(Utils.coloring("&e, &b"));
         }
-        stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), "&e.");
+        stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), Utils.coloring("&e."));
         commandSender.sendMessage(stringBuilder.toString());
     }
 }
