@@ -15,7 +15,7 @@ commands:
     permission: pmefactions.faction-admin
   claim:
     permission: pmefactions.claim
-  calim-admin:
+  claim-admin:
     permission: pmefactions.claim-admin
 
 permissions:
