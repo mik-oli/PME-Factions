@@ -12,7 +12,7 @@ public class Utils {
 
     public static String pluginPrefix()
     {
-        return coloring("&e[&2Project Middle-Earth&e]:&r ");
+        return coloring("&e[&2PME&e]:&r ");
     }
 
     public static void consoleWarning(String str)
