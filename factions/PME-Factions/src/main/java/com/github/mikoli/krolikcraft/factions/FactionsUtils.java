@@ -72,8 +72,6 @@ public class FactionsUtils {
     }
 
     public static void removeFaction(Krolikcraft plugin, Faction faction) {
-        plugin.getFactionsHashMap().remove(faction.getId());
-        plugin.getFactionsFilesHashMap().remove(faction.getId());
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         for (UUID id : claimsManager.getClaimsOwnerMap().keySet()) {
@@ -86,7 +84,9 @@ public class FactionsUtils {
         }
         Block coreBlock = faction.getCoreLocation().getBlock();
         coreBlock.setType(Material.AIR);
-        plugin.getFactionsFilesHashMap().get(faction.getId()).deleteFile();
+
+        plugin.getFactionsHashMap().remove(faction.getId());
+        if (plugin.getFactionsFilesHashMap().get(faction.getId()) != null) plugin.getFactionsFilesHashMap().get(faction.getId()).deleteFile();
         plugin.getFactionsFilesHashMap().remove(faction.getId());
     }
 }
