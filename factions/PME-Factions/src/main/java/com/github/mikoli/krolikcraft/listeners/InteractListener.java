@@ -28,6 +28,7 @@ public class InteractListener implements Listener {
         Player player = event.getPlayer();
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, player.getUniqueId());
         Faction claimFaction = plugin.getClaimsManager().getClaimOwner(block.getChunk());
+        if (playerFaction == claimFaction) return;
         if (!playerFaction.getEnemies().contains(claimFaction)) {
             event.setCancelled(true);
             player.sendMessage(plugin.getConfigUtils().getLocalisation("terrain-claimed"));

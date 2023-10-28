@@ -57,9 +57,9 @@ public class BlockPlaceListener implements Listener {
         Chunk chunk = block.getChunk();
         ClaimType claimType = claimsManager.getClaimsTypesMap().get(claimsManager.getClaimId(chunk));
         if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType, false)) return;
-        claimsManager.createClaim(faction, chunk, claimType, block.getLocation());
+        claimsManager.createClaim(faction, chunk, claimType, block.getLocation().subtract(0, 1, 0));
 
-        Block blockBelow = block.getRelative(BlockFace.DOWN);
+        Block blockBelow = block.getLocation().subtract(0, 1, 0).getBlock();
         blockBelow.setType(Material.NOTE_BLOCK);
         PersistentDataUtils.removeData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item));
     }

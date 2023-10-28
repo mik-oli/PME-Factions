@@ -77,6 +77,7 @@ public class ClaimsManager {
         claimsOwnerMap.remove(claimId);
         claimsChunksMap.remove(claimId);
         claimsTypesMap.remove(claimId);
+        claimCoreLocation.remove(claimId);
     }
 
     public void addChunkToClaim(UUID claimId, Chunk chunk) {

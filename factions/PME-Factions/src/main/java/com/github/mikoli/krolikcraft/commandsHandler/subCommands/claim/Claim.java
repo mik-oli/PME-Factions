@@ -88,9 +88,9 @@ public class Claim extends SubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
             return;
         }
-        claimsManager.createClaim(faction, chunk, claimType, player.getLocation());
 
-        Block blockBelow = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
+        Block blockBelow = player.getLocation().subtract(0, 1, 0).getBlock();
+        claimsManager.createClaim(faction, chunk, claimType, blockBelow.getLocation());
         blockBelow.setType(Material.NOTE_BLOCK);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
