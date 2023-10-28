@@ -71,6 +71,7 @@ public class CommandsManager implements CommandExecutor {
         String name = null;
         String shortcut = null;
         ChatColor color = null;
+        UUID uuid = null;
 
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.REQUESTFACTION)) {
             requestFaction = this.getRequestFaction(adminMode, commandSender, args);
@@ -102,12 +103,17 @@ public class CommandsManager implements CommandExecutor {
         else if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) {
             shortcut = args[args.length - 1];
         }
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.UUID)) {
+            uuid = this.getUUID(args);
+            if (uuid == null) return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
+        }
 
         List<Object> argsToPass = new ArrayList<>();
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.REQUESTFACTION)) argsToPass.add(requestFaction);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETFACTION)) argsToPass.add(targetFaction);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) argsToPass.add(targetPlayer);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) argsToPass.add(claimType);
+        if (subCommand.requiredArguments().contains(RequiredCmdArgs.UUID)) argsToPass.add(uuid);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.NAME)) argsToPass.add(name);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.SHORTCUT)) argsToPass.add(shortcut);
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.COLOR)) argsToPass.add(color);
@@ -197,5 +203,13 @@ public class CommandsManager implements CommandExecutor {
             } catch (IllegalArgumentException ignored) {}
         }
         return color;
+    }
+
+    private UUID getUUID(String[] args) {
+        UUID uuid = null;
+        try {
+            uuid = UUID.fromString(args[1]);
+        } catch (IllegalArgumentException ignored) {}
+        return uuid;
     }
 }

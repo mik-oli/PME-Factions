@@ -17,7 +17,11 @@ import java.util.UUID;
 
 public class AddChunkToClaim extends SubCommand {
 
-    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {};
+    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
+        {
+            add(RequiredCmdArgs.UUID);
+        }
+    };
 
     @Override
     public BaseCommand getBaseCmd() {

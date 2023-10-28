@@ -9,5 +9,6 @@ public enum RequiredCmdArgs {
     CLAIMTYPE,
     NAME,
     SHORTCUT,
-    COLOR
+    COLOR,
+    UUID
 }
