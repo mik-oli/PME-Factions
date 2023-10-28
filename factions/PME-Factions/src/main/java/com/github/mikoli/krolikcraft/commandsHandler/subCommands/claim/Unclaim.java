@@ -87,5 +87,6 @@ public class Unclaim extends SubCommand {
 
         claimsManager.removeClaim(claimId);
         LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("unclaimed"));
     }
 }

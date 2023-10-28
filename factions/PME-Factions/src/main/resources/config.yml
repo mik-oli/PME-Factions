@@ -48,3 +48,4 @@ localisation:
   faction-core-loc: "&eCore location: &a"
   name-changed: "&aFaction name has been changed."
   shortcut-changed: "&aFaction shortcut has been changed."
+  unclaimed: "&aTerrain has been unclaimed."
