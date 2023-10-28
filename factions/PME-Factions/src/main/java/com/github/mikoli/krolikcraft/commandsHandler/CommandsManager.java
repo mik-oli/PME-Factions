@@ -174,16 +174,14 @@ public class CommandsManager implements CommandExecutor {
     }
 
     private ClaimType getClaimType(boolean admin, String[] args) {
-        ClaimType claimType = null;
-        if (admin) {
-            try {
-                claimType = ClaimType.valueOf(args[2]);
-            } catch (IllegalArgumentException ignored) {}
-        } else {
-            try {
-                claimType = ClaimType.valueOf(args[1]);
-            } catch (IllegalArgumentException ignored) {}
+        ClaimType claimType;
+        try {
+            if (admin) claimType = ClaimType.valueOf(args[2]);
+            else claimType = ClaimType.valueOf(args[1]);
+        } catch (Exception exception) {
+            claimType = ClaimType.CLAIM_5x5;
         }
+
         return claimType;
     }
 

@@ -81,7 +81,7 @@ public class ClaimInfo extends SubCommand {
             String ownerName = plugin.getFactionsHashMap().get(claimOwner).getName();
             Location location = plugin.getClaimsManager().getClaimCoreLocation().get(claimId);
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed-by") + ownerName);
-            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eClaim block (X, Y, Z): &b" + location.getX() + " " + location.getY() + " " + location.getZ() + "&e."));
+            commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&eClaim block (X, Y, Z): &b" + (int)location.getX() + " " + (int)location.getY() + " " + (int)location.getZ() + "&e."));
         }
     }
 }

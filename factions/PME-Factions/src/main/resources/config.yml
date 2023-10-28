@@ -34,7 +34,7 @@ localisation:
   already-at-peace: "&cFaction is already at peace with that faction!"
   signed-peace: "&aPeace has been signed."
   color-changed: "&aFaction color changed successfully."
-  already-claimed: "&cThis terrain is claimed already!"
+  already-claimed: "&cThis terrain is claimed already or overlaps another claim!"
   claimed: "&aTerrain claimed successfully."
   not-claimed: "&aThis terrain is not claimed."
   claimed-by: "&eThis terrain is claimed by: &b"
