@@ -46,3 +46,5 @@ localisation:
   faction-members: "&eMembers: &a"
   faction-enemies: "&eEnemies: &a"
   faction-core-loc: "&eCore location: &a"
+  name-changed: "&aFaction name has been changed."
+  shortcut-changed: "&aFaction shortcut has been changed."

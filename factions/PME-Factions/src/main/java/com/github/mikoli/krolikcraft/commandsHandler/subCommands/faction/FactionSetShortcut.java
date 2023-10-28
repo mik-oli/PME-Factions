@@ -81,5 +81,6 @@ public class FactionSetShortcut extends SubCommand {
             }
         }
         faction.setShortcut(newShortcut);
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-changed"));
     }
 }

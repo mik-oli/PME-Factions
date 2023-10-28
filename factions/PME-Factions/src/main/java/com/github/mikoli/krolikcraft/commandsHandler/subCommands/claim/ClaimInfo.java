@@ -74,7 +74,7 @@ public class ClaimInfo extends SubCommand {
         Chunk chunk = player.getLocation().getChunk();
 
         if (!plugin.getClaimsManager().isChunkClaimed(chunk))
-            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("not-claimed"));
         else {
             UUID claimId = plugin.getClaimsManager().getClaimId(chunk);
             UUID claimOwner = plugin.getClaimsManager().getClaimsOwnerMap().get(claimId);

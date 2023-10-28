@@ -81,5 +81,6 @@ public class FactionSetName extends SubCommand {
             }
         }
         faction.setName(newName);
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-changed"));
     }
 }
