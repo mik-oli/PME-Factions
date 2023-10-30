@@ -8,17 +8,18 @@ import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,37 +41,42 @@ public class BlockPlaceListener implements Listener {
     private void createClaim(BlockPlaceEvent event) {
         //checking if placed block is claim flag
         ItemStack item = event.getItemInHand();
-        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item))) return;
-        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item)).equals("true")) return;
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
+        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMFLAG, dataContainer)) return;
+        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMFLAG, dataContainer).equals("true")) return;
 
         //checking if player is in faction and has ability to claim
         UUID playerUUID = event.getPlayer().getUniqueId();
         if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return;
-        if (!FactionsUtils.getPlayersFaction(plugin, playerUUID).getLeader().equals(playerUUID)) return;
-        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item))) return;
-        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, PersistentDataUtils.getItemContainer(item)).equals(FactionsUtils.getPlayersFaction(plugin, playerUUID).getId().toString())) return;
+        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
+        if (!playerFaction.getLeader().equals(playerUUID)) return;
+        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMOWNER, dataContainer)) return;
+        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, dataContainer).equals(playerFaction.getId().toString())) return;
 
         //claiming
         Block block = event.getBlockPlaced();
         ClaimsManager claimsManager = plugin.getClaimsManager();
-        Faction faction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
         Chunk chunk = block.getChunk();
-        ClaimType claimType = claimsManager.getClaimsTypesMap().get(claimsManager.getClaimId(chunk));
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType, false)) return;
-        claimsManager.createClaim(faction, chunk, claimType, block.getLocation().subtract(0, 1, 0));
+        ClaimType claimType = ClaimType.valueOf(PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMTYPE, dataContainer));
+        if (!claimsManager.checkIfCanCreateClaim(playerFaction, chunk, claimType, false)) return;
+        claimsManager.createClaim(playerFaction, chunk, claimType, block.getLocation().subtract(0, 1, 0));
 
         Block blockBelow = block.getLocation().subtract(0, 1, 0).getBlock();
         blockBelow.setType(Material.NOTE_BLOCK);
-        PersistentDataUtils.removeData(plugin, PersistentDataKeys.CLAIMFLAG, PersistentDataUtils.getItemContainer(item));
+        PersistentDataUtils.removeData(plugin, PersistentDataKeys.CLAIMFLAG, dataContainer);
+        item.setItemMeta(itemMeta);
+        event.getPlayer().sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
 
     private void createFaction(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
-        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.COREFLAG, PersistentDataUtils.getItemContainer(item))) return;
-        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREFLAG, PersistentDataUtils.getItemContainer(item)).equals("true")) return;
+        ItemMeta itemMeta = item.getItemMeta();
+        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
+        if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.COREFLAG, dataContainer)) return;
+        if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.COREFLAG, dataContainer).equals("true")) return;
 
         Player player = event.getPlayer();
-        ItemMeta itemMeta = item.getItemMeta();
         List<String> lore = itemMeta.getLore();
         UUID leader = UUID.fromString(lore.get(3).substring(12));
         if (player.getUniqueId() != leader) return;

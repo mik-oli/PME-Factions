@@ -97,7 +97,8 @@ public class FactionCreate extends SubCommand {
             Player player = Bukkit.getPlayer(commandSender.getName());
             player.getInventory().addItem(coreBlock);
 
-            PersistentDataUtils.setData(plugin, PersistentDataKeys.COREFLAG, PersistentDataUtils.getItemContainer(coreBlock), "true");
+            PersistentDataUtils.setData(plugin, PersistentDataKeys.COREFLAG, meta.getPersistentDataContainer(), "true");
+            coreBlock.setItemMeta(meta);
         }
         else {
             if (FactionsUtils.getPlayersFaction(plugin, leader) != null) {

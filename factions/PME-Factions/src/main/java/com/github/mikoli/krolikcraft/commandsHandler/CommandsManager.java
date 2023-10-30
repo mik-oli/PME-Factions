@@ -36,7 +36,7 @@ public class CommandsManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
-        boolean adminMode = command.getName().contains("-admin");
+        boolean adminMode = command.getName().contains("-admin") || command.getName().equals("factions");
         SubCommand subCommand = null;
         for (SubCommand subCmd : subCommands) {
             if (command.getName().equalsIgnoreCase(subCmd.getBaseCmd().name()) && subCmd.getName().equalsIgnoreCase(args[0])) subCommand = subCmd;

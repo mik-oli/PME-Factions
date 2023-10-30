@@ -49,3 +49,4 @@ localisation:
   name-changed: "&aFaction name has been changed."
   shortcut-changed: "&aFaction shortcut has been changed."
   unclaimed: "&aTerrain has been unclaimed."
+  item-needed: "&cYou need to hold an item that you can place on the ground to do this!"

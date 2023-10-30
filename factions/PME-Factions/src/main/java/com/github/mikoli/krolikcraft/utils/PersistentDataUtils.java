@@ -28,8 +28,4 @@ public class PersistentDataUtils {
         NamespacedKey key = new NamespacedKey(plugin, inputKey.getKey());
         dataContainer.remove(key);
     }
-
-    public static PersistentDataContainer getItemContainer(ItemStack item) {
-        return item.getItemMeta().getPersistentDataContainer();
-    }
 }
