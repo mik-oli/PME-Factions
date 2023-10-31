@@ -50,3 +50,8 @@ localisation:
   shortcut-changed: "&aFaction shortcut has been changed."
   unclaimed: "&aTerrain has been unclaimed."
   item-needed: "&cYou need to hold an item that you can place on the ground to do this!"
+  faction-already-officer: "&cPlayer is already officer!"
+  faction-not-officer: "&cPlayer is not an officer!"
+  faction-promote-self: "&cYou can't promote/demote yourself!"
+  faction-promoted: "&ePlayer promoted to officer rank."
+  faction-demoted: "&ePlayer demoted."

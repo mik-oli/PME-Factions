@@ -22,6 +22,10 @@ public class LoadSaveFactionData {
         faction.setColor(ChatColor.getByChar(dataFile.getString("color")));
         faction.setLeader(UUID.fromString(dataFile.getString("leader")));
 
+        for (String s : dataFile.getStringList("officers")) {
+            faction.getOfficers().add(UUID.fromString(s));
+        }
+
         for (String s : dataFile.getStringList("members")) {
             faction.addMember(UUID.fromString(s));
         }
@@ -43,6 +47,12 @@ public class LoadSaveFactionData {
         dataFile.set("color", faction.getColor().toString().substring(1));
         dataFile.set("leader", faction.getLeader().toString());
         dataFile.set("core-location", (int)faction.getCoreLocation().getX() + ";" + (int)faction.getCoreLocation().getY() + ";" + (int)faction.getCoreLocation().getZ());
+
+        List<String> officersToSave = new ArrayList<>();
+        for (UUID playerUUID : faction.getOfficers()) {
+            officersToSave.add(playerUUID.toString());
+        }
+        dataFile.set("officers", officersToSave);
 
         List<String> membersToSave = new ArrayList<>();
         for (UUID playerUUID : faction.getMembers()) {

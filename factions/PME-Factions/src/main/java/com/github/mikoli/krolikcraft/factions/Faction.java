@@ -17,6 +17,7 @@ public class Faction {
     private ChatColor color;
     private UUID leader;
     private Location coreLocation;
+    private final HashSet<UUID> officers = new HashSet<>();
     private final HashSet<UUID> members = new HashSet<>();
     private final HashSet<UUID> enemies = new HashSet<>();
 
@@ -78,6 +79,14 @@ public class Faction {
 
     public void removeMember(UUID player) {
         members.remove(player);
+    }
+
+    public boolean isOfficer(UUID player) {
+        return officers.contains(player);
+    }
+
+    public HashSet<UUID> getOfficers() {
+        return officers;
     }
 
     public boolean isMember(UUID player) {

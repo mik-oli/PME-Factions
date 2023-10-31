@@ -59,6 +59,8 @@ permissions:
     children:
       pmefactions.faction.member.add: true
       pmefactions.faction.member.remove: true
+      pmefactions.faction.member.promote: true
+      pmefactions.faction.member.demote: true
   pmefactions.claim:
     default: false
     children:

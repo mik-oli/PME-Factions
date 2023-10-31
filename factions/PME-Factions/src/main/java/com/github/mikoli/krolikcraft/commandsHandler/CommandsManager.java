@@ -147,6 +147,8 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new WarDeclare());
         subCommands.add(new WarPeace());
         subCommands.add(new FactionDelete());
+        subCommands.add(new FactionAddOfficer());
+        subCommands.add(new FactionRemoveOfficer());
     }
 
     private boolean returnSyntax(CommandSender commandSender, String error, String syntax) {

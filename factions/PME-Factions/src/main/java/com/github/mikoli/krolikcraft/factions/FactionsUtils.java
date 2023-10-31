@@ -62,12 +62,13 @@ public class FactionsUtils {
     public static boolean hasPlayerPermission(Krolikcraft plugin, CommandSender commandSender, CommandsPermissions permissions, boolean adminMode) {
         if ((adminMode || permissions == CommandsPermissions.ADMIN) && commandSender.hasPermission("pmefactions.admin")) return true;
 
-        Player player = Bukkit.getPlayer(commandSender.getName());
-        Faction faction = getPlayersFaction(plugin, player.getUniqueId());
+        UUID playerUUID = Bukkit.getPlayer(commandSender.getName()).getUniqueId();
+        Faction faction = getPlayersFaction(plugin, playerUUID);
         if (faction == null) return false;
-        if (permissions == CommandsPermissions.MEMBER && faction.isMember(player.getUniqueId())) return true;
-//        else if (permissions == CommandsPermissions.OFFICER && faction.getLeader() == player.getUniqueId()) return true;
-        if (permissions == CommandsPermissions.LEADER && faction.getLeader().equals(player.getUniqueId())) return true;
+
+        if (permissions == CommandsPermissions.MEMBER && faction.isMember(playerUUID)) return true;
+        else if (permissions == CommandsPermissions.OFFICER && faction.isOfficer(playerUUID)) return true;
+        else if (permissions == CommandsPermissions.LEADER && faction.getLeader().equals(playerUUID)) return true;
 
         return false;
     }
