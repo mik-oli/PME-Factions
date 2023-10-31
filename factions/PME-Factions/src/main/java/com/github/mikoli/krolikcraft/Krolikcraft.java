@@ -7,6 +7,7 @@ import com.github.mikoli.krolikcraft.factions.*;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.listeners.InteractListener;
+import com.github.mikoli.krolikcraft.listeners.OtherListeners;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
@@ -32,6 +33,7 @@ public final class Krolikcraft extends JavaPlugin {
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
     private final InteractListener interactListener = new InteractListener(this);
+    private final OtherListeners otherListeners = new OtherListeners(this);
 
     @Override
     public void onEnable() {
@@ -84,6 +86,7 @@ public final class Krolikcraft extends JavaPlugin {
         pluginManager.registerEvents(blockPlaceListener, this);
         pluginManager.registerEvents(blockBreakListener, this);
         pluginManager.registerEvents(interactListener, this);
+        pluginManager.registerEvents(otherListeners, this);
     }
 
     private void setCommandsExecutors() {
