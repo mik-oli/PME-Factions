@@ -9,14 +9,19 @@ website: ${project.url}
 commands:
   factions:
     permission: pmefactions.factions
+    usage: /factions <list/get-claim-flag>
   faction:
     permission: pmefactions.faction
+    usage: /faction <create/delete/add/remove/info/war/peace/setname/setshortcut/setcolor>
   faction-admin:
     permission: pmefactions.faction-admin
+    usage: /faction-admin <create/delete/add/remove/info/war/peace/setname/setshortcut/setcolor>
   claim:
     permission: pmefactions.claim
+    usage: /claim <claim/unclaim/info>
   claim-admin:
     permission: pmefactions.claim-admin
+    usage: /claim-admin <claim/unclaim/info/add-chunk/get-id/change-owner>
 
 permissions:
   pmefactions.admin:

@@ -37,6 +37,11 @@ public class CommandsManager implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
         boolean adminMode = command.getName().contains("-admin") || command.getName().equals("factions");
+        if (args.length == 0) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-not-found"));
+            return false;
+        }
+
         SubCommand subCommand = null;
         for (SubCommand subCmd : subCommands) {
             if (command.getName().equalsIgnoreCase(subCmd.getBaseCmd().name()) && subCmd.getName().equalsIgnoreCase(args[0])) subCommand = subCmd;

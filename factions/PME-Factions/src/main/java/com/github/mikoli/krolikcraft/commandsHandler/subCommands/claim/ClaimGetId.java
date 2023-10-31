@@ -26,17 +26,17 @@ public class ClaimGetId extends SubCommand {
 
     @Override
     public String getName() {
-        return "getid";
+        return "get-id";
     }
 
     @Override
     public String getSyntax() {
-        return "/claim getid";
+        return "/claim get-id";
     }
 
     @Override
     public String getAdminSyntax() {
-        return "/claim-admin getid";
+        return "/claim-admin get-id";
     }
 
     @Override
