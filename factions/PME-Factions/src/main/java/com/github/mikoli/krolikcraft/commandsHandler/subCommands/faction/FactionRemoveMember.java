@@ -80,7 +80,7 @@ public class FactionRemoveMember extends SubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-not-member"));
             return;
         }
-        if (faction.getLeader() == targetUUID) {
+        if (faction.getLeader().equals(targetUUID)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-kick-leader"));
             return;
         }
@@ -90,6 +90,6 @@ public class FactionRemoveMember extends SubCommand {
         }
 
         faction.removeMember(targetUUID);
-        commandSender.sendMessage(Utils.coloring(Utils.pluginPrefix() + "&aPlayer removed from faction."));
+        commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("player-removed"));
     }
 }

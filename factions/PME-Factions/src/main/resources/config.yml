@@ -25,6 +25,7 @@ localisation:
   owner-changed: "&aClaim owner changed."
   target-in-faction: "&cThis player is already in faction!"
   player-added: "&aPlayer added to faction."
+  player-removed: "&aPlayer removed from faction."
   target-not-member: "&ePlayer is not a faction member!"
   cant-kick-leader: "&cYou can't kick faction leader!"
   faction-exists: "&cFaction with that name already exists!"
