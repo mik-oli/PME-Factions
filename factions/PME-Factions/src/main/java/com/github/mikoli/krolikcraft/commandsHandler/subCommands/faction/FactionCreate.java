@@ -81,6 +81,10 @@ public class FactionCreate extends SubCommand {
         UUID leader = (UUID) args.get(0);
         String factionName = (String) args.get(1);
         String factionShortcut = (String) args.get(2);
+        if (FactionsUtils.isPlayerInFaction(plugin, leader)) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
+            return;
+        }
         //TODO checking if name is longer and shorter than value in config
         //TODO checking if shortcut is longer and shorter than value in config
 
