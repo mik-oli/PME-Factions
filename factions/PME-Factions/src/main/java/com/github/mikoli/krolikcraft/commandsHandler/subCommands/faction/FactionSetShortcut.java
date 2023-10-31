@@ -70,9 +70,19 @@ public class FactionSetShortcut extends SubCommand {
     @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
-        //TODO checking if name is correct length
         Faction faction = (Faction) args.get(0);
         String newShortcut = (String) args.get(1);
+
+        if (newShortcut.length() > plugin.getConfigUtils().getMaxLength("max-shortcut-length")) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-too-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-shortcut-length"))));
+            return;
+        }
+        for (Faction f : plugin.getFactionsHashMap().values()) {
+            if (f.getShortcut().equalsIgnoreCase(newShortcut)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-already-exists"));
+                return;
+            }
+        }
 
         for (Faction f : plugin.getFactionsHashMap().values()) {
             if (f.getShortcut().equals(newShortcut)){

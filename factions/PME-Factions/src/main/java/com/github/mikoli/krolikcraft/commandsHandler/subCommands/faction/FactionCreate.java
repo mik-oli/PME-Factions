@@ -5,6 +5,7 @@ import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
+import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.*;
 
@@ -85,8 +86,27 @@ public class FactionCreate extends SubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
             return;
         }
-        //TODO checking if name is longer and shorter than value in config
-        //TODO checking if shortcut is longer and shorter than value in config
+
+        if (factionName.length() > plugin.getConfigUtils().getMaxLength("max-name-length")) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-to-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-name-length"))));
+            return;
+        }
+        for (Faction f : plugin.getFactionsHashMap().values()) {
+            if (f.getName().equalsIgnoreCase(factionName)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-already-exists"));
+                return;
+            }
+        }
+        if (factionShortcut.length() > plugin.getConfigUtils().getMaxLength("max-shortcut-length")) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-too-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-shortcut-length"))));
+            return;
+        }
+        for (Faction f : plugin.getFactionsHashMap().values()) {
+            if (f.getShortcut().equalsIgnoreCase(factionShortcut)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-already-exists"));
+                return;
+            }
+        }
 
         if (adminMode) {
             ItemStack coreBlock = new ItemStack(Material.OCHRE_FROGLIGHT);

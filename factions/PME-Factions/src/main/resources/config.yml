@@ -11,6 +11,9 @@ commands-permissions:
   war-declare: 'leader'
   war-peace: 'leader'
 
+max-name-length: 15
+max-shortcut-length: 4
+
 localisation:
   cmd-not-found: "&cCommand not found."
   cmd-wrong-args: "&cCommand is missing arguments."
@@ -56,3 +59,7 @@ localisation:
   faction-promote-self: "&cYou can't promote/demote yourself!"
   faction-promoted: "&ePlayer promoted to officer rank."
   faction-demoted: "&ePlayer demoted."
+  name-too-long: "&cName is too long!"
+  name-already-exists: "&cThat name already exists!"
+  shortcut-too-long: "&cShortcut is too long, max length is {0}!"
+  shortcut-already-exists: "&cShortcut name already exists, max length is {0}!"

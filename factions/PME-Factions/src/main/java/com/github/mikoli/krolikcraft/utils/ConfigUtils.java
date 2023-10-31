@@ -23,4 +23,8 @@ public class ConfigUtils {
     public String getLocalisation(String key) {
         return Utils.pluginPrefix() + Utils.coloring(config.getString("localisation." + key));
     }
+
+    public int getMaxLength(String key) {
+        return config.getInt(key);
+    }
 }

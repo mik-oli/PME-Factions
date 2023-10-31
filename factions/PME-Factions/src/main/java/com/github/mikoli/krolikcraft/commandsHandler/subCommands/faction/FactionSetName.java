@@ -70,9 +70,18 @@ public class FactionSetName extends SubCommand {
     @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
-    //TODO checking if name is correct length
         Faction faction = (Faction) args.get(0);
         String newName = (String) args.get(1);
+        if (newName.length() > plugin.getConfigUtils().getMaxLength("max-name-length")) {
+            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-to-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-name-length"))));
+            return;
+        }
+        for (Faction f : plugin.getFactionsHashMap().values()) {
+            if (f.getName().equalsIgnoreCase(newName)) {
+                commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-already-exists"));
+                return;
+            }
+        }
 
         for (Faction f : plugin.getFactionsHashMap().values()) {
             if (f.getName().equals(newName)) {
