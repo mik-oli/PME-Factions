@@ -35,10 +35,11 @@ public class BlockPlaceListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, player.getUniqueId());
         Block block = event.getBlock();
         ClaimsManager claimsManager = plugin.getClaimsManager();
-        if (claimsManager.isChunkClaimed(block.getChunk()) && playerFaction == null) {
+
+        if (!claimsManager.isChunkClaimed(block.getChunk())) return;
+        if (!FactionsUtils.isPlayerInFaction(plugin, player.getUniqueId())) {
             event.setCancelled(true);
             return;
         }

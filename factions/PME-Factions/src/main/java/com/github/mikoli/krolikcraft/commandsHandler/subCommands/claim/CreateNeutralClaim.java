@@ -1,34 +1,26 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.claims.ClaimType;
+import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
-import com.github.mikoli.krolikcraft.claims.ClaimType;
-import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Claim extends SubCommand {
+public class CreateNeutralClaim extends SubCommand {
 
-    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {
-        {
-            add(RequiredCmdArgs.REQUESTFACTION);
-            add(RequiredCmdArgs.CLAIMTYPE);
-        }
-    };
+    private final ArrayList<RequiredCmdArgs> requiredArgs = new ArrayList<RequiredCmdArgs>() {};
 
     @Override
     public BaseCommand getBaseCmd() {
@@ -37,17 +29,17 @@ public class Claim extends SubCommand {
 
     @Override
     public String getName() {
-        return "claim";
+        return "claim-neutral";
     }
 
     @Override
     public String getSyntax() {
-        return "/claim claim [<claim type>]";
+        return "/claim claim-neutral";
     }
 
     @Override
     public String getAdminSyntax() {
-        return "/claim claim <faction> <claim type>";
+        return "/claim claim-neutral";
     }
 
     @Override
@@ -67,31 +59,28 @@ public class Claim extends SubCommand {
 
     @Override
     public String getPermission() {
-        return "pmefactions.claim.claim";
+        return "pmefactions.admin";
     }
 
     @Override
     public CommandsPermissions requiredPermission(ConfigUtils config) {
-        return config.getPermission("claim");
+        return CommandsPermissions.NULL;
     }
 
     @Override
     public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
-        Faction faction = (Faction) args.get(0);
         Player player = Bukkit.getPlayer(commandSender.getName());
-
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
-        ClaimType claimType = (ClaimType) args.get(1);
-        if (claimType == ClaimType.NEUTRAL) return;
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,true)) {
+        ClaimType claimType = ClaimType.NEUTRAL;
+        if (!claimsManager.checkIfCanCreateClaim(null, chunk, claimType,false)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
             return;
         }
 
         Block blockBelow = player.getLocation().subtract(0, 1, 0).getBlock();
-        claimsManager.createClaim(faction, chunk, claimType, blockBelow.getLocation());
+        claimsManager.createClaim(null, chunk, claimType, blockBelow.getLocation());
         blockBelow.setType(Material.NOTE_BLOCK);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }

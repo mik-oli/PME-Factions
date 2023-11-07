@@ -74,6 +74,12 @@ public class BlockBreakListener implements Listener {
                 event.setDropItems(false);
                 event.setCancelled(true);
             }
+        } else if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.NEUTRAL) {
+            if (claimFaction.getCoreLocation().getBlock().equals(block)) {
+                if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
+                    claimsManager.changeClaimOwner(claimId, playerFaction);
+                }
+            }
         }
     }
 }

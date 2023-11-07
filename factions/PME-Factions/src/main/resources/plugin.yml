@@ -21,7 +21,7 @@ commands:
     usage: /claim <claim/unclaim/info>
   claim-admin:
     permission: pmefactions.claim-admin
-    usage: /claim-admin <claim/unclaim/info/add-chunk/get-id/change-owner>
+    usage: /claim-admin <claim/unclaim/info/add-chunk/get-id/change-owner/claim-neutral>
 
 permissions:
   pmefactions.admin:

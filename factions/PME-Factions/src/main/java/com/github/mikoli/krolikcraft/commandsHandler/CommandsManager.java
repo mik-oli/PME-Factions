@@ -148,6 +148,7 @@ public class CommandsManager implements CommandExecutor {
         subCommands.add(new FactionDelete());
         subCommands.add(new FactionAddOfficer());
         subCommands.add(new FactionRemoveOfficer());
+        subCommands.add(new CreateNeutralClaim());
     }
 
     private boolean returnSyntax(CommandSender commandSender, String error, String syntax) {
