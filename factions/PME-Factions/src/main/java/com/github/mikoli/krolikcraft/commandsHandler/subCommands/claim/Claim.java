@@ -84,7 +84,7 @@ public class Claim extends SubCommand {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = player.getLocation().getChunk();
         ClaimType claimType = (ClaimType) args.get(1);
-        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,false)) {
+        if (!claimsManager.checkIfCanCreateClaim(faction, chunk, claimType,true)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("already-claimed"));
             return;
         }

@@ -44,7 +44,7 @@ public class CommandsManager implements CommandExecutor {
 
         SubCommand subCommand = null;
         for (SubCommand subCmd : subCommands) {
-            if (command.getName().equalsIgnoreCase(subCmd.getBaseCmd().name()) && subCmd.getName().equalsIgnoreCase(args[0])) subCommand = subCmd;
+            if ((command.getName().equalsIgnoreCase(subCmd.getBaseCmd().name()) || (command.getName() + "-admin").equalsIgnoreCase(subCmd.getBaseCmd().name())) && subCmd.getName().equalsIgnoreCase(args[0])) subCommand = subCmd;
         }
 
         if (subCommand == null) {
@@ -61,7 +61,6 @@ public class CommandsManager implements CommandExecutor {
             return true;
         }
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
-            Bukkit.broadcastMessage("owo");
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
         } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
@@ -87,7 +86,7 @@ public class CommandsManager implements CommandExecutor {
             if (targetFaction == null) return this.returnSyntax(commandSender, "cmd-faction-not-found", subCommand.getSyntax());
         }
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.TARGETPLAYER)) {
-            targetPlayer = this.getTargetPlayer(adminMode, commandSender, args);
+            targetPlayer = this.getTargetPlayer(adminMode, args);
             if (targetPlayer == null) return this.returnSyntax(commandSender, "cmd-player-not-found", subCommand.getSyntax());
         }
         if (subCommand.requiredArguments().contains(RequiredCmdArgs.CLAIMTYPE)) {
@@ -175,12 +174,12 @@ public class CommandsManager implements CommandExecutor {
         return faction;
     }
 
-    private UUID getTargetPlayer(boolean admin, CommandSender commandSender, String[] args) {
+    private UUID getTargetPlayer(boolean admin, String[] args) {
         UUID uuid = null;
         OfflinePlayer offlinePlayer;
 
         if (admin) offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(args[2]));
-        else offlinePlayer = Bukkit.getOfflinePlayer(commandSender.getName());
+        else offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 
         if (offlinePlayer.hasPlayedBefore()) uuid = offlinePlayer.getUniqueId();
         return uuid;

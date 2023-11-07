@@ -34,6 +34,15 @@ public class BlockPlaceListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, player.getUniqueId());
+        Block block = event.getBlock();
+        ClaimsManager claimsManager = plugin.getClaimsManager();
+        if (claimsManager.isChunkClaimed(block.getChunk()) && playerFaction == null) {
+            event.setCancelled(true);
+            return;
+        }
+
         createClaim(event);
         createFaction(event);
     }
@@ -59,7 +68,7 @@ public class BlockPlaceListener implements Listener {
         ClaimsManager claimsManager = plugin.getClaimsManager();
         Chunk chunk = block.getChunk();
         ClaimType claimType = ClaimType.valueOf(PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMTYPE, dataContainer));
-        if (!claimsManager.checkIfCanCreateClaim(playerFaction, chunk, claimType, false)) return;
+        if (!claimsManager.checkIfCanCreateClaim(playerFaction, chunk, claimType, true)) return;
         claimsManager.createClaim(playerFaction, chunk, claimType, block.getLocation().subtract(0, 1, 0));
 
         Block blockBelow = block.getLocation().subtract(0, 1, 0).getBlock();
@@ -87,5 +96,6 @@ public class BlockPlaceListener implements Listener {
         String factionShortcut = lore.get(2).substring(14);
         FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, factionLocation);
         plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE, factionLocation);
+        player.sendMessage(plugin.getConfigUtils().getLocalisation("faction-created"));
     }
 }

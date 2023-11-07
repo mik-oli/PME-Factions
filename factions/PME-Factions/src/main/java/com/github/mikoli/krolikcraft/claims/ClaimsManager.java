@@ -106,7 +106,7 @@ public class ClaimsManager {
         }
 
         //checking if is connected
-        if (!connected) {
+        if (connected) {
             for (int i = topLeftChunk.getX(); i <= bottomRightChunk.getX(); i++) {
                 Chunk tempChunk = coreChunk.getWorld().getChunkAt(i + 1, topLeftChunk.getZ());
                 if (this.getClaimOwner(tempChunk) == faction) return true;

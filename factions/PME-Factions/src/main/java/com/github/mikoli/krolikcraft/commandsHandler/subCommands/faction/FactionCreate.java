@@ -136,6 +136,7 @@ public class FactionCreate extends SubCommand {
             Block coreBlock = location.getBlock();
             coreBlock.setType(Material.OCHRE_FROGLIGHT);
             plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE, location);
+            Bukkit.getPlayer(leader).sendMessage(plugin.getConfigUtils().getLocalisation("faction-created"));
         }
     }
 }

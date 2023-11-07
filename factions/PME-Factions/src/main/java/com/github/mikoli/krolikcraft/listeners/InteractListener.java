@@ -23,15 +23,17 @@ public class InteractListener implements Listener {
     public void PlayerInteractEvent(PlayerInteractEvent event) {
 
         Block block = event.getClickedBlock();
+        if (block == null) return;
         if (!plugin.getClaimsManager().isChunkClaimed(block.getChunk())) return;
 
         Player player = event.getPlayer();
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, player.getUniqueId());
+        if (playerFaction == null) return;
         Faction claimFaction = plugin.getClaimsManager().getClaimOwner(block.getChunk());
         if (playerFaction == claimFaction) return;
-        if (!playerFaction.getEnemies().contains(claimFaction)) {
-            event.setCancelled(true);
+        if (!playerFaction.getEnemies().contains(claimFaction.getId())) {
             player.sendMessage(plugin.getConfigUtils().getLocalisation("terrain-claimed"));
+            event.setCancelled(true);
         }
     }
 }

@@ -32,19 +32,18 @@ public class BlockBreakListener implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         Player player = event.getPlayer();
+        if (player.hasPermission("pmefactions.admin")) return;
+
         UUID playerUUID = player.getUniqueId();
         if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) {
             event.setCancelled(true);
+            return;
         }
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
         Faction claimFaction = claimsManager.getClaimOwner(block.getChunk());
         Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
-        if (playerFaction == claimFaction) {
-            if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.CORE) {
-                event.setCancelled(true);
-                return;
-            }
+        if (playerFaction.getId().equals(claimFaction.getId())) {
             if (claimsManager.getClaimCoreLocation().get(claimId).equals(block.getLocation())) {
                 if (!FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
@@ -54,13 +53,12 @@ public class BlockBreakListener implements Listener {
                 claimsManager.removeClaim(claimId);
                 LoadSaveClaimsData.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("unclaimed"));
-            } else return;
-
+            }
         } else if (claimFaction.getEnemies().contains(playerFaction.getId())) {
-            if (claimFaction.getCoreLocation() == block.getLocation()) {
+            if (claimFaction.getCoreLocation().getBlock().equals(block)) {
                 boolean hasOutposts = false;
                 for (UUID claimID : claimsManager.getClaimsOwnerMap().keySet()) {
-                    if (claimsManager.getClaimsOwnerMap().get(claimID) != claimFaction.getId()) continue;
+                    if (claimsManager.getClaimsOwnerMap().get(claimID).equals(claimFaction.getId())) continue;
                     if (claimsManager.getClaimsTypesMap().get(claimID) == ClaimType.OUTPOST) {
                         hasOutposts = true;
                         break;
@@ -70,14 +68,12 @@ public class BlockBreakListener implements Listener {
                     FactionsUtils.removeFaction(plugin, claimFaction);
                     //TODO Faction destroyed message with input for faction
                 }
-            } else {
+            } else if (claimsManager.getClaimCoreLocation().get(claimId).equals(block.getLocation())) {
                 claimsManager.changeClaimOwner(claimId, playerFaction);
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
+                event.setDropItems(false);
+                event.setCancelled(true);
             }
-        } else {
-            player.sendMessage(plugin.getConfigUtils().getLocalisation("terrain-claimed"));
-            event.setCancelled(true);
         }
-        event.setDropItems(false);
     }
 }

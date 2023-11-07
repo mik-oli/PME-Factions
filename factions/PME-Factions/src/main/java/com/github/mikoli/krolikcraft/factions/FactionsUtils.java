@@ -87,6 +87,10 @@ public class FactionsUtils {
         Block coreBlock = faction.getCoreLocation().getBlock();
         coreBlock.setType(Material.AIR);
 
+        for (Faction f : plugin.getFactionsHashMap().values()) {
+            if (f.getEnemies().contains(faction.getId())) f.getEnemies().remove(faction.getId());
+        }
+
         plugin.getFactionsHashMap().remove(faction.getId());
         if (plugin.getFactionsFilesHashMap().get(faction.getId()) != null) plugin.getFactionsFilesHashMap().get(faction.getId()).deleteFile();
         plugin.getFactionsFilesHashMap().remove(faction.getId());

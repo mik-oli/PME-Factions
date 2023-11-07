@@ -8,8 +8,6 @@ commands-permissions:
   faction-set-name: 'leader'
   faction-set-shortcut: 'leader'
   faction-set-color: 'leader'
-  war-declare: 'leader'
-  war-peace: 'leader'
 
 max-name-length: 15
 max-shortcut-length: 4
@@ -63,3 +61,4 @@ localisation:
   name-already-exists: "&cThat name already exists!"
   shortcut-too-long: "&cShortcut is too long, max length is {0}!"
   shortcut-already-exists: "&cShortcut name already exists, max length is {0}!"
+  faction-created: "&aFaction has been created."

@@ -63,7 +63,7 @@ public class WarPeace extends SubCommand {
 
     @Override
     public CommandsPermissions requiredPermission(ConfigUtils config) {
-        return config.getPermission("war.peace");
+        return CommandsPermissions.LEADER;
     }
 
     @Override
