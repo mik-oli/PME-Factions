@@ -34,7 +34,7 @@ public final class PMEAdmin extends JavaPlugin {
         this.saveConfig();
     }
 
-    public FileConfiguration getConfig() {
+    public FileConfiguration getPluginConfig() {
         return this.getConfig();
     }
 

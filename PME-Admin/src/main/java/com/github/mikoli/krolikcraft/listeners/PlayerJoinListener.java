@@ -14,7 +14,6 @@ public class PlayerJoinListener implements Listener {
 
     public PlayerJoinListener(PMEAdmin plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
