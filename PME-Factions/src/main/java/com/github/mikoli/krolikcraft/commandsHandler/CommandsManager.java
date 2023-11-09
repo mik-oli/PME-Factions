@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim.*;
 import com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction.*;
@@ -25,10 +25,10 @@ import java.util.UUID;
 
 public class CommandsManager implements CommandExecutor {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
-    public CommandsManager(Krolikcraft plugin) {
+    public CommandsManager(PMEFactions plugin) {
         this.plugin = plugin;
         this.loadSubCommands();
     }

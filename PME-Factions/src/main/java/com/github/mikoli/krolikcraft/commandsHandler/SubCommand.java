@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 
@@ -20,5 +20,5 @@ public abstract class SubCommand {
     public abstract ArrayList<RequiredCmdArgs> requiredArguments();
     public abstract String getPermission();
     public abstract CommandsPermissions requiredPermission(ConfigUtils config);
-    public abstract void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args);
+    public abstract void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args);
 }

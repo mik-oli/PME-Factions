@@ -1,30 +1,28 @@
 package com.github.mikoli.krolikcraft.factions;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 
-import com.github.mikoli.krolikcraft.utils.FilesUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public class FactionsUtils {
 
-    public static boolean isPlayerInFaction(Krolikcraft plugin, UUID playerUUID) {
+    public static boolean isPlayerInFaction(PMEFactions plugin, UUID playerUUID) {
         for (Faction faction : plugin.getFactionsHashMap().values()) {
            if (faction.getMembers().contains(playerUUID)) return true;
         }
         return false;
     }
 
-    public static Faction getPlayersFaction(Krolikcraft plugin, UUID playerUUID) {
+    public static Faction getPlayersFaction(PMEFactions plugin, UUID playerUUID) {
         for (Faction faction : plugin.getFactionsHashMap().values()) {
             if (faction.isMember(playerUUID)) {
                 return faction;
@@ -33,7 +31,7 @@ public class FactionsUtils {
         return null;
     }
 
-    public static Faction getFactionFromName(Krolikcraft plugin, String name) {
+    public static Faction getFactionFromName(PMEFactions plugin, String name) {
         for (UUID uuid : plugin.getFactionsHashMap().keySet()) {
             if (plugin.getFactionsHashMap().get(uuid).getName().equals(name)) {
                 return plugin.getFactionsHashMap().get(uuid);
@@ -42,7 +40,7 @@ public class FactionsUtils {
         return null;
     }
 
-    public static void createFaction(Krolikcraft plugin, String name, String shortcut, UUID leader, Location coreLocation) {
+    public static void createFaction(PMEFactions plugin, String name, String shortcut, UUID leader, Location coreLocation) {
         Faction faction = new Faction(plugin);
         faction.setName(name);
         faction.setShortcut(shortcut);
@@ -59,7 +57,7 @@ public class FactionsUtils {
         plugin.getFactionsHashMap().put(factionId, faction);
     }
 
-    public static boolean hasPlayerPermission(Krolikcraft plugin, CommandSender commandSender, CommandsPermissions permissions, boolean adminMode) {
+    public static boolean hasPlayerPermission(PMEFactions plugin, CommandSender commandSender, CommandsPermissions permissions, boolean adminMode) {
         if ((adminMode || permissions == CommandsPermissions.ADMIN) && commandSender.hasPermission("pmefactions.admin")) return true;
 
         UUID playerUUID = Bukkit.getPlayer(commandSender.getName()).getUniqueId();
@@ -73,7 +71,7 @@ public class FactionsUtils {
         return false;
     }
 
-    public static void removeFaction(Krolikcraft plugin, Faction faction) {
+    public static void removeFaction(PMEFactions plugin, Faction faction) {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         for (UUID id : claimsManager.getClaimsOwnerMap().keySet()) {

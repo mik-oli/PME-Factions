@@ -1,13 +1,12 @@
 package com.github.mikoli.krolikcraft.listeners;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,9 +17,9 @@ import java.util.UUID;
 
 public class BlockBreakListener implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
 
-    public BlockBreakListener(Krolikcraft plugin) {
+    public BlockBreakListener(PMEFactions plugin) {
         this.plugin = plugin;
     }
 

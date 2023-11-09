@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
@@ -9,7 +9,6 @@ import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class FactionDelete extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+    public void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         if (adminMode || FactionsUtils.getPlayersFaction(plugin, (UUID) args.get(1)).getLeader().equals(faction.getLeader())) {
             FactionsUtils.removeFaction(plugin, faction);

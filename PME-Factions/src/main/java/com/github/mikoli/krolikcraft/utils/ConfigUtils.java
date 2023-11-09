@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.utils;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -8,7 +8,7 @@ public class ConfigUtils {
 
     private final ConfigurationSection config;
 
-    public ConfigUtils(Krolikcraft plugin) {
+    public ConfigUtils(PMEFactions plugin) {
         this.config = plugin.getConfig();
     }
 

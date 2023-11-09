@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.utils;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,12 +10,12 @@ import java.io.IOException;
 
 public class FilesUtils {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
     private final String fileName;
     private File dataFile;
     private FileConfiguration data;
 
-    public FilesUtils(Krolikcraft plugin, String name) {
+    public FilesUtils(PMEFactions plugin, String name) {
         this.plugin = plugin;
         this.fileName = name;
     }

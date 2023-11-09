@@ -1,5 +1,5 @@
 name: ${project.name}
-prefix: PME
+prefix: PME-Admin
 version: ${project.version}
 main: com.github.mikoli.krolikcraft.Krolikcraft
 api-version: ${apiVersion}

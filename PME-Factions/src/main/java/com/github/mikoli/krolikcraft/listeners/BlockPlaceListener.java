@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.listeners;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
@@ -8,7 +8,6 @@ import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,9 +25,9 @@ import java.util.UUID;
 
 public class BlockPlaceListener implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
 
-    public BlockPlaceListener(Krolikcraft plugin) {
+    public BlockPlaceListener(PMEFactions plugin) {
         this.plugin = plugin;
     }
 

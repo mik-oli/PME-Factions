@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.claims;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -9,14 +9,14 @@ import java.util.*;
 
 public class ClaimsManager {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
     private final Set<UUID> claimsList = new HashSet<>();
     private final HashMap<UUID, UUID> claimsOwnerMap = new HashMap<>();
     private final HashMap<UUID, Set<Chunk>> claimsChunksMap = new HashMap<>();
     private final HashMap<UUID, ClaimType> claimsTypesMap = new HashMap<>();
     private final HashMap<UUID, Location> claimCoreLocation = new HashMap<>();
 
-    public ClaimsManager(Krolikcraft plugin) {
+    public ClaimsManager(PMEFactions plugin) {
         this.plugin = plugin;
     }
 

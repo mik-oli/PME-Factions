@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
@@ -8,7 +8,6 @@ import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -73,7 +72,7 @@ public class FactionRemoveMember extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+    public void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
         if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) {

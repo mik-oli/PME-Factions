@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
@@ -78,7 +78,7 @@ public class FactionCreate extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+    public void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         UUID leader = (UUID) args.get(0);
         String factionName = (String) args.get(1);
         String factionShortcut = (String) args.get(2);

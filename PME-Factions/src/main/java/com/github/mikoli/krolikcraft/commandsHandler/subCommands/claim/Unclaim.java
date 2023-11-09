@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
@@ -69,7 +69,7 @@ public class Unclaim extends SubCommand {
     }
 
     @Override
-    public void perform(Krolikcraft plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
+    public void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
 
         Player player = Bukkit.getPlayer(commandSender.getName());
         Chunk chunk = player.getLocation().getBlock().getChunk();

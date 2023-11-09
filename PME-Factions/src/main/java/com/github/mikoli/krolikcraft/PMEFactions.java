@@ -19,10 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
-public final class Krolikcraft extends JavaPlugin {
+public final class PMEFactions extends JavaPlugin {
 
     private final HashMap<UUID, Faction> factionsHashMap = new HashMap<>();
     private final HashMap<UUID, FilesUtils> factionsFilesHashMap = new HashMap<>();

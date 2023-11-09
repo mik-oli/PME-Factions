@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.listeners;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsUtils;
 
@@ -13,9 +13,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class InteractListener implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
 
-    public InteractListener(Krolikcraft plugin) {
+    public InteractListener(PMEFactions plugin) {
         this.plugin = plugin;
     }
 

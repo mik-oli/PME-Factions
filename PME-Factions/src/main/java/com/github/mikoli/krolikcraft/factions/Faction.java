@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.factions;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class Faction {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
     private UUID id;
     private String name;
     private String shortcut;
@@ -21,7 +21,7 @@ public class Faction {
     private final HashSet<UUID> members = new HashSet<>();
     private final HashSet<UUID> enemies = new HashSet<>();
 
-    public Faction(Krolikcraft plugin) {
+    public Faction(PMEFactions plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.listeners;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 
 import org.bukkit.block.Block;
@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class OtherListeners implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEFactions plugin;
 
-    public OtherListeners(Krolikcraft plugin) {
+    public OtherListeners(PMEFactions plugin) {
         this.plugin = plugin;
     }
 
