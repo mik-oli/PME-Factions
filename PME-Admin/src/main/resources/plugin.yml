@@ -1,7 +1,7 @@
 name: ${project.name}
 prefix: PME-Admin
 version: ${project.version}
-main: com.github.mikoli.krolikcraft.Krolikcraft
+main: com.github.mikoli.krolikcraft.PMEAdmin
 api-version: ${apiVersion}
 authors: ${authors}
 website: ${project.url}
