@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.staffWL;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEAdmin;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public class StaffWL implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEAdmin plugin;
     private boolean whiteListStatus;
     private final List<UUID> whitelistedPlayers = new ArrayList<>();
 
-    public StaffWL(Krolikcraft plugin) {
+    public StaffWL(PMEAdmin plugin) {
         this.plugin = plugin;
         this.loadData();
     }

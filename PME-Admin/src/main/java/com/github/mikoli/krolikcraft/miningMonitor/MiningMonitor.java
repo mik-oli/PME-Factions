@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.miningMonitor;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEAdmin;
 import com.github.mikoli.krolikcraft.utils.Permissions;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
@@ -13,9 +13,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class MiningMonitor implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEAdmin plugin;
 
-    public MiningMonitor(Krolikcraft plugin) {
+    public MiningMonitor(PMEAdmin plugin) {
         this.plugin = plugin;
     }
 

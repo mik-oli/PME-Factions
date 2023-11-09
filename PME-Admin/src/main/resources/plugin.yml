@@ -1,5 +1,5 @@
 name: ${project.name}
-prefix: PME-Admin
+prefix: PME
 version: ${project.version}
 main: com.github.mikoli.krolikcraft.Krolikcraft
 api-version: ${apiVersion}
@@ -14,8 +14,8 @@ commands:
 
 permissions:
   krolikcraft.staffwl:
-    default: false
+    default: op
   miningmonitor.track:
     default: true
   miningmonitor.monitor:
-    default: false
+    default: op

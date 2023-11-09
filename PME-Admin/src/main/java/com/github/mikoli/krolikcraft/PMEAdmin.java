@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Krolikcraft extends JavaPlugin {
+public final class PMEAdmin extends JavaPlugin {
 
     private final MiningCounter miningCounter = new MiningCounter();
     private final StaffWL staffWL = new StaffWL(this);

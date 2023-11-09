@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsManager;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEAdmin;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.command.Command;
@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class StaffWLCommandsHandler implements CommandExecutor {
 
-    private final Krolikcraft plugin;
+    private final PMEAdmin plugin;
 
-    public StaffWLCommandsHandler(Krolikcraft plugin) {
+    public StaffWLCommandsHandler(PMEAdmin plugin) {
         this.plugin = plugin;
     }
 

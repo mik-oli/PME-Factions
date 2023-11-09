@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.listeners;
 
-import com.github.mikoli.krolikcraft.Krolikcraft;
+import com.github.mikoli.krolikcraft.PMEAdmin;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
-    private final Krolikcraft plugin;
+    private final PMEAdmin plugin;
 
-    public PlayerJoinListener(Krolikcraft plugin) {
+    public PlayerJoinListener(PMEAdmin plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
