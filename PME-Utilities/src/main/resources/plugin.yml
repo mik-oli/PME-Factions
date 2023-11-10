@@ -1,0 +1,7 @@
+name: ${project.name}
+prefix: PME-Utils
+version: ${project.version}
+main: com.github.mikoli.pmeutilities.PMEUtilities
+api-version: ${apiVersion}
+authors: ${authors}
+website: ${project.url}
