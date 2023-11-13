@@ -6,7 +6,7 @@
 
     <groupId>com.github.mikoli</groupId>
     <artifactId>pme-utilities</artifactId>
-    <name>PME-Utilities</name>
+    <name>PMEUtilities</name>
     <version>1.0</version>
     <packaging>jar</packaging>
     <url>https://github.com/mik-oli/Krolikcraft-Project-Middle-Earth</url>
