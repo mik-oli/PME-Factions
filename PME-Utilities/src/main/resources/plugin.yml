@@ -1,4 +1,4 @@
-name: ${project.name}
+name: PME-Utilities
 prefix: PME-Utils
 version: ${project.version}
 main: com.github.mikoli.pmeutilities.PMEUtilities
