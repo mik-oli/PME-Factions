@@ -13,20 +13,20 @@ import java.util.UUID;
 
 public class ArmorUtils {
 
-    public static ItemStack getHelmet(int colorId, int defencePoints, String name) {
-        return createArmorItem(Material.LEATHER_HELMET, colorId, defencePoints, EquipmentSlot.HEAD, name);
+    public static ItemStack getHelmet(int colorId, ArmorTypes armorType, String name) {
+        return createArmorItem(Material.LEATHER_HELMET, colorId, DefensePoints.valueOf(armorType.name()).getHelmet(), EquipmentSlot.HEAD, name);
     }
 
-    public static ItemStack getChestplate(int colorId, int defencePoints, String name) {
-        return createArmorItem(Material.LEATHER_CHESTPLATE, colorId, defencePoints, EquipmentSlot.CHEST, name);
+    public static ItemStack getChestplate(int colorId, ArmorTypes armorType, String name) {
+        return createArmorItem(Material.LEATHER_CHESTPLATE, colorId, DefensePoints.valueOf(armorType.name()).getChestplate(), EquipmentSlot.CHEST, name);
     }
 
-    public static ItemStack getLeggings(int colorId, int defencePoints, String name) {
-        return createArmorItem(Material.LEATHER_LEGGINGS, colorId, defencePoints, EquipmentSlot.LEGS, name);
+    public static ItemStack getLeggings(int colorId, ArmorTypes armorType, String name) {
+        return createArmorItem(Material.LEATHER_LEGGINGS, colorId, DefensePoints.valueOf(armorType.name()).getLeggings(), EquipmentSlot.LEGS, name);
     }
 
-    public static ItemStack getBoots(int colorId, int defencePoints, String name) {
-        return createArmorItem(Material.LEATHER_BOOTS, colorId, defencePoints, EquipmentSlot.FEET, name);
+    public static ItemStack getBoots(int colorId, ArmorTypes armorType, String name) {
+        return createArmorItem(Material.LEATHER_BOOTS, colorId, DefensePoints.valueOf(armorType.name()).getBoots(), EquipmentSlot.FEET, name);
     }
 
     private static ItemStack createArmorItem(Material material, int colorId, int defencePoints, EquipmentSlot slot, String name) {

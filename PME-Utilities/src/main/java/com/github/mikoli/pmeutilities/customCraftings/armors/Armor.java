@@ -9,6 +9,7 @@ public abstract class Armor {
     public abstract int getColorId();
     public abstract Material getDye();
     public abstract ArmorTypes getArmorType();
+    public abstract String[] getCraftingShape();
     public abstract ItemStack getHelmet();
     public abstract ItemStack getChestplate();
     public abstract ItemStack getLeggings();
