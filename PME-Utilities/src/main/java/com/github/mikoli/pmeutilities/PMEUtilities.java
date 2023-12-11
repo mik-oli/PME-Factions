@@ -1,5 +1,6 @@
 package com.github.mikoli.pmeutilities;
 
+import com.github.mikoli.pmeutilities.customCraftings.CustomRecipes;
 import com.github.mikoli.pmeutilities.listeners.*;
 import com.github.mikoli.pmeutilities.ringsMechanic.RingsManager;
 
@@ -9,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class PMEUtilities extends JavaPlugin {
 
     private final RingsManager ringsManager = new RingsManager(this);
+    private final CustomRecipes customRecipes = new CustomRecipes(this);
 
     //Events classes
     private final SwapHandItemsListener swapHandItemsListener = new SwapHandItemsListener(this);
@@ -21,6 +23,7 @@ public final class PMEUtilities extends JavaPlugin {
     public void onEnable() {
         this.setEventsListeners();
         ringsManager.runTask();
+        customRecipes.registerArmorsCrafting();
     }
 
     @Override
