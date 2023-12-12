@@ -20,7 +20,7 @@ public class ArmorEreborAxeman extends Armor {
 
     @Override
     public Material getDye() {
-        return Material.PINK_DYE;
+        return Material.YELLOW_DYE;
     }
 
     @Override
