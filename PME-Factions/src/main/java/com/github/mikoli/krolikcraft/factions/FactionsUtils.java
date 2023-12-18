@@ -74,13 +74,9 @@ public class FactionsUtils {
     public static void removeFaction(PMEFactions plugin, Faction faction) {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
-        for (UUID id : claimsManager.getClaimsOwnerMap().keySet()) {
-            if (claimsManager.getClaimsOwnerMap().get(id) != faction.getId()) continue;
-            claimsManager.getClaimsList().remove(id);
-            claimsManager.getClaimsOwnerMap().remove(id);
-            claimsManager.getClaimsChunksMap().remove(id);
-            claimsManager.getClaimsTypesMap().remove(id);
-            claimsManager.getClaimCoreLocation().remove(id);
+        for (UUID id : claimsManager.getClaimsList().keySet()) {
+            if (claimsManager.getClaimsList().get(id).getClaimOwner().equals(faction.getId()))
+                claimsManager.removeClaim(id);
         }
         Block coreBlock = faction.getCoreLocation().getBlock();
         coreBlock.setType(Material.AIR);

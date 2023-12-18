@@ -1,7 +1,5 @@
 package com.github.mikoli.krolikcraft.factions;
 
-import com.github.mikoli.krolikcraft.PMEFactions;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -10,7 +8,6 @@ import java.util.UUID;
 
 public class Faction {
 
-    private final PMEFactions plugin;
     private UUID id;
     private String name;
     private String shortcut;
@@ -21,9 +18,7 @@ public class Faction {
     private final HashSet<UUID> members = new HashSet<>();
     private final HashSet<UUID> enemies = new HashSet<>();
 
-    public Faction(PMEFactions plugin) {
-        this.plugin = plugin;
-    }
+    public Faction() {}
 
     public void setId(UUID id) {
         this.id = id;
@@ -103,6 +98,5 @@ public class Faction {
 
     public boolean isAtWarWith(Faction faction) {
         return enemies.contains(faction.id);
-
     }
 }
