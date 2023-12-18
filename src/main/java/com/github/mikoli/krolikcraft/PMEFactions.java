@@ -108,7 +108,7 @@ public final class PMEFactions extends JavaPlugin {
         }
 
         for (UUID id : factionsFilesHashMap.keySet()) {
-            Faction faction = new Faction(this);
+            Faction faction = new Faction();
             LoadSaveFactionData.loadFactionData(factionsFilesHashMap.get(id), faction);
             factionsHashMap.put(id, faction);
         }

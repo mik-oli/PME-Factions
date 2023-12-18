@@ -25,7 +25,7 @@ public class OtherListeners implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-        if (claimsManager.getClaimCoreLocation().get(claimId) == block.getLocation()) event.setCancelled(true);
+        if (claimsManager.getClaimsList().get(claimId).getCoreLocation() == block.getLocation()) event.setCancelled(true);
     }
 
     @EventHandler
@@ -35,7 +35,7 @@ public class OtherListeners implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-        if (claimsManager.getClaimCoreLocation().get(claimId) == block.getLocation()) event.setCancelled(true);
+        if (claimsManager.getClaimsList().get(claimId).getCoreLocation() == block.getLocation()) event.setCancelled(true);
     }
 
     @EventHandler
@@ -45,7 +45,7 @@ public class OtherListeners implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-        if (claimsManager.getClaimCoreLocation().get(claimId) == block.getLocation()) event.setCancelled(true);
+        if (claimsManager.getClaimsList().get(claimId).getCoreLocation() == block.getLocation()) event.setCancelled(true);
     }
 
     @EventHandler
@@ -55,7 +55,7 @@ public class OtherListeners implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-        if (event.getBlocks().contains(block.getWorld().getBlockAt(claimsManager.getClaimCoreLocation().get(claimId)))) event.setCancelled(true);
+        if (event.getBlocks().contains(block.getWorld().getBlockAt(claimsManager.getClaimsList().get(claimId).getCoreLocation()))) event.setCancelled(true);
     }
 
     @EventHandler
@@ -65,6 +65,6 @@ public class OtherListeners implements Listener {
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
-        if (event.getBlocks().contains(block.getWorld().getBlockAt(claimsManager.getClaimCoreLocation().get(claimId)))) event.setCancelled(true);
+        if (event.getBlocks().contains(block.getWorld().getBlockAt(claimsManager.getClaimsList().get(claimId).getCoreLocation()))) event.setCancelled(true);
     }
 }
