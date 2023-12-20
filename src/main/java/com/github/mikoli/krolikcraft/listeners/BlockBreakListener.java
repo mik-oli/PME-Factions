@@ -4,7 +4,7 @@ import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
 import org.bukkit.block.Block;
@@ -34,17 +34,17 @@ public class BlockBreakListener implements Listener {
         if (player.hasPermission("pmefactions.admin")) return;
 
         UUID playerUUID = player.getUniqueId();
-        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) {
+        if (!plugin.getFactionsManager().isPlayerInFaction(playerUUID)) {
             event.setCancelled(true);
             return;
         }
 
         UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
         Faction claimFaction = claimsManager.getClaimOwner(block.getChunk());
-        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
+        Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(playerUUID);
         if (playerFaction.getId().equals(claimFaction.getId())) {
             if (claimsManager.getClaimCoreLocation().get(claimId).equals(block.getLocation())) {
-                if (!FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
+                if (!FactionsManager.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
                     event.setCancelled(true);
                     return;
@@ -64,7 +64,7 @@ public class BlockBreakListener implements Listener {
                     }
                 }
                 if (!hasOutposts) {
-                    FactionsUtils.removeFaction(plugin, claimFaction);
+                    plugin.getFactionsManager().removeFaction(claimFaction);
                     //TODO Faction destroyed message with input for faction
                 }
             } else if (claimsManager.getClaimCoreLocation().get(claimId).equals(block.getLocation())) {
@@ -75,7 +75,7 @@ public class BlockBreakListener implements Listener {
             }
         } else if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.NEUTRAL) {
             if (claimFaction.getCoreLocation().getBlock().equals(block)) {
-                if (FactionsUtils.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
+                if (FactionsManager.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
                     claimsManager.changeClaimOwner(claimId, playerFaction);
                 }
             }

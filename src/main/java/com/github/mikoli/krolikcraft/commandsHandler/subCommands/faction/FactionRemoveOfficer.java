@@ -5,7 +5,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import org.bukkit.command.CommandSender;
@@ -72,7 +72,7 @@ public class FactionRemoveOfficer extends SubCommand {
     public void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args) {
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
-        if (FactionsUtils.getPlayersFaction(plugin, targetUUID) != faction) {
+        if (plugin.getFactionsManager().getPlayersFaction(targetUUID) != faction) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-not-member"));
             return;
         }

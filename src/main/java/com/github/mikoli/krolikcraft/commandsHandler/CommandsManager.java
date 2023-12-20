@@ -7,7 +7,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction.*;
 import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.FactionsList;
 import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.GetClaimFlag;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
@@ -63,7 +63,7 @@ public class CommandsManager implements CommandExecutor {
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
-        } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsUtils.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+        } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsManager.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
         }
@@ -159,8 +159,8 @@ public class CommandsManager implements CommandExecutor {
 
     private Faction getRequestFaction(boolean admin, CommandSender commandSender, String[] args) {
         Faction faction;
-        if (admin) faction = FactionsUtils.getFactionFromName(plugin, args[1]);
-        else faction = FactionsUtils.getPlayersFaction(plugin, Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+        if (admin) faction = plugin.getFactionsManager().getFactionFromName(args[1]);
+        else faction = plugin.getFactionsManager().getPlayersFaction(Bukkit.getPlayer(commandSender.getName()).getUniqueId());
 
         return faction;
     }
@@ -168,9 +168,9 @@ public class CommandsManager implements CommandExecutor {
     private Faction getTargetFaction(boolean admin, String[] args) {
         Faction faction;
         if (admin) {
-            faction = FactionsUtils.getFactionFromName(plugin, args[2]);
+            faction = plugin.getFactionsManager().getFactionFromName(args[2]);
         } else {
-            faction = FactionsUtils.getFactionFromName(plugin, args[1]);
+            faction = plugin.getFactionsManager().getFactionFromName(args[1]);
         }
         return faction;
     }

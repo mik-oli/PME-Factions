@@ -1,5 +1,7 @@
 package com.github.mikoli.krolikcraft.factions;
 
+import com.github.mikoli.krolikcraft.utils.FilesUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -8,7 +10,8 @@ import java.util.UUID;
 
 public class Faction {
 
-    private UUID id;
+    private final UUID id;
+    private FilesUtils dataFile;
     private String name;
     private String shortcut;
     private ChatColor color;
@@ -18,14 +21,20 @@ public class Faction {
     private final HashSet<UUID> members = new HashSet<>();
     private final HashSet<UUID> enemies = new HashSet<>();
 
-    public Faction() {}
-
-    public void setId(UUID id) {
+    public Faction(UUID id) {
         this.id = id;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public void setDataFile(FilesUtils dataFile) {
+        this.dataFile = dataFile;
+    }
+
+    public FilesUtils getDataFile() {
+        return this.dataFile;
     }
 
     public void setName(String name) {

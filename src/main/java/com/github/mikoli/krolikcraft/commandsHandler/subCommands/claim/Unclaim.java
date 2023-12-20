@@ -5,7 +5,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
@@ -79,7 +79,7 @@ public class Unclaim extends SubCommand {
         UUID claimId = claimsManager.getClaimId(chunk);
         UUID playerUUID = player.getUniqueId();
         if (adminMode) {
-            if (FactionsUtils.getPlayersFaction(plugin, playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) {
+            if (plugin.getFactionsManager().getPlayersFaction(playerUUID).getId() != claimsManager.getClaimsOwnerMap().get(claimId)) {
                 commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-unclaim"));
                 return;
             }

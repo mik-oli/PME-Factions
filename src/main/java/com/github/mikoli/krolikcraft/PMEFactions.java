@@ -18,13 +18,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.UUID;
 
 public final class PMEFactions extends JavaPlugin {
 
-    private final HashMap<UUID, Faction> factionsHashMap = new HashMap<>();
-    private final HashMap<UUID, FilesUtils> factionsFilesHashMap = new HashMap<>();
+    private final FactionsManager factionsManager = new FactionsManager(this);
     private final ClaimsManager claimsManager = new ClaimsManager(this);
     private final CommandsManager commandsManager = new CommandsManager(this);
     private final ConfigUtils configUtils = new ConfigUtils(this);
@@ -59,16 +57,12 @@ public final class PMEFactions extends JavaPlugin {
         }
     }
 
-    public HashMap<UUID, Faction> getFactionsHashMap() {
-        return factionsHashMap;
-    }
-
-    public HashMap<UUID, FilesUtils> getFactionsFilesHashMap() {
-        return factionsFilesHashMap;
-    }
-
     public FilesUtils getClaimsFilesUtil() {
         return claimsFilesUtil;
+    }
+
+    public FactionsManager getFactionsManager() {
+        return factionsManager;
     }
 
     public ClaimsManager getClaimsManager() {
@@ -104,24 +98,22 @@ public final class PMEFactions extends JavaPlugin {
             String factionId = factionFile.getName().replace(".yml", "");
             FilesUtils factionFilesUtil = new FilesUtils(this, factionId);
             factionFilesUtil.createFactionsDataFile();
-            factionsFilesHashMap.put(UUID.fromString(factionId), factionFilesUtil);
-        }
 
-        for (UUID id : factionsFilesHashMap.keySet()) {
-            Faction faction = new Faction();
-            LoadSaveFactionData.loadFactionData(factionsFilesHashMap.get(id), faction);
-            factionsHashMap.put(id, faction);
+            Faction faction = LoadSaveFactionData.loadFactionData(factionFilesUtil);
+            faction.setDataFile(factionFilesUtil);
+            factionsManager.getFactionsList().put(UUID.fromString(factionId), faction);
         }
     }
 
     private void saveFactionsData() throws IOException {
-        for (UUID id : factionsHashMap.keySet()) {
-            if (!factionsFilesHashMap.containsKey(id) || factionsFilesHashMap.get(id) == null) {
-                FilesUtils file = new FilesUtils(this, id.toString());
+        for (Faction faction : factionsManager.getFactionsList().values()) {
+            if (faction.getDataFile() == null) {
+                FilesUtils file = new FilesUtils(this, faction.getId().toString());
                 file.createFactionsDataFile();
-                LoadSaveFactionData.saveFactionData(file, factionsHashMap.get(id));
+                faction.setDataFile(file);
+                LoadSaveFactionData.saveFactionData(faction);
             }
-            else LoadSaveFactionData.saveFactionData(factionsFilesHashMap.get(id), factionsHashMap.get(id));
+            else LoadSaveFactionData.saveFactionData(faction);
         }
     }
 

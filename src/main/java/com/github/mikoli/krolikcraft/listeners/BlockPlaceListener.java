@@ -4,7 +4,7 @@ import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
@@ -38,7 +38,7 @@ public class BlockPlaceListener implements Listener {
         ClaimsManager claimsManager = plugin.getClaimsManager();
 
         if (!claimsManager.isChunkClaimed(block.getChunk())) return;
-        if (!FactionsUtils.isPlayerInFaction(plugin, player.getUniqueId())) {
+        if (!plugin.getFactionsManager().isPlayerInFaction(player.getUniqueId())) {
             event.setCancelled(true);
             return;
         }
@@ -57,8 +57,8 @@ public class BlockPlaceListener implements Listener {
 
         //checking if player is in faction and has ability to claim
         UUID playerUUID = event.getPlayer().getUniqueId();
-        if (!FactionsUtils.isPlayerInFaction(plugin, playerUUID)) return;
-        Faction playerFaction = FactionsUtils.getPlayersFaction(plugin, playerUUID);
+        if (!plugin.getFactionsManager().isPlayerInFaction(playerUUID)) return;
+        Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(playerUUID);
         if (!playerFaction.getLeader().equals(playerUUID)) return;
         if (!PersistentDataUtils.hasData(plugin, PersistentDataKeys.CLAIMOWNER, dataContainer)) return;
         if (!PersistentDataUtils.getData(plugin, PersistentDataKeys.CLAIMOWNER, dataContainer).equals(playerFaction.getId().toString())) return;
@@ -94,8 +94,8 @@ public class BlockPlaceListener implements Listener {
         if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, factionLocation.getChunk(), ClaimType.CORE, false)) return;
         String factionName = lore.get(1).substring(10);
         String factionShortcut = lore.get(2).substring(14);
-        FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, factionLocation);
-        plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), factionLocation.getChunk(), ClaimType.CORE, factionLocation);
+        plugin.getFactionsManager().createFaction(factionName, factionShortcut, leader, factionLocation);
+        plugin.getClaimsManager().createClaim(plugin.getFactionsManager().getFactionFromName(factionName), factionLocation.getChunk(), ClaimType.CORE, factionLocation);
         player.sendMessage(plugin.getConfigUtils().getLocalisation("faction-created"));
     }
 }

@@ -14,9 +14,9 @@ import java.util.UUID;
 
 public class LoadSaveFactionData {
 
-    public static void loadFactionData(FilesUtils file, Faction faction) {
+    public static Faction loadFactionData(FilesUtils file) {
         FileConfiguration dataFile = file.getData();
-        faction.setId(UUID.fromString(dataFile.getString("id")));
+        Faction faction = new Faction(UUID.fromString(dataFile.getString("id")));
         faction.setName(dataFile.getString("name"));
         faction.setShortcut(dataFile.getString("shortcut"));
         faction.setColor(ChatColor.getByChar(dataFile.getString("color")));
@@ -37,10 +37,12 @@ public class LoadSaveFactionData {
         String[] coreCords = dataFile.getString("core-location").split(";");
         Location coreLocation = new Location(Bukkit.getWorld("world"), Integer.parseInt(coreCords[0]), Integer.parseInt(coreCords[1]), Integer.parseInt(coreCords[2]));
         faction.setCoreLocation(coreLocation);
+
+        return faction;
     }
 
-    public static void saveFactionData(FilesUtils file, Faction faction) throws IOException {
-        FileConfiguration dataFile = file.getData();
+    public static void saveFactionData(Faction faction) throws IOException {
+        FileConfiguration dataFile = faction.getDataFile().getData();
         dataFile.set("id", faction.getId().toString());
         dataFile.set("name", faction.getName());
         dataFile.set("shortcut", faction.getShortcut());
@@ -66,7 +68,6 @@ public class LoadSaveFactionData {
         }
         dataFile.set("enemies", enemiesToSave);
 
-
-        file.saveData();
+        faction.getDataFile().saveData();
     }
 }

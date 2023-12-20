@@ -6,7 +6,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.*;
 
 import org.bukkit.Bukkit;
@@ -82,7 +82,7 @@ public class FactionCreate extends SubCommand {
         UUID leader = (UUID) args.get(0);
         String factionName = (String) args.get(1);
         String factionShortcut = (String) args.get(2);
-        if (FactionsUtils.isPlayerInFaction(plugin, leader)) {
+        if (plugin.getFactionsManager().isPlayerInFaction(leader)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
             return;
         }
@@ -91,7 +91,7 @@ public class FactionCreate extends SubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-to-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-name-length"))));
             return;
         }
-        for (Faction f : plugin.getFactionsHashMap().values()) {
+        for (Faction f : plugin.getFactionsManager().getFactionsList().values()) {
             if (f.getName().equalsIgnoreCase(factionName)) {
                 commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-already-exists"));
                 return;
@@ -101,7 +101,7 @@ public class FactionCreate extends SubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-too-long").replace("{0}", String.valueOf(plugin.getConfigUtils().getMaxLength("max-shortcut-length"))));
             return;
         }
-        for (Faction f : plugin.getFactionsHashMap().values()) {
+        for (Faction f : plugin.getFactionsManager().getFactionsList().values()) {
             if (f.getShortcut().equalsIgnoreCase(factionShortcut)) {
                 commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("shortcut-already-exists"));
                 return;
@@ -125,17 +125,17 @@ public class FactionCreate extends SubCommand {
             coreBlock.setItemMeta(meta);
         }
         else {
-            if (FactionsUtils.getPlayersFaction(plugin, leader) != null) {
+            if (plugin.getFactionsManager().getPlayersFaction(leader) != null) {
                 commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
                 return;
             }
             Location location = Bukkit.getPlayer(leader).getLocation();
             if (!plugin.getClaimsManager().checkIfCanCreateClaim(null, location.getChunk(), ClaimType.CORE, false)) return;
-            FactionsUtils.createFaction(plugin, factionName, factionShortcut, leader, location);
+            plugin.getFactionsManager().createFaction(factionName, factionShortcut, leader, location);
 
             Block coreBlock = location.getBlock();
             coreBlock.setType(Material.OCHRE_FROGLIGHT);
-            plugin.getClaimsManager().createClaim(FactionsUtils.getFactionFromName(plugin, factionName), coreBlock.getChunk(), ClaimType.CORE, location);
+            plugin.getClaimsManager().createClaim(plugin.getFactionsManager().getFactionFromName(factionName), coreBlock.getChunk(), ClaimType.CORE, location);
             Bukkit.getPlayer(leader).sendMessage(plugin.getConfigUtils().getLocalisation("faction-created"));
         }
     }

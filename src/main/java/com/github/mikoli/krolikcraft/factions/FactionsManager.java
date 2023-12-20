@@ -4,26 +4,36 @@ import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
+import java.util.HashMap;
 import java.util.UUID;
 
-public class FactionsUtils {
+public class FactionsManager {
 
-    public static boolean isPlayerInFaction(PMEFactions plugin, UUID playerUUID) {
-        for (Faction faction : plugin.getFactionsHashMap().values()) {
+    private final PMEFactions plugin;
+    private final HashMap<UUID, Faction> factionsList = new HashMap<>();
+
+    public FactionsManager(PMEFactions plugin) {
+        this.plugin = plugin;
+    }
+
+    public HashMap<UUID, Faction> getFactionsList() {
+        return this.factionsList;
+    }
+
+
+    public boolean isPlayerInFaction(UUID playerUUID) {
+        for (Faction faction : plugin.getFactionsManager().getFactionsList().values()) {
            if (faction.getMembers().contains(playerUUID)) return true;
         }
         return false;
     }
 
-    public static Faction getPlayersFaction(PMEFactions plugin, UUID playerUUID) {
-        for (Faction faction : plugin.getFactionsHashMap().values()) {
+    public Faction getPlayersFaction(UUID playerUUID) {
+        for (Faction faction : plugin.getFactionsManager().getFactionsList().values()) {
             if (faction.isMember(playerUUID)) {
                 return faction;
             }
@@ -31,37 +41,35 @@ public class FactionsUtils {
         return null;
     }
 
-    public static Faction getFactionFromName(PMEFactions plugin, String name) {
-        for (UUID uuid : plugin.getFactionsHashMap().keySet()) {
-            if (plugin.getFactionsHashMap().get(uuid).getName().equals(name)) {
-                return plugin.getFactionsHashMap().get(uuid);
+    public Faction getFactionFromName(String name) {
+        for (Faction faction : plugin.getFactionsManager().getFactionsList().values()) {
+            if (faction.getName().equals(name)) {
+                return faction;
             }
         }
         return null;
     }
 
-    public static void createFaction(PMEFactions plugin, String name, String shortcut, UUID leader, Location coreLocation) {
-        Faction faction = new Faction(plugin);
+    public void createFaction(String name, String shortcut, UUID leader, Location coreLocation) {
+        UUID id = UUID.randomUUID();
+        while (plugin.getFactionsManager().getFactionsList().containsKey(id)) id = UUID.randomUUID();
+
+        Faction faction = new Faction(id);
         faction.setName(name);
         faction.setShortcut(shortcut);
         faction.setColor(ChatColor.WHITE);
         faction.setLeader(leader);
         faction.addMember(leader);
-
-        UUID factionId = UUID.randomUUID();
-        while (plugin.getFactionsHashMap().containsKey(factionId)) {
-            factionId = UUID.randomUUID();
-        }
-        faction.setId(factionId);
         faction.setCoreLocation(coreLocation);
-        plugin.getFactionsHashMap().put(factionId, faction);
+
+        plugin.getFactionsManager().getFactionsList().put(id, faction);
     }
 
     public static boolean hasPlayerPermission(PMEFactions plugin, CommandSender commandSender, CommandsPermissions permissions, boolean adminMode) {
         if ((adminMode || permissions == CommandsPermissions.ADMIN) && commandSender.hasPermission("pmefactions.admin")) return true;
 
         UUID playerUUID = Bukkit.getPlayer(commandSender.getName()).getUniqueId();
-        Faction faction = getPlayersFaction(plugin, playerUUID);
+        Faction faction = getPlayersFaction(playerUUID);
         if (faction == null) return false;
 
         if (permissions == CommandsPermissions.MEMBER && faction.isMember(playerUUID)) return true;
@@ -71,7 +79,7 @@ public class FactionsUtils {
         return false;
     }
 
-    public static void removeFaction(PMEFactions plugin, Faction faction) {
+    public void removeFaction(Faction faction) {
 
         ClaimsManager claimsManager = plugin.getClaimsManager();
         for (UUID id : claimsManager.getClaimsList().keySet()) {
@@ -81,12 +89,9 @@ public class FactionsUtils {
         Block coreBlock = faction.getCoreLocation().getBlock();
         coreBlock.setType(Material.AIR);
 
-        for (Faction f : plugin.getFactionsHashMap().values()) {
+        for (Faction f : plugin.getFactionsManager().getFactionsList().values()) {
             if (f.getEnemies().contains(faction.getId())) f.getEnemies().remove(faction.getId());
         }
-
-        plugin.getFactionsHashMap().remove(faction.getId());
-        if (plugin.getFactionsFilesHashMap().get(faction.getId()) != null) plugin.getFactionsFilesHashMap().get(faction.getId()).deleteFile();
-        plugin.getFactionsFilesHashMap().remove(faction.getId());
+        plugin.getFactionsManager().removeFaction(faction);
     }
 }

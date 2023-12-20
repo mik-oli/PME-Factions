@@ -5,7 +5,7 @@ import com.github.mikoli.krolikcraft.commandsHandler.BaseCommand;
 import com.github.mikoli.krolikcraft.commandsHandler.RequiredCmdArgs;
 import com.github.mikoli.krolikcraft.commandsHandler.SubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsUtils;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 
@@ -74,7 +74,7 @@ public class FactionAddMember extends SubCommand {
 
         Faction faction = (Faction) args.get(0);
         UUID targetUUID = (UUID) args.get(1);
-        if (FactionsUtils.isPlayerInFaction(plugin, targetUUID)) {
+        if (plugin.getFactionsManager().isPlayerInFaction(targetUUID)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("target-in-faction"));
             return;
         }
