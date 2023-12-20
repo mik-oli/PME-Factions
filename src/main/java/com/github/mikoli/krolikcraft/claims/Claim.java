@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Claim {
 
     private final UUID claimId;
-    private final ClaimType claimType;
+    private ClaimType claimType;
     private UUID claimOwner;
     private Location coreLocation;
     private final Set<Chunk> claimChunksMap = new HashSet<>();
@@ -22,6 +22,10 @@ public class Claim {
 
     public UUID getClaimId() {
         return this.claimId;
+    }
+
+    public void setClaimType(ClaimType claimType) {
+        this.claimType = claimType;
     }
 
     public ClaimType getClaimType() {

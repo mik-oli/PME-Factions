@@ -4,7 +4,6 @@ import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataKeys;
 
@@ -37,14 +36,22 @@ public class BlockPlaceListener implements Listener {
         Block block = event.getBlock();
         ClaimsManager claimsManager = plugin.getClaimsManager();
 
-        if (!claimsManager.isChunkClaimed(block.getChunk())) return;
-        if (!plugin.getFactionsManager().isPlayerInFaction(player.getUniqueId())) {
-            event.setCancelled(true);
-            return;
+        if (claimsManager.isChunkClaimed(block.getChunk())) {
+            UUID claimId = claimsManager.getClaimId(event.getBlock().getChunk());
+            UUID claimFactionId = claimsManager.getClaimsList().get(claimId).getClaimOwner();
+            Faction claimFaction = plugin.getFactionsManager().getFactionsList().get(claimFactionId);
+            Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(player.getUniqueId());
+
+            if (playerFaction == null || !claimFaction.getId().equals(playerFaction.getId())) {
+                event.setCancelled(true);
+                player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-interact"));
+            }
+        }
+        else {
+            createClaim(event);
+            createFaction(event);
         }
 
-        createClaim(event);
-        createFaction(event);
     }
 
     private void createClaim(BlockPlaceEvent event) {

@@ -2,7 +2,6 @@ package com.github.mikoli.krolikcraft.listeners;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.factions.Faction;
-import com.github.mikoli.krolikcraft.factions.FactionsManager;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,6 +29,7 @@ public class InteractListener implements Listener {
         Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(player.getUniqueId());
         if (playerFaction == null) {
             event.setCancelled(true);
+            player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-interact"));
             return;
         }
         Faction claimFaction = plugin.getFactionsManager().getFactionsList().get(plugin.getClaimsManager().getClaimsList().get(plugin.getClaimsManager().getClaimId(block.getChunk())).getClaimOwner());

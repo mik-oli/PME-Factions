@@ -62,3 +62,4 @@ localisation:
   shortcut-too-long: "&cShortcut is too long, max length is {0}!"
   shortcut-already-exists: "&cShortcut name already exists, max length is {0}!"
   faction-created: "&aFaction has been created."
+  cant-interact: "&cYou can't interact with this claimed terrain!"

@@ -75,9 +75,9 @@ public class ClaimsManager {
 //        return plugin.getFactionsHashMap().get(this.getClaimsOwnerMap().get(this.getClaimId(chunk)));
 //    }
 
-//    public void changeClaimOwner(UUID claimId, Faction faction) {
-//        claimsOwnerMap.replace(claimId, faction.getId());
-//    }
+    public void changeClaimOwner(Claim claim, Faction faction) {
+        claim.setClaimOwner(faction.getId());
+    }
 
     public boolean checkIfCanCreateClaim(Faction faction, Chunk coreChunk, ClaimType claimType, Boolean connected) {
         int range = claimType.getRange();
