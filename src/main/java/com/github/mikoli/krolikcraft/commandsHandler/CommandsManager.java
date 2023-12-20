@@ -63,7 +63,7 @@ public class CommandsManager implements CommandExecutor {
         if (subCommand.requiredPermission(plugin.getConfigUtils()) == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
-        } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !FactionsManager.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
+        } else if (subCommand.requiredPermission(plugin.getConfigUtils()) != CommandsPermissions.NULL && !CommandsPermissions.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(plugin.getConfigUtils()), adminMode)) {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
             return true;
         }

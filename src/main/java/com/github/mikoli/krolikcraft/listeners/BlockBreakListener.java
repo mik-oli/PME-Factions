@@ -7,6 +7,7 @@ import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
+import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +45,7 @@ public class BlockBreakListener implements Listener {
         Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(playerUUID);
         if (playerFaction.getId().equals(claimFaction.getId())) {
             if (claimsManager.getClaimCoreLocation().get(claimId).equals(block.getLocation())) {
-                if (!FactionsManager.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
+                if (!CommandsPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("cmd-no-permission"));
                     event.setCancelled(true);
                     return;
@@ -75,7 +76,7 @@ public class BlockBreakListener implements Listener {
             }
         } else if (claimsManager.getClaimsTypesMap().get(claimId) == ClaimType.NEUTRAL) {
             if (claimFaction.getCoreLocation().getBlock().equals(block)) {
-                if (FactionsManager.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
+                if (CommandsPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
                     claimsManager.changeClaimOwner(claimId, playerFaction);
                 }
             }
