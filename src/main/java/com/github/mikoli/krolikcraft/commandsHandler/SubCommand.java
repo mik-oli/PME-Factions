@@ -1,13 +1,9 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
-import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 
 import org.bukkit.command.CommandSender;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class SubCommand {
 
@@ -17,8 +13,7 @@ public abstract class SubCommand {
     public abstract String getAdminSyntax();
     public abstract int getArgsLength();
     public abstract boolean playerOnly();
-    public abstract ArrayList<RequiredCmdArgs> requiredArguments();
     public abstract String getPermission();
-    public abstract CommandsPermissions requiredPermission(ConfigUtils config);
-    public abstract void perform(PMEFactions plugin, CommandSender commandSender, boolean adminMode, List<Object> args);
+    public abstract CommandsPermissions requiredPermission();
+    public abstract void perform(CommandSender commandSender, boolean adminMode, String[] args);
 }
