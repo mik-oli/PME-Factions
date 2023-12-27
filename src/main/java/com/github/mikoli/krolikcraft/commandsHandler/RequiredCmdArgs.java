@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -23,17 +24,15 @@ public enum RequiredCmdArgs {
     COLOR,
     UUID;
 
-    private static Faction getRequestFaction(PMEFactions plugin, boolean admin, CommandSender commandSender, String arg) {
-
-        if (admin) return plugin.getFactionsManager().getFactionFromName(arg);
-        else return plugin.getFactionsManager().getPlayersFaction(Bukkit.getPlayer(commandSender.getName()).getUniqueId());
+    public static Faction getFactionByPlayer(PMEFactions plugin, Player player) {
+        return plugin.getFactionsManager().getPlayersFaction(player.getUniqueId());
     }
 
-    private static Faction getTargetFaction(PMEFactions plugin, boolean admin, String arg) {
+    public static Faction getFactionByName(PMEFactions plugin, String arg) {
         return plugin.getFactionsManager().getFactionFromName(arg);
     }
 
-    private static UUID getTargetPlayer(boolean admin, String arg) {
+    public static UUID getTargetPlayer(boolean admin, String arg) {
         UUID uuid = null;
         OfflinePlayer offlinePlayer;
 
@@ -44,7 +43,7 @@ public enum RequiredCmdArgs {
         return uuid;
     }
 
-    private static ClaimType getClaimType(boolean admin, String arg) {
+    public static ClaimType getClaimType(String arg) {
         ClaimType claimType;
         try {
             claimType = ClaimType.valueOf(arg);
@@ -54,15 +53,15 @@ public enum RequiredCmdArgs {
         return claimType;
     }
 
-    private static ChatColor getFactionColor(boolean admin, String arg) {
-        ChatColor color = null;
+    public static ChatColor getFactionColor(String arg) {
+        ChatColor color = ChatColor.WHITE;
         try {
             color = ChatColor.valueOf(arg);
         } catch (IllegalArgumentException ignored) {}
         return color;
     }
 
-    private static UUID getUUID(String arg) {
+    public static UUID getUUID(String arg) {
         UUID uuid = null;
         try {
             uuid = java.util.UUID.fromString(arg);

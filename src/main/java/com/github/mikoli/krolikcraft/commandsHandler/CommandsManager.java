@@ -1,7 +1,11 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
-import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.claim.*;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.faction.*;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.FactionsListCmd;
+import com.github.mikoli.krolikcraft.commandsHandler.subCommands.other.GetClaimFlagCmd;
+import com.github.mikoli.krolikcraft.utils.RankPermissions;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.Utils;
 
@@ -52,10 +56,10 @@ public class CommandsManager implements CommandExecutor {
             commandSender.sendMessage(config.getLocalisation("cmd-player-only"));
             return true;
         }
-        if (subCommand.requiredPermission() == CommandsPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
+        if (subCommand.requiredRank() == RankPermissions.NULL && !commandSender.hasPermission(subCommand.getPermission())) {
             commandSender.sendMessage(config.getLocalisation("cmd-no-permission"));
             return true;
-        } else if (subCommand.requiredPermission() != CommandsPermissions.NULL && !CommandsPermissions.hasPlayerPermission(plugin, commandSender, subCommand.requiredPermission(), adminMode)) {
+        } else if (subCommand.requiredRank() != RankPermissions.NULL && !RankPermissions.hasPlayerPermission(plugin, commandSender, subCommand.requiredRank(), adminMode)) {
             commandSender.sendMessage(config.getLocalisation("cmd-no-permission"));
             return true;
         }
@@ -66,27 +70,27 @@ public class CommandsManager implements CommandExecutor {
     }
 
     private void loadSubCommands() {
-//        subCommands.add(new Claim());
-//        subCommands.add(new ClaimChangeOwner());
-//        subCommands.add(new ClaimInfo());
-//        subCommands.add(new FactionAddMember());
-//        subCommands.add(new FactionInfo());
-//        subCommands.add(new FactionRemoveMember());
-//        subCommands.add(new FactionsList());
-//        subCommands.add(new GetClaimFlag());
-//        subCommands.add(new Unclaim());
-//        subCommands.add(new FactionCreate());
-//        subCommands.add(new FactionSetName());
-//        subCommands.add(new FactionSetShortcut());
-//        subCommands.add(new FactionSetColor());
-//        subCommands.add(new ClaimGetId());
-//        subCommands.add(new AddChunkToClaim());
-//        subCommands.add(new WarDeclare());
-//        subCommands.add(new WarPeace());
-//        subCommands.add(new FactionDelete());
-//        subCommands.add(new FactionAddOfficer());
-//        subCommands.add(new FactionRemoveOfficer());
-//        subCommands.add(new CreateNeutralClaim());
+        subCommands.add(new ClaimAddChunkCmd(plugin));
+        subCommands.add(new ClaimChangeOwnerCmd(plugin));
+        subCommands.add(new ClaimCmd(plugin));
+        subCommands.add(new ClaimInfoCmd(plugin));
+        subCommands.add(new ClaimNeutralCmd(plugin));
+        subCommands.add(new GetClaimIdCmd(plugin));
+        subCommands.add(new UnclaimCmd(plugin));
+        subCommands.add(new AddMemberCmd(plugin));
+        subCommands.add(new AddOfficerCmd(plugin));
+        subCommands.add(new FactionCreateCmd(plugin));
+        subCommands.add(new FactionDeleteCmd(plugin));
+        subCommands.add(new FactionInfoCmd(plugin));
+        subCommands.add(new RemoveMemberCmd(plugin));
+        subCommands.add(new RemoveOfficerCmd(plugin));
+        subCommands.add(new SetColorCmd(plugin));
+        subCommands.add(new SetNameCmd(plugin));
+        subCommands.add(new SetShortcutCmd(plugin));
+        subCommands.add(new WarDeclareCmd(plugin));
+        subCommands.add(new WarPeaceCmd(plugin));
+        subCommands.add(new FactionsListCmd(plugin));
+        subCommands.add(new GetClaimFlagCmd(plugin));
     }
 
     private boolean returnSyntax(CommandSender commandSender, String error, String syntax) {

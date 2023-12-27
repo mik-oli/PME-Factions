@@ -63,3 +63,4 @@ localisation:
   shortcut-already-exists: "&cShortcut name already exists, max length is {0}!"
   faction-created: "&aFaction has been created."
   cant-interact: "&cYou can't interact with this claimed terrain!"
+  cant-kick-officer: "&cYou can't kick player that is officer in your faction!"

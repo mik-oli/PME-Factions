@@ -7,7 +7,7 @@ import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
 
-import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
+import com.github.mikoli.krolikcraft.utils.RankPermissions;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,7 +50,7 @@ public class BlockBreakListener implements Listener {
         //taking over neutral claim
         if (claim.getClaimType() == ClaimType.NEUTRAL) {
             if (claim.getCoreLocation().getBlock().equals(block.getLocation())) {
-                if (CommandsPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
+                if (RankPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("claim"), false)) {
                     claimsManager.changeClaimOwner(claim, playerFaction);
                     claim.setClaimType(ClaimType.OUTPOST);
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
@@ -63,7 +63,7 @@ public class BlockBreakListener implements Listener {
             //unclaiming own terrain
             if (playerFaction.getId().equals(claimFaction.getId())) {
                 if (claimFaction.getCoreLocation().equals(block.getLocation())) {
-                    if (!CommandsPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
+                    if (!RankPermissions.hasPlayerPermission(plugin, player, plugin.getConfigUtils().getPermission("unclaim"), false)) {
                         player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-unclaim"));
                         event.setCancelled(true);
                         return;

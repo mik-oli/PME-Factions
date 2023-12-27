@@ -1,7 +1,6 @@
 package com.github.mikoli.krolikcraft.commandsHandler;
 
-import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
-import com.github.mikoli.krolikcraft.utils.ConfigUtils;
+import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
 import org.bukkit.command.CommandSender;
 
@@ -14,6 +13,6 @@ public abstract class SubCommand {
     public abstract int getArgsLength();
     public abstract boolean playerOnly();
     public abstract String getPermission();
-    public abstract CommandsPermissions requiredPermission();
+    public abstract RankPermissions requiredRank();
     public abstract void perform(CommandSender commandSender, boolean adminMode, String[] args);
 }

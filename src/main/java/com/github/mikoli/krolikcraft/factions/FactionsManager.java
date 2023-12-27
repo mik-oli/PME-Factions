@@ -2,11 +2,9 @@ package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.utils.CommandsPermissions;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.UUID;
