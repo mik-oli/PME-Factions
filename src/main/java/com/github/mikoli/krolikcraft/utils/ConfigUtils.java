@@ -13,15 +13,11 @@ public class ConfigUtils {
     }
 
     public ConfigurationSection getConfig() {
-        return this.config;
-    }
-
-    public RankPermissions getPermission(String command) {
-        return RankPermissions.valueOf(config.getString("commands-permissions." + command).toUpperCase());
+        return config;
     }
 
     public String getLocalisation(String key) {
-        return Utils.pluginPrefix() + Utils.coloring(config.getString("localisation." + key));
+        return BukkitUtils.pluginPrefix() + BukkitUtils.coloring(config.getString("localisation." + key));
     }
 
     public int getMaxLength(String key) {

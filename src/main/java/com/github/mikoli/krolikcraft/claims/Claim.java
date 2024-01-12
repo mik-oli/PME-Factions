@@ -9,19 +9,19 @@ import java.util.UUID;
 
 public class Claim {
 
-    private final UUID claimId;
+    private final UUID id;
     private ClaimType claimType;
-    private UUID claimOwner;
     private Location coreLocation;
-    private final Set<Chunk> claimChunksMap = new HashSet<>();
+    private UUID owner;
+    private final Set<Chunk> chunksSet = new HashSet<>();
 
     public Claim(UUID id, ClaimType claimType) {
-        this.claimId = id;
+        this.id = id;
         this.claimType = claimType;
     }
 
-    public UUID getClaimId() {
-        return this.claimId;
+    public UUID getId() {
+        return this.id;
     }
 
     public void setClaimType(ClaimType claimType) {
@@ -32,12 +32,12 @@ public class Claim {
         return this.claimType;
     }
 
-    public void setClaimOwner(UUID newOwner) {
-        this.claimOwner = newOwner;
+    public void setOwner(UUID newOwner) {
+        this.owner = newOwner;
     }
 
-    public UUID getClaimOwner() {
-        return this.claimOwner;
+    public UUID getOwner() {
+        return this.owner;
     }
 
     public void setCoreLocation(Location location) {
@@ -48,19 +48,19 @@ public class Claim {
         return this.coreLocation;
     }
 
-    public Set<Chunk> getClaimChunksMap() {
-        return this.claimChunksMap;
+    public Set<Chunk> getChunksSet() {
+        return this.chunksSet;
     }
 
     public boolean isChunkPartOfClaim(Chunk inputChunk) {
-        return this.claimChunksMap.contains(inputChunk);
+        return this.chunksSet.contains(inputChunk);
     }
 
     public void addChunkToClaim(Chunk inputChunk) {
-        this.claimChunksMap.add(inputChunk);
+        this.chunksSet.add(inputChunk);
     }
 
     public void removeChunkFromClaim(Chunk inputChunk) {
-        this.claimChunksMap.remove(inputChunk);
+        this.chunksSet.remove(inputChunk);
     }
 }

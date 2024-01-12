@@ -1,7 +1,6 @@
 package com.github.mikoli.krolikcraft.factions;
 
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
@@ -15,8 +14,8 @@ public class Faction {
     private String name;
     private String shortcut;
     private ChatColor color;
-    private UUID leader;
     private Location coreLocation;
+    private UUID leader;
     private final HashSet<UUID> officers = new HashSet<>();
     private final HashSet<UUID> members = new HashSet<>();
     private final HashSet<UUID> enemies = new HashSet<>();
@@ -74,7 +73,11 @@ public class Faction {
     }
 
     public Location getCoreLocation() {
-         return this.coreLocation;
+        return this.coreLocation;
+    }
+
+    public HashSet<UUID> getMembers() {
+        return members;
     }
 
     public void addMember(UUID player) {
@@ -85,27 +88,39 @@ public class Faction {
         members.remove(player);
     }
 
-    public boolean isOfficer(UUID player) {
-        return officers.contains(player);
+    public boolean isMember(UUID player) {
+        return members.contains(player);
     }
 
     public HashSet<UUID> getOfficers() {
         return officers;
     }
 
-    public boolean isMember(UUID player) {
-        return members.contains(player);
+    public boolean isOfficer(UUID player) {
+        return officers.contains(player);
     }
 
-    public HashSet<UUID> getMembers() {
-        return members;
+    public void addOfficer(UUID player) {
+        officers.add(player);
+    }
+
+    public void removeOfficer(UUID player) {
+        officers.remove(player);
     }
 
     public HashSet<UUID> getEnemies() {
         return enemies;
     }
 
+    public void addEnemy(UUID faction) {
+        enemies.add(faction);
+    }
+
+    public void removeEnemy(UUID faction) {
+        enemies.remove(faction);
+    }
+
     public boolean isAtWarWith(Faction faction) {
-        return enemies.contains(faction.id);
+        return enemies.contains(faction.getId());
     }
 }
