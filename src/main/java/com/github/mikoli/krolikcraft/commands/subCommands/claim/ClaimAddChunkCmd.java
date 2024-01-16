@@ -2,7 +2,7 @@ package com.github.mikoli.krolikcraft.commands.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
 import org.bukkit.Bukkit;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class ClaimAddChunkCmd extends SubCommand {
+public class ClaimAddChunkCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

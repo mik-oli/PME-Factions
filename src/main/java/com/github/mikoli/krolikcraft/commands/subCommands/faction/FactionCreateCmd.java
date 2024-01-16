@@ -3,7 +3,7 @@ package com.github.mikoli.krolikcraft.commands.subCommands.faction;
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.PersistentDataUtils;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FactionCreateCmd extends SubCommand {
+public class FactionCreateCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

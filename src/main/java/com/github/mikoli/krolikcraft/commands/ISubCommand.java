@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public abstract class SubCommand {
+public abstract class ISubCommand {
 
     public abstract String getName();
     public abstract String getSyntax();

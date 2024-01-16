@@ -5,7 +5,7 @@ import com.github.mikoli.krolikcraft.claims.Claim;
 import com.github.mikoli.krolikcraft.claims.ClaimType;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class ClaimChangeOwnerCmd extends SubCommand {
+public class ClaimChangeOwnerCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

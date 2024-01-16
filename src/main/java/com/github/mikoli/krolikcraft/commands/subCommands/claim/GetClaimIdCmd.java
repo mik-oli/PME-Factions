@@ -2,19 +2,18 @@ package com.github.mikoli.krolikcraft.commands.subCommands.claim;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class GetClaimIdCmd extends SubCommand {
+public class GetClaimIdCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

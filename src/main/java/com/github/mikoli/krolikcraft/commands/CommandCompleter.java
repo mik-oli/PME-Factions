@@ -32,7 +32,7 @@ public class CommandCompleter implements TabCompleter {
         boolean adminMode = command.getName().contains("-admin");
         if (args.length == 1) return getCommands(commandSender, adminMode);
         else if (args.length > 1) {
-            SubCommand subCommand = plugin.getCommandsManager().getSubCommand(args[0]);
+            ISubCommand subCommand = plugin.getCommandsManager().getSubCommand(args[0]);
             if (subCommand == null) return null;
             if (subCommand.getArgs().contains(CommandsArgs.NONE)) return null;
 
@@ -62,7 +62,7 @@ public class CommandCompleter implements TabCompleter {
 
     private List<String> getCommands(CommandSender commandSender, boolean adminMode) {
         List<String> toReturn = new ArrayList<>();
-        for (SubCommand subCommand : plugin.getCommandsManager().getSubCommands()) {
+        for (ISubCommand subCommand : plugin.getCommandsManager().getSubCommands()) {
             if (RankPermissions.hasPlayerPermission(plugin, Bukkit.getPlayer(commandSender.getName()), subCommand.requiredRank(), adminMode))
                 toReturn.add(subCommand.getName());
         }

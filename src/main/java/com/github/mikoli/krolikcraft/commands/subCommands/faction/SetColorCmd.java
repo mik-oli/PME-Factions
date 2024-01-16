@@ -2,7 +2,7 @@ package com.github.mikoli.krolikcraft.commands.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public class SetColorCmd extends SubCommand {
+public class SetColorCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

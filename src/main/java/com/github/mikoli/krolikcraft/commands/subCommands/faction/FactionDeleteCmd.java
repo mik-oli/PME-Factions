@@ -2,7 +2,7 @@ package com.github.mikoli.krolikcraft.commands.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
-import com.github.mikoli.krolikcraft.commands.SubCommand;
+import com.github.mikoli.krolikcraft.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
@@ -10,9 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class FactionDeleteCmd extends SubCommand {
+public class FactionDeleteCmd extends ISubCommand {
 
     private final PMEFactions plugin;
 

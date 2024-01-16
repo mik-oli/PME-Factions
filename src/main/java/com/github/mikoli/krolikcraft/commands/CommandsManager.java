@@ -19,7 +19,7 @@ public class CommandsManager implements CommandExecutor {
 
     private final PMEFactions plugin;
     private final ConfigUtils config;
-    private final ArrayList<SubCommand> subCommands = new ArrayList<>();
+    private final ArrayList<ISubCommand> subCommands = new ArrayList<>();
 
     public CommandsManager(PMEFactions plugin) {
         this.plugin = plugin;
@@ -35,7 +35,7 @@ public class CommandsManager implements CommandExecutor {
             commandSender.sendMessage(config.getLocalisation("cmd-not-found"));
             return false;
         }
-        SubCommand subCommand = this.getSubCommand(args[0]);
+        ISubCommand subCommand = this.getSubCommand(args[0]);
         if (subCommand == null) {
             commandSender.sendMessage(config.getLocalisation("cmd-not-found"));
             return false;
@@ -59,12 +59,12 @@ public class CommandsManager implements CommandExecutor {
         return true;
     }
 
-    protected ArrayList<SubCommand> getSubCommands() {
+    protected ArrayList<ISubCommand> getSubCommands() {
         return this.subCommands;
     }
 
-    protected SubCommand getSubCommand(String str) {
-        for (SubCommand subCmd : subCommands)
+    protected ISubCommand getSubCommand(String str) {
+        for (ISubCommand subCmd : subCommands)
             if (subCmd.getName().equalsIgnoreCase(str)) return subCmd;
         return null;
     }
