@@ -46,7 +46,7 @@ public class FactionsDataHandler {
     }
 
     public static void removeFactionData(Faction faction) {
-        faction.getDataFile().deleteFile();
+        if (faction.getDataFile() != null) faction.getDataFile().deleteFile();
     }
 
     private static Faction loadFactionData(FilesUtils file) {
