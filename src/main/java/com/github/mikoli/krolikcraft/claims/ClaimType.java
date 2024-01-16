@@ -1,7 +1,5 @@
 package com.github.mikoli.krolikcraft.claims;
 
-import org.bukkit.ChatColor;
-
 public enum ClaimType {
 
     CLAIM_1x1(0),
@@ -16,8 +14,15 @@ public enum ClaimType {
     ClaimType(int key) {
         this.range = key;
     }
-
     public int getRange() {
         return this.range;
+    }
+
+    public static ClaimType getClaimType(String arg) {
+        try {
+            return ClaimType.valueOf(arg);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

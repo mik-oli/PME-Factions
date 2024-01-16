@@ -1,82 +1,80 @@
 package com.github.mikoli.krolikcraft;
 
+import com.github.mikoli.krolikcraft.claims.ClaimsDataHandler;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.claims.LoadSaveClaimsData;
-import com.github.mikoli.krolikcraft.commandsHandler.CommandsManager;
-import com.github.mikoli.krolikcraft.factions.*;
+import com.github.mikoli.krolikcraft.commands.CommandCompleter;
+import com.github.mikoli.krolikcraft.commands.CommandsManager;
+import com.github.mikoli.krolikcraft.factions.FactionsDataHandler;
+import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.listeners.InteractListener;
-import com.github.mikoli.krolikcraft.listeners.OtherListeners;
+import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
-import com.github.mikoli.krolikcraft.utils.Utils;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.UUID;
 
 public final class PMEFactions extends JavaPlugin {
 
-    private final HashMap<UUID, Faction> factionsHashMap = new HashMap<>();
-    private final HashMap<UUID, FilesUtils> factionsFilesHashMap = new HashMap<>();
-    private final ClaimsManager claimsManager = new ClaimsManager(this);
-    private final CommandsManager commandsManager = new CommandsManager(this);
     private final ConfigUtils configUtils = new ConfigUtils(this);
     private final FilesUtils claimsFilesUtil = new FilesUtils(this, "claims");
-    private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
+    private final ClaimsManager claimsManager = new ClaimsManager(this);
+    private final FactionsManager factionsManager = new FactionsManager(this);
+    private final CommandsManager commandsManager = new CommandsManager(this);
+    private final CommandCompleter commandCompleter = new CommandCompleter(this);
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
+    private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final InteractListener interactListener = new InteractListener(this);
-    private final OtherListeners otherListeners = new OtherListeners(this);
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         try {
-            this.loadFactionsData();
-            this.loadClaimsData();
+            ClaimsDataHandler.loadClaimsData(claimsFilesUtil, claimsManager);
+            FactionsDataHandler.loadFactionsData(this);
         } catch (IOException e) {
-            Utils.consoleError(Arrays.toString(e.getStackTrace()));
+            BukkitUtils.consoleError(Arrays.toString(e.getStackTrace()));
         }
 
         this.setEventsListeners();
         this.setCommandsExecutors();
-        saveDefaultConfig();
     }
 
     @Override
     public void onDisable() {
 
         try {
-            this.saveFactionsData();
-            this.saveClaimsData();
+            ClaimsDataHandler.saveClaimsData(claimsFilesUtil, claimsManager);
+            FactionsDataHandler.saveFactionsData(this);
         } catch (IOException e) {
-            Utils.consoleError(Arrays.toString(e.getStackTrace()));
+            BukkitUtils.consoleError(Arrays.toString(e.getStackTrace()));
         }
     }
 
-    public HashMap<UUID, Faction> getFactionsHashMap() {
-        return factionsHashMap;
-    }
-
-    public HashMap<UUID, FilesUtils> getFactionsFilesHashMap() {
-        return factionsFilesHashMap;
-    }
-
-    public FilesUtils getClaimsFilesUtil() {
-        return claimsFilesUtil;
+    public ConfigUtils getConfigUtils() {
+        return this.configUtils;
     }
 
     public ClaimsManager getClaimsManager() {
-        return claimsManager;
+        return this.claimsManager;
     }
 
-    public ConfigUtils getConfigUtils() {
-        return configUtils;
+    public FactionsManager getFactionsManager() {
+        return this.factionsManager;
+    }
+
+    public FilesUtils getClaimsFilesUtil() {
+        return this.claimsFilesUtil;
+    }
+
+    public CommandsManager getCommandsManager() {
+        return this.commandsManager;
     }
 
     //Private methods
@@ -85,55 +83,13 @@ public final class PMEFactions extends JavaPlugin {
         pluginManager.registerEvents(blockPlaceListener, this);
         pluginManager.registerEvents(blockBreakListener, this);
         pluginManager.registerEvents(interactListener, this);
-        pluginManager.registerEvents(otherListeners, this);
+//        pluginManager.registerEvents(otherListeners, this);
     }
 
     private void setCommandsExecutors() {
-        this.getCommand("faction").setExecutor(commandsManager);
-        this.getCommand("faction-admin").setExecutor(commandsManager);
-        this.getCommand("claim").setExecutor(commandsManager);
-        this.getCommand("claim-admin").setExecutor(commandsManager);
         this.getCommand("factions").setExecutor(commandsManager);
-    }
-
-    private void loadFactionsData() throws IOException {
-        File factionsDirectory = new File(this.getDataFolder() + File.separator + "factions");
-        if (!factionsDirectory.exists()) return;
-
-        for (File factionFile : factionsDirectory.listFiles()) {
-            String factionId = factionFile.getName().replace(".yml", "");
-            FilesUtils factionFilesUtil = new FilesUtils(this, factionId);
-            factionFilesUtil.createFactionsDataFile();
-            factionsFilesHashMap.put(UUID.fromString(factionId), factionFilesUtil);
-        }
-
-        for (UUID id : factionsFilesHashMap.keySet()) {
-            Faction faction = new Faction(this);
-            LoadSaveFactionData.loadFactionData(factionsFilesHashMap.get(id), faction);
-            factionsHashMap.put(id, faction);
-        }
-    }
-
-    private void saveFactionsData() throws IOException {
-        for (UUID id : factionsHashMap.keySet()) {
-            if (!factionsFilesHashMap.containsKey(id) || factionsFilesHashMap.get(id) == null) {
-                FilesUtils file = new FilesUtils(this, id.toString());
-                file.createFactionsDataFile();
-                LoadSaveFactionData.saveFactionData(file, factionsHashMap.get(id));
-            }
-            else LoadSaveFactionData.saveFactionData(factionsFilesHashMap.get(id), factionsHashMap.get(id));
-        }
-    }
-
-    private void loadClaimsData() throws IOException {
-        File factionsDirectory = this.getDataFolder();
-        if (!factionsDirectory.exists()) return;
-        claimsFilesUtil.createClaimsDataFile();
-        LoadSaveClaimsData.loadClaimsData(claimsFilesUtil, claimsManager);
-    }
-
-    private void saveClaimsData() throws IOException {
-        claimsFilesUtil.createClaimsDataFile();
-        LoadSaveClaimsData.saveClaimsData(claimsFilesUtil, claimsManager);
+        this.getCommand("factions").setTabCompleter(commandCompleter);
+        this.getCommand("factions-admin").setExecutor(commandsManager);
+        this.getCommand("factions-admin").setTabCompleter(commandCompleter);
     }
 }

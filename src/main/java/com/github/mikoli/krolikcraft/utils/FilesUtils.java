@@ -28,7 +28,7 @@ public class FilesUtils {
         this.data.save(dataFile);
     }
 
-    public void createFactionsDataFile() throws IOException {
+    public void loadFactionsDataFile() throws IOException {
         dataFile = new File(plugin.getDataFolder() + File.separator + "factions", fileName + ".yml");
         if (!dataFile.exists()) {
             dataFile.getParentFile().mkdirs();
@@ -37,7 +37,7 @@ public class FilesUtils {
         data = YamlConfiguration.loadConfiguration(dataFile);
     }
 
-    public void createClaimsDataFile() throws IOException {
+    public void loadClaimsDataFile() throws IOException {
         dataFile = new File(plugin.getDataFolder(), fileName + ".yml");
         if (!dataFile.exists()) {
             dataFile.createNewFile();
