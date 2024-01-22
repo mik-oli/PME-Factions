@@ -5,6 +5,7 @@ main: com.github.mikoli.krolikcraft.PMEFactions
 api-version: ${apiVersion}
 authors: ${authors}
 website: ${project.url}
+softdepend: [dynmap]
 
 commands:
   factions:

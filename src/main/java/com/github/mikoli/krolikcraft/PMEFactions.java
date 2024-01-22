@@ -4,6 +4,7 @@ import com.github.mikoli.krolikcraft.claims.ClaimsDataHandler;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.commands.CommandCompleter;
 import com.github.mikoli.krolikcraft.commands.CommandsManager;
+import com.github.mikoli.krolikcraft.dynmap.MarkerApiManager;
 import com.github.mikoli.krolikcraft.factions.FactionsDataHandler;
 import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
@@ -13,8 +14,11 @@ import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import org.dynmap.DynmapAPI;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,17 +34,21 @@ public final class PMEFactions extends JavaPlugin {
     private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
     private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
     private final InteractListener interactListener = new InteractListener(this);
+    private MarkerApiManager markerApiManager;
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
 
+        saveDefaultConfig();
         try {
             ClaimsDataHandler.loadClaimsData(claimsFilesUtil, claimsManager);
             FactionsDataHandler.loadFactionsData(this);
         } catch (IOException e) {
             BukkitUtils.consoleError(Arrays.toString(e.getStackTrace()));
         }
+
+        DynmapAPI dynmapAPI = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+        if (dynmapAPI != null) markerApiManager = new MarkerApiManager(this, dynmapAPI);
 
         this.setEventsListeners();
         this.setCommandsExecutors();
@@ -75,6 +83,10 @@ public final class PMEFactions extends JavaPlugin {
 
     public CommandsManager getCommandsManager() {
         return this.commandsManager;
+    }
+
+    public MarkerApiManager getMarkerApiManager() {
+        return this.markerApiManager;
     }
 
     //Private methods
