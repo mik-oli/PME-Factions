@@ -83,14 +83,14 @@ public class MarkerApiManager {
         ClaimType claimType = claim.getClaimType();
         int range = claimType.getRange();
         Chunk coreChunk = plugin.getServer().getWorld("world").getChunkAt(claim.getCoreLocation());
-        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() + range);
-        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() - range);
+        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() - range);
+        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() + range);
         if (!claim.getChunksSet().contains(topLeftChunk) || !claim.getChunksSet().contains(bottomRightChunk)) return; //TODO xDD??
 
         int topX = (topLeftChunk.getX()*16);
         int topZ = (topLeftChunk.getZ()*16);
         int bottomX = (bottomRightChunk.getX()*16)+15;
-        int bottomZ = (bottomRightChunk.getZ()*16)-15;
+        int bottomZ = (bottomRightChunk.getZ()*16)+15;
 
         AreaStyle areaStyle = null;
         if (claimType == ClaimType.NEUTRAL) areaStyle = neutralOutpostStyle;
