@@ -60,7 +60,7 @@ public class BlockBreakListener implements Listener {
         if (claim.getClaimType() == ClaimType.NEUTRAL) {
             if (claim.getCoreLocation().getBlock() == block) {
                 if (RankPermissions.hasPlayerPermission(plugin, player, RankPermissions.OFFICER, false)) {
-                    claim.setOwner(playerFaction.getId());
+                    claimsManager.changeOwnership(claim, playerFaction);
                     claim.setClaimType(ClaimType.OUTPOST);
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
                     event.setDropItems(false);
@@ -98,7 +98,7 @@ public class BlockBreakListener implements Listener {
                     event.setCancelled(true);
                     //taking over enemy claim
                 } else if (claim.getCoreLocation().equals(block.getLocation())) {
-                    claim.setOwner(playerFaction.getId());
+                    claimsManager.changeOwnership(claim, playerFaction);
                     player.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
                     event.setDropItems(false);
                     event.setCancelled(true);

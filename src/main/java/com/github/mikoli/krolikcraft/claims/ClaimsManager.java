@@ -1,6 +1,8 @@
 package com.github.mikoli.krolikcraft.claims;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
+import com.github.mikoli.krolikcraft.events.ClaimChangeEvent;
+import com.github.mikoli.krolikcraft.events.ClaimChangeType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
@@ -59,13 +61,23 @@ public class ClaimsManager {
                 claim.addChunkToClaim(tempChunk);
             }
         }
+
+        BukkitUtils.callEvent(new ClaimChangeEvent(claim, ClaimChangeType.CREATE));
     }
+
+    public void changeOwnership(Claim claim, Faction newOwner) {
+        claim.setOwner(newOwner.getId());
+        BukkitUtils.callEvent(new ClaimChangeEvent(claim, ClaimChangeType.CHANGE_OWNER));
+    }
+
 
     public void removeClaim(UUID claimId) {
         Claim claim = claimsList.get(claimId);
         claim.getCoreLocation().getBlock().setType(Material.AIR);
         ClaimsDataHandler.deleteClaimFromFile(plugin.getClaimsFilesUtil(), claimId);
         claimsList.remove(claimId);
+
+        BukkitUtils.callEvent(new ClaimChangeEvent(claim, ClaimChangeType.REMOVE));
     }
 
     public boolean checkIfCanCreateClaim(Faction faction, Chunk coreChunk, ClaimType claimType, Boolean connected) {

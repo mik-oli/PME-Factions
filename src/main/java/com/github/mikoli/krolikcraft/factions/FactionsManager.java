@@ -4,6 +4,11 @@ import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.claims.Claim;
 import com.github.mikoli.krolikcraft.claims.ClaimsManager;
 
+import com.github.mikoli.krolikcraft.events.ClaimChangeEvent;
+import com.github.mikoli.krolikcraft.events.ClaimChangeType;
+import com.github.mikoli.krolikcraft.events.FactionChangeEvent;
+import com.github.mikoli.krolikcraft.events.FactionChangeType;
+import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,6 +45,7 @@ public class FactionsManager {
         faction.setCoreLocation(coreLocation);
 
         factionsList.put(id, faction);
+        BukkitUtils.callEvent(new FactionChangeEvent(faction, FactionChangeType.CREATE));
         return faction;
     }
 
@@ -68,6 +74,7 @@ public class FactionsManager {
         }
         factionsList.remove(faction.getId());
         FactionsDataHandler.removeFactionData(faction);
+        BukkitUtils.callEvent(new FactionChangeEvent(faction, FactionChangeType.REMOVE));
     }
 
     public Faction getFactionByUUID(UUID id) {

@@ -89,7 +89,7 @@ public class ClaimChangeOwnerCmd extends ISubCommand {
             commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("cant-change-owner"));
             return;
         }
-        claim.setOwner(faction.getId());
+        claimsManager.changeOwnership(claim, faction);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("owner-changed"));
     }
 }

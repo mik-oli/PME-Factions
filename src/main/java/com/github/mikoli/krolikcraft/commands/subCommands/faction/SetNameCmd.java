@@ -3,7 +3,10 @@ package com.github.mikoli.krolikcraft.commands.subCommands.faction;
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
 import com.github.mikoli.krolikcraft.commands.ISubCommand;
+import com.github.mikoli.krolikcraft.events.FactionChangeEvent;
+import com.github.mikoli.krolikcraft.events.FactionChangeType;
 import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
 
 import org.bukkit.Bukkit;
@@ -90,6 +93,7 @@ public class SetNameCmd extends ISubCommand {
         }
 
         faction.setName(newName);
+        BukkitUtils.callEvent(new FactionChangeEvent(faction, FactionChangeType.UPDATE_NAME));
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("name-changed"));
     }
 }

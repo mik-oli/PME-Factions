@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 import java.util.UUID;
 
@@ -57,5 +58,9 @@ public class BukkitUtils {
             color = ChatColor.valueOf(arg);
         } catch (IllegalArgumentException ignored) {}
         return color;
+    }
+
+    public static void callEvent(Event event) {
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }

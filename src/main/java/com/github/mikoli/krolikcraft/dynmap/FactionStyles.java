@@ -1,5 +1,7 @@
 package com.github.mikoli.krolikcraft.dynmap;
 
+import com.github.mikoli.krolikcraft.claims.ClaimType;
+
 public class FactionStyles {
 
     private AreaStyle claimStyle;
@@ -36,9 +38,8 @@ public class FactionStyles {
         return coreStyle;
     }
 
-    public AreaStyle getFactionStyle(AreaType areaType) {
-        switch (areaType) {
-            case CLAIM: return this.claimStyle;
+    public AreaStyle getFactionStyle(ClaimType claimType) {
+        switch (claimType) {
             case OUTPOST: return this.outpostStyle;
             case CORE: return this.coreStyle;
             default: return this.claimStyle;

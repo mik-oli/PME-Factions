@@ -3,6 +3,8 @@ package com.github.mikoli.krolikcraft.commands.subCommands.faction;
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.commands.CommandsArgs;
 import com.github.mikoli.krolikcraft.commands.ISubCommand;
+import com.github.mikoli.krolikcraft.events.FactionChangeEvent;
+import com.github.mikoli.krolikcraft.events.FactionChangeType;
 import com.github.mikoli.krolikcraft.factions.Faction;
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.RankPermissions;
@@ -82,6 +84,7 @@ public class SetColorCmd extends ISubCommand {
         }
 
         faction.setColor(color);
+        BukkitUtils.callEvent(new FactionChangeEvent(faction, FactionChangeType.UPDATE_COLOR));
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("color-changed"));
     }
 }

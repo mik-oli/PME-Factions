@@ -26,8 +26,10 @@ public class MarkerApiManager {
         this.plugin = plugin;
         this.markerSet = dynmapAPI.getMarkerAPI().createMarkerSet("factions.markerset", "Factions", dynmapAPI.getMarkerAPI().getMarkerIcons(), false);
 
-        generateFactionStyles();
-        generateClaimsStyles();
+        if (markerSet != null) {
+            generateFactionStyles();
+            generateClaimsStyles();
+        }
     }
 
     public AreaMarker getClaimMarker(Claim claim) {
@@ -69,6 +71,10 @@ public class MarkerApiManager {
         factionStylesMap.get(faction).setClaimStyle(new AreaStyle(0.5, 0xd48311, 0.5, 0xd48311, "Core", faction.getName() + "'s core"));
     }
 
+    public void removeFactionStyles(Faction faction) {
+        factionStylesMap.remove(faction);
+    }
+
     public void generateClaimsStyles() {
         for (Claim claim : plugin.getClaimsManager().getClaimsList().values()) createClaimStyle(claim);
     }
@@ -81,8 +87,8 @@ public class MarkerApiManager {
         Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() - range);
         if (!claim.getChunksSet().contains(topLeftChunk) || !claim.getChunksSet().contains(bottomRightChunk)) return; //TODO xDD??
 
-        int topX = (topLeftChunk.getX()*16)-15;
-        int topZ = (topLeftChunk.getZ()*16)+15;
+        int topX = (topLeftChunk.getX()*16);
+        int topZ = (topLeftChunk.getZ()*16);
         int bottomX = (bottomRightChunk.getX()*16)+15;
         int bottomZ = (bottomRightChunk.getZ()*16)-15;
 
@@ -90,7 +96,7 @@ public class MarkerApiManager {
         if (claimType == ClaimType.NEUTRAL) areaStyle = neutralOutpostStyle;
         else {
             Faction faction = plugin.getFactionsManager().getFactionByUUID(claim.getOwner());
-            areaStyle = factionStylesMap.get(faction).getFactionStyle(AreaType.valueOf(claimType.name()));
+            areaStyle = factionStylesMap.get(faction).getFactionStyle(claimType);
         }
 
         AreaMarker areaMarker = markerSet.createAreaMarker(claim.getId() + ".marker", claim.getId().toString(), false, "world",
@@ -114,8 +120,7 @@ public class MarkerApiManager {
     public void updateFactionClaimStyles(Faction faction) {
 
         for (Claim claim : plugin.getClaimsManager().getClaimsList().values()) {
-            if (claim.getOwner().equals(faction.getId())) updateClaimStyle(claimsMarkersMap.get(claim),
-                    factionStylesMap.get(faction).getFactionStyle(AreaType.valueOf(claim.getClaimType().name())));
+            if (claim.getOwner().equals(faction.getId())) updateClaimStyle(claimsMarkersMap.get(claim), factionStylesMap.get(faction).getFactionStyle(claim.getClaimType()));
         }
     }
 }
