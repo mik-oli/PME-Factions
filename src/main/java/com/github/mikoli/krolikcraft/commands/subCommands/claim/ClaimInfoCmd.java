@@ -84,9 +84,17 @@ public class ClaimInfoCmd extends ISubCommand {
             String ownerName = (claimOwner != null) ? plugin.getFactionsManager().getFactionsList().get(claimOwner).getName() : "none";
             String claimType = claim.getClaimType().name();
             Location location = claim.getCoreLocation();
-            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed-by") + ownerName);
-            commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claim-type") + claimType);
-            commandSender.sendMessage(BukkitUtils.coloring(BukkitUtils.pluginPrefix() + "&eClaim block (X, Y, Z): &b" + (int)location.getX() + " " + (int)location.getY() + " " + (int)location.getZ() + "&e."));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(BukkitUtils.pluginPrefix()).append(BukkitUtils.coloring("&e========&bClaim Info&e========\n"));
+            stringBuilder.append(plugin.getConfigUtils().getLocalisation("claimed-by")).append(BukkitUtils.coloring("&b" + ownerName)).append("\n");
+            stringBuilder.append(plugin.getConfigUtils().getLocalisation("claim-type")).append(BukkitUtils.coloring("&b" + claimType)).append("\n");
+            stringBuilder.append(BukkitUtils.coloring(BukkitUtils.pluginPrefix() + "&eClaim block (X, Y, Z): &b"
+                    + (int) location.getX() + " "
+                    + (int) location.getY() + " "
+                    + (int) location.getZ() + "&e.")).append("\n");
+            stringBuilder.append(BukkitUtils.pluginPrefix()).append(BukkitUtils.coloring("&e=========================="));
+            commandSender.sendMessage(stringBuilder.toString());
         }
     }
 }

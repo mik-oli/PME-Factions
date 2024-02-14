@@ -43,8 +43,8 @@ public class CommandCompleter implements TabCompleter {
             }
 
             CommandsArgs arg = null;
-            if (adminMode && args.length <= subCommand.getArgsAdmin().size()) arg = subCommand.getArgsAdmin().get(args.length - 1);
-            else if (!adminMode && args.length <= subCommand.getArgs().size()) arg = subCommand.getArgs().get(args.length - 1);
+            if (adminMode && (args.length - 1) <= subCommand.getArgsAdmin().size()) arg = subCommand.getArgsAdmin().get(args.length - 2);
+            else if (!adminMode && (args.length - 1) <= subCommand.getArgs().size()) arg = subCommand.getArgs().get(args.length - 2);
             else return null;
 
             switch (arg) {
