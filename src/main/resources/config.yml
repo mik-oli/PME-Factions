@@ -28,7 +28,7 @@ localisation:
   already-claimed: "&cThis terrain is claimed already or overlaps another claim!"
   claimed: "&aTerrain claimed successfully."
   not-claimed: "&aThis terrain is not claimed."
-  claimed-by: "&eThis terrain is claimed by: &b"
+  claimed-by: "&eThis terrain is claimed by: "
   faction-deleted: "&aFaction deleted successfully."
   factions-list: "&eFactions list: &b"
   faction-name: "&eName: &a"

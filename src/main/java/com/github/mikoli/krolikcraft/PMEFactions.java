@@ -1,20 +1,27 @@
 package com.github.mikoli.krolikcraft;
 
-import com.github.mikoli.krolikcraft.claims.ClaimsDataHandler;
-import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.commands.CommandCompleter;
-import com.github.mikoli.krolikcraft.commands.CommandsManager;
-import com.github.mikoli.krolikcraft.factions.FactionsDataHandler;
-import com.github.mikoli.krolikcraft.factions.FactionsManager;
-import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
-import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
-import com.github.mikoli.krolikcraft.listeners.InteractListener;
-import com.github.mikoli.krolikcraft.utils.BukkitUtils;
-import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-import com.github.mikoli.krolikcraft.utils.FilesUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsDataHandler;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsManager;
+import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandCompleter;
+import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandsManager;
+import com.github.mikoli.krolikcraft.dynmap.MarkerApiManager;
+import com.github.mikoli.krolikcraft.dynmap.listeners.ClaimChangeListener;
+import com.github.mikoli.krolikcraft.dynmap.listeners.FactionChangeListener;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsDataHandler;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsManager;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockBreakListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockPlaceListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.InteractListener;
+import com.github.mikoli.krolikcraft.placeholderAPI.FactionsPlaceholders;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.BukkitUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.ConfigUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.FilesUtils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import org.dynmap.DynmapAPI;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,14 +34,18 @@ public final class PMEFactions extends JavaPlugin {
     private final FactionsManager factionsManager = new FactionsManager(this);
     private final CommandsManager commandsManager = new CommandsManager(this);
     private final CommandCompleter commandCompleter = new CommandCompleter(this);
-    private final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
-    private final BlockPlaceListener blockPlaceListener = new BlockPlaceListener(this);
-    private final InteractListener interactListener = new InteractListener(this);
+    private MarkerApiManager markerApiManager = null;
+    private DynmapAPI dynmapAPI = null;
+
+    @Override
+    public void onLoad() {
+        dynmapAPI = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
+    }
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
 
+        saveDefaultConfig();
         try {
             ClaimsDataHandler.loadClaimsData(claimsFilesUtil, claimsManager);
             FactionsDataHandler.loadFactionsData(this);
@@ -42,8 +53,14 @@ public final class PMEFactions extends JavaPlugin {
             BukkitUtils.consoleError(Arrays.toString(e.getStackTrace()));
         }
 
+        if (dynmapAPI != null) markerApiManager = new MarkerApiManager(this, dynmapAPI);
+
         this.setEventsListeners();
         this.setCommandsExecutors();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new FactionsPlaceholders(this).register();
+        }
     }
 
     @Override
@@ -77,13 +94,21 @@ public final class PMEFactions extends JavaPlugin {
         return this.commandsManager;
     }
 
+    public MarkerApiManager getMarkerApiManager() {
+        return this.markerApiManager;
+    }
+
     //Private methods
     private final PluginManager pluginManager = this.getServer().getPluginManager();
     private void setEventsListeners() {
-        pluginManager.registerEvents(blockPlaceListener, this);
-        pluginManager.registerEvents(blockBreakListener, this);
-        pluginManager.registerEvents(interactListener, this);
+        pluginManager.registerEvents(new BlockPlaceListener(this), this);
+        pluginManager.registerEvents(new BlockBreakListener(this), this);
+        pluginManager.registerEvents(new InteractListener(this), this);
 //        pluginManager.registerEvents(otherListeners, this);
+        if (markerApiManager != null) {
+            pluginManager.registerEvents(new ClaimChangeListener(this), this);
+            pluginManager.registerEvents(new FactionChangeListener(this), this);
+        }
     }
 
     private void setCommandsExecutors() {
