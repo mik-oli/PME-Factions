@@ -1,9 +1,9 @@
 package com.github.mikoli.krolikcraft.dynmap;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
-import com.github.mikoli.krolikcraft.claims.Claim;
-import com.github.mikoli.krolikcraft.claims.ClaimType;
-import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.Claim;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimType;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.Faction;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;

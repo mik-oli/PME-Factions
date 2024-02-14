@@ -1,21 +1,21 @@
 package com.github.mikoli.krolikcraft;
 
-import com.github.mikoli.krolikcraft.claims.ClaimsDataHandler;
-import com.github.mikoli.krolikcraft.claims.ClaimsManager;
-import com.github.mikoli.krolikcraft.commands.CommandCompleter;
-import com.github.mikoli.krolikcraft.commands.CommandsManager;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsDataHandler;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsManager;
+import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandCompleter;
+import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandsManager;
 import com.github.mikoli.krolikcraft.dynmap.MarkerApiManager;
 import com.github.mikoli.krolikcraft.dynmap.listeners.ClaimChangeListener;
 import com.github.mikoli.krolikcraft.dynmap.listeners.FactionChangeListener;
-import com.github.mikoli.krolikcraft.factions.FactionsDataHandler;
-import com.github.mikoli.krolikcraft.factions.FactionsManager;
-import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
-import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
-import com.github.mikoli.krolikcraft.listeners.InteractListener;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsDataHandler;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsManager;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockBreakListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockPlaceListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.InteractListener;
 import com.github.mikoli.krolikcraft.placeholderAPI.FactionsPlaceholders;
-import com.github.mikoli.krolikcraft.utils.BukkitUtils;
-import com.github.mikoli.krolikcraft.utils.ConfigUtils;
-import com.github.mikoli.krolikcraft.utils.FilesUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.BukkitUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.ConfigUtils;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.FilesUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;

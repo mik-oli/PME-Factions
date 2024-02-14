@@ -1,9 +1,9 @@
 package com.github.mikoli.krolikcraft.dynmap.listeners;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
-import com.github.mikoli.krolikcraft.claims.Claim;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.Claim;
 import com.github.mikoli.krolikcraft.dynmap.MarkerApiManager;
-import com.github.mikoli.krolikcraft.events.ClaimChangeEvent;
+import com.github.mikoli.krolikcraft.factionsLogic.events.ClaimChangeEvent;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

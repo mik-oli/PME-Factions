@@ -3,8 +3,8 @@ package com.github.mikoli.krolikcraft.dynmap.listeners;
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.dynmap.HexColors;
 import com.github.mikoli.krolikcraft.dynmap.MarkerApiManager;
-import com.github.mikoli.krolikcraft.events.FactionChangeEvent;
-import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.factionsLogic.events.FactionChangeEvent;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.Faction;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

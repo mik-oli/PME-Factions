@@ -1,6 +1,6 @@
 package com.github.mikoli.krolikcraft.dynmap;
 
-import com.github.mikoli.krolikcraft.claims.ClaimType;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimType;
 
 public class FactionStyles {
 

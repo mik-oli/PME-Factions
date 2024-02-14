@@ -1,7 +1,7 @@
 package com.github.mikoli.krolikcraft.placeholderAPI;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
-import com.github.mikoli.krolikcraft.factions.Faction;
+import com.github.mikoli.krolikcraft.factionsLogic.factions.Faction;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 import org.bukkit.entity.Player;
