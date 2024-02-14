@@ -12,6 +12,7 @@ import com.github.mikoli.krolikcraft.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.listeners.InteractListener;
+import com.github.mikoli.krolikcraft.placeholderAPI.FactionsPlaceholders;
 import com.github.mikoli.krolikcraft.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.utils.ConfigUtils;
 import com.github.mikoli.krolikcraft.utils.FilesUtils;
@@ -38,7 +39,7 @@ public final class PMEFactions extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        dynmapAPI = (DynmapAPI) Bukkit.getServer().getPluginManager().getPlugin("dynmap");
+        dynmapAPI = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
     }
 
     @Override
@@ -56,6 +57,10 @@ public final class PMEFactions extends JavaPlugin {
 
         this.setEventsListeners();
         this.setCommandsExecutors();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new FactionsPlaceholders(this).register();
+        }
     }
 
     @Override
