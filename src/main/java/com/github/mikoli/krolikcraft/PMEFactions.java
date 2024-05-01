@@ -1,5 +1,6 @@
 package com.github.mikoli.krolikcraft;
 
+import com.github.mikoli.krolikcraft.factionsLogic.TeamsManager;
 import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsDataHandler;
 import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandCompleter;
@@ -12,6 +13,7 @@ import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsManager;
 import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockBreakListener;
 import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockPlaceListener;
 import com.github.mikoli.krolikcraft.factionsLogic.listeners.InteractListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.PlayerJoinListener;
 import com.github.mikoli.krolikcraft.placeholderAPI.FactionsPlaceholders;
 import com.github.mikoli.krolikcraft.factionsLogic.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.factionsLogic.utils.ConfigUtils;
@@ -34,6 +36,7 @@ public final class PMEFactions extends JavaPlugin {
     private final FactionsManager factionsManager = new FactionsManager(this);
     private final CommandsManager commandsManager = new CommandsManager(this);
     private final CommandCompleter commandCompleter = new CommandCompleter(this);
+    private final TeamsManager teamsManager = new TeamsManager();
     private MarkerApiManager markerApiManager = null;
     private DynmapAPI dynmapAPI = null;
 
@@ -94,6 +97,10 @@ public final class PMEFactions extends JavaPlugin {
         return this.commandsManager;
     }
 
+    public TeamsManager getTeamsManager() {
+        return this.teamsManager;
+    }
+
     public MarkerApiManager getMarkerApiManager() {
         return this.markerApiManager;
     }
@@ -104,6 +111,7 @@ public final class PMEFactions extends JavaPlugin {
         pluginManager.registerEvents(new BlockPlaceListener(this), this);
         pluginManager.registerEvents(new BlockBreakListener(this), this);
         pluginManager.registerEvents(new InteractListener(this), this);
+        pluginManager.registerEvents(new PlayerJoinListener(this), this);
 //        pluginManager.registerEvents(otherListeners, this);
         if (markerApiManager != null) {
             pluginManager.registerEvents(new ClaimChangeListener(this), this);

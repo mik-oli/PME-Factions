@@ -1,6 +1,7 @@
 package com.github.mikoli.krolikcraft.factionsLogic.commands.subCommands.faction;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
+import com.github.mikoli.krolikcraft.factionsLogic.TeamsManager;
 import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandsArgs;
 import com.github.mikoli.krolikcraft.factionsLogic.commands.ISubCommand;
 import com.github.mikoli.krolikcraft.factionsLogic.factions.Faction;
@@ -92,5 +93,8 @@ public class AddMemberCmd extends ISubCommand {
 
         faction.addMember(targetUUID);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("player-added"));
+
+        TeamsManager teamsManager = plugin.getTeamsManager();
+        teamsManager.addPlayerToTeam(Bukkit.getPlayer(targetUUID), teamsManager.getTeamByColor(faction.getColor()));
     }
 }
