@@ -98,7 +98,7 @@ public class AddOfficerCmd extends ISubCommand {
             return;
         }
 
-        faction.getOfficers().add(targetUUID);
+        faction.addOfficer(targetUUID);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-promoted"));
     }
 }

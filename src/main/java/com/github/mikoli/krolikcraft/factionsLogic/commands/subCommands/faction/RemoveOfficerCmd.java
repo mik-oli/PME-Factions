@@ -98,7 +98,7 @@ public class RemoveOfficerCmd extends ISubCommand {
             return;
         }
 
-        faction.getOfficers().remove(targetUUID);
+        faction.removeOfficer(targetUUID);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("faction-demoted"));
     }
 }
