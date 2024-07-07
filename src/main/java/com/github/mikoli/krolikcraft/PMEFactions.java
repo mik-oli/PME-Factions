@@ -36,13 +36,15 @@ public final class PMEFactions extends JavaPlugin {
     private final FactionsManager factionsManager = new FactionsManager(this);
     private final CommandsManager commandsManager = new CommandsManager(this);
     private final CommandCompleter commandCompleter = new CommandCompleter(this);
-    private final TeamsManager teamsManager = new TeamsManager();
+    private TeamsManager teamsManager = null;
     private MarkerApiManager markerApiManager = null;
     private DynmapAPI dynmapAPI = null;
 
     @Override
     public void onLoad() {
-        dynmapAPI = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
+        try {
+            dynmapAPI = (DynmapAPI) Bukkit.getPluginManager().getPlugin("dynmap");
+        } catch (Exception ignored) {}
     }
 
     @Override
@@ -60,6 +62,7 @@ public final class PMEFactions extends JavaPlugin {
 
         this.setEventsListeners();
         this.setCommandsExecutors();
+        this.teamsManager = new TeamsManager();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new FactionsPlaceholders(this).register();

@@ -42,7 +42,7 @@ public class CommandsManager implements CommandExecutor {
         }
         if (args.length < subCommand.getLength(adminMode)) {
             if (adminMode) return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getAdminSyntax());
-            else this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
+            else return this.returnSyntax(commandSender, "cmd-wrong-args", subCommand.getSyntax());
         }
         if (subCommand.playerOnly() && !(commandSender instanceof Player)) {
             commandSender.sendMessage(config.getLocalisation("cmd-player-only"));
