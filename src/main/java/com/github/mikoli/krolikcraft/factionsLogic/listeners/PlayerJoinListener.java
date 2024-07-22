@@ -24,6 +24,6 @@ public class PlayerJoinListener implements Listener {
         if (factionsManager.getPlayersFaction(player.getUniqueId()) == null) return;
 
         TeamsManager teamsManager = plugin.getTeamsManager();
-        teamsManager.addPlayerToTeam(player, teamsManager.getTeamByColor(factionsManager.getPlayersFaction(player.getUniqueId()).getColor()));
+        teamsManager.addPlayerToTeam(player.getUniqueId(), teamsManager.getTeam(factionsManager.getPlayersFaction(player.getUniqueId()).getName()));
     }
 }

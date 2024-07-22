@@ -10,10 +10,7 @@ import com.github.mikoli.krolikcraft.dynmap.listeners.ClaimChangeListener;
 import com.github.mikoli.krolikcraft.dynmap.listeners.FactionChangeListener;
 import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsDataHandler;
 import com.github.mikoli.krolikcraft.factionsLogic.factions.FactionsManager;
-import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockBreakListener;
-import com.github.mikoli.krolikcraft.factionsLogic.listeners.BlockPlaceListener;
-import com.github.mikoli.krolikcraft.factionsLogic.listeners.InteractListener;
-import com.github.mikoli.krolikcraft.factionsLogic.listeners.PlayerJoinListener;
+import com.github.mikoli.krolikcraft.factionsLogic.listeners.*;
 import com.github.mikoli.krolikcraft.placeholderAPI.FactionsPlaceholders;
 import com.github.mikoli.krolikcraft.factionsLogic.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.factionsLogic.utils.ConfigUtils;
@@ -62,7 +59,7 @@ public final class PMEFactions extends JavaPlugin {
 
         this.setEventsListeners();
         this.setCommandsExecutors();
-        this.teamsManager = new TeamsManager();
+        this.teamsManager = new TeamsManager(this);
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new FactionsPlaceholders(this).register();
@@ -115,7 +112,7 @@ public final class PMEFactions extends JavaPlugin {
         pluginManager.registerEvents(new BlockBreakListener(this), this);
         pluginManager.registerEvents(new InteractListener(this), this);
         pluginManager.registerEvents(new PlayerJoinListener(this), this);
-//        pluginManager.registerEvents(otherListeners, this);
+        pluginManager.registerEvents(new OtherListeners(this), this);
         if (markerApiManager != null) {
             pluginManager.registerEvents(new ClaimChangeListener(this), this);
             pluginManager.registerEvents(new FactionChangeListener(this), this);

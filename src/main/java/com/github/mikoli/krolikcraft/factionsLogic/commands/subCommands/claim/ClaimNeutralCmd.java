@@ -82,7 +82,7 @@ public class ClaimNeutralCmd extends ISubCommand {
 
         Block blockBelow = player.getLocation().subtract(0, 1, 0).getBlock();
         claimsManager.createClaim(null, claimType, blockBelow.getLocation());
-        blockBelow.setType(Material.NOTE_BLOCK);
+        blockBelow.setType(Material.CRYING_OBSIDIAN);
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }
 }

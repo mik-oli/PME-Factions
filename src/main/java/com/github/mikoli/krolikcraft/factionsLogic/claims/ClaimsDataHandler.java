@@ -23,8 +23,9 @@ public class ClaimsDataHandler {
             ClaimType claimType = ClaimType.valueOf(dataFile.getString(uuid + ".type"));
             Claim claim = new Claim(uuid, claimType);
 
-            UUID owner = UUID.fromString(dataFile.getString(uuid + ".owner"));
-            claim.setOwner(owner);
+            String ownerString = dataFile.getString(uuid + ".owner");
+            if (ownerString == null || ownerString.equalsIgnoreCase("none")) claim.setOwner(null);
+            else claim.setOwner(UUID.fromString(ownerString));
 
             String[] coreCords = dataFile.getString(uuid + ".core-location").split(";");
             Location claimCoreLocation = new Location(Bukkit.getWorld("world"), Double.parseDouble(coreCords[0]), Double.parseDouble(coreCords[1]), Double.parseDouble(coreCords[2]));

@@ -103,6 +103,6 @@ public class RemoveMemberCmd extends ISubCommand {
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("player-removed"));
 
         TeamsManager teamsManager = plugin.getTeamsManager();
-        teamsManager.addPlayerToTeam(Bukkit.getPlayer(targetUUID), teamsManager.getTeamByColor(faction.getColor()));
+        teamsManager.removePlayerFromTeam(targetUUID, teamsManager.getTeam(faction.getName()));
     }
 }

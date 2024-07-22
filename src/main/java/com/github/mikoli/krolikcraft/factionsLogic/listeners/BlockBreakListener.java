@@ -44,10 +44,8 @@ public class BlockBreakListener implements Listener {
         UUID claimFactionId = claim.getOwner();
 
         if (player.hasPermission(Permissions.ADMIN.getPermission())) {
-            if (claim.getCoreLocation().equals(block.getLocation())) {
-                event.setCancelled(true);
-                return;
-            }
+            if (claim.getCoreLocation().equals(block.getLocation())) event.setCancelled(true);
+            return;
         }
 
         Faction claimFaction = plugin.getFactionsManager().getFactionByUUID(claimFactionId);
@@ -55,7 +53,7 @@ public class BlockBreakListener implements Listener {
 
         //taking over neutral claim
         if (claim.getClaimType() == ClaimType.NEUTRAL) {
-            if (claim.getCoreLocation().getBlock() == block) {
+            if (claim.getCoreLocation().getBlock().equals(block)) {
                 if (RankPermissions.hasPlayerPermission(plugin, player, RankPermissions.OFFICER, false)) {
                     claimsManager.changeOwnership(claim, playerFaction);
                     claim.setClaimType(ClaimType.OUTPOST);
@@ -68,7 +66,7 @@ public class BlockBreakListener implements Listener {
         else {
             //unclaiming own terrain
             if (playerFaction.getId().equals(claimFaction.getId())) {
-                if (claimFaction.getCoreLocation().equals(block.getLocation())) {
+                if (claim.getCoreLocation().equals(block.getLocation())) {
                     if (!RankPermissions.hasPlayerPermission(plugin, player, RankPermissions.OFFICER, false) || claim.getClaimType() == ClaimType.CORE) {
                         player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-unclaim"));
                         event.setCancelled(true);

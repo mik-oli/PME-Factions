@@ -48,9 +48,9 @@ public class MarkerApiManager {
         ChatColor color = faction.getColor();
         HexColors hexColor = HexColors.valueOf(color.name());
         int intColor = hexColor.getHexColor();
-        AreaStyle claimStyle = new AreaStyle(0.5, intColor, 0.5, intColor, "Claim", faction.getName() + "'s claim");
-        AreaStyle outpostStyle = new AreaStyle(0.5, 0xd48311, 0.5, 0xd48311, "Outpost", faction.getName() + "'s outpost");
-        AreaStyle coreStyle = new AreaStyle(0.5, 0xd48311, 0.5, 0xd48311, "Core", faction.getName() + "'s core");
+        AreaStyle claimStyle = new AreaStyle(0.2, intColor, 0.5, intColor, "Claim", faction.getName() + "'s claim");
+        AreaStyle outpostStyle = new AreaStyle(0.5, intColor, 0.5, intColor, "Outpost", faction.getName() + "'s outpost");
+        AreaStyle coreStyle = new AreaStyle(0.7, intColor, 0.5, intColor, "Core", faction.getName() + "'s core");
 
         FactionStyles factionStyles = new FactionStyles(claimStyle, outpostStyle, coreStyle);
         factionStylesMap.put(faction, factionStyles);
@@ -63,12 +63,12 @@ public class MarkerApiManager {
 
     public void updateFactionOutpostStyle(Faction faction, HexColors hexColor) {
         int intColor = hexColor.getHexColor();
-        factionStylesMap.get(faction).setClaimStyle(new AreaStyle(0.5, 0xd48311, 0.5, 0xd48311, "Outpost", faction.getName() + "'s outpost"));
+        factionStylesMap.get(faction).setClaimStyle(new AreaStyle(0.5, intColor, 0.5, intColor, "Outpost", faction.getName() + "'s outpost"));
     }
 
     public void updateFactionCoreStyle(Faction faction, HexColors hexColor) {
         int intColor = hexColor.getHexColor();
-        factionStylesMap.get(faction).setClaimStyle(new AreaStyle(0.5, 0xd48311, 0.5, 0xd48311, "Core", faction.getName() + "'s core"));
+        factionStylesMap.get(faction).setClaimStyle(new AreaStyle(0.5, intColor, 0.5, intColor, "Core", faction.getName() + "'s core"));
     }
 
     public void removeFactionStyles(Faction faction) {
@@ -107,7 +107,6 @@ public class MarkerApiManager {
 
     public void updateClaimStyle(AreaMarker areaMarker, AreaStyle areaStyle) {
         areaMarker.setFillStyle(areaStyle.getFillOpacity(), areaStyle.getFillColor());
-//        areaMarker.setLineStyle(areaStyle.getLineColor(), areaStyle.getLineOpacity(), areaStyle.getLineColor());
         areaMarker.setLabel(areaStyle.getLabel());
         areaMarker.setDescription(areaStyle.getDescription());
     }

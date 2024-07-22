@@ -101,7 +101,7 @@ public class ClaimCmd extends ISubCommand {
         }
 
         Block blockBelow = player.getLocation().subtract(0, 1, 0).getBlock();
-        blockBelow.setType(Material.NOTE_BLOCK);
+        blockBelow.setType(Material.CRYING_OBSIDIAN);
         claimsManager.createClaim(faction, claimType, blockBelow.getLocation());
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
     }

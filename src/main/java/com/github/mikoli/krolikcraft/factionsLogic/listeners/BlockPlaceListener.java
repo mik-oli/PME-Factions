@@ -49,6 +49,7 @@ public class BlockPlaceListener implements Listener {
                 event.setCancelled(true);
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-interact"));
             }
+            else if (claimFaction == null && claimsManager.getClaim(claimId).getClaimType() == ClaimType.NEUTRAL) return;
             else if (!claimFaction.getId().equals(playerFaction.getId()) && !claimFaction.isAtWarWith(playerFaction)) {
                 event.setCancelled(true);
                 player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-interact"));
@@ -93,7 +94,7 @@ public class BlockPlaceListener implements Listener {
         claimsManager.createClaim(playerFaction, claimType, block.getLocation().subtract(0, 1, 0));
 
         Block blockBelow = block.getLocation().subtract(0, 1, 0).getBlock();
-        blockBelow.setType(Material.NOTE_BLOCK);
+        blockBelow.setType(Material.CRYING_OBSIDIAN);
         PersistentDataUtils.removeData(plugin, PersistentDataUtils.CLAIMFLAG, dataContainer);
         item.setItemMeta(itemMeta);
         event.getPlayer().sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));

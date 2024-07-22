@@ -1,6 +1,9 @@
 package com.github.mikoli.krolikcraft.factionsLogic.listeners;
 
 import com.github.mikoli.krolikcraft.PMEFactions;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.Claim;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimType;
+import com.github.mikoli.krolikcraft.factionsLogic.claims.ClaimsManager;
 import com.github.mikoli.krolikcraft.factionsLogic.factions.Faction;
 
 import com.github.mikoli.krolikcraft.factionsLogic.utils.Permissions;
@@ -27,7 +30,8 @@ public class InteractListener implements Listener {
         if (event.getPlayer().hasPermission(Permissions.ADMIN.getPermission())) return;
         Block block = event.getClickedBlock();
         if (block == null) return;
-        if (!plugin.getClaimsManager().isChunkClaimed(block.getChunk())) return;
+        ClaimsManager claimsManager = plugin.getClaimsManager();
+        if (!claimsManager.isChunkClaimed(block.getChunk())) return;
 
         Player player = event.getPlayer();
         Faction playerFaction = plugin.getFactionsManager().getPlayersFaction(player.getUniqueId());
@@ -36,10 +40,11 @@ public class InteractListener implements Listener {
             player.sendMessage(plugin.getConfigUtils().getLocalisation("cant-interact"));
             return;
         }
-        UUID id = plugin.getClaimsManager().getClaim(plugin.getClaimsManager().getClaimId(block.getChunk())).getOwner();
-        Faction claimFaction = plugin.getFactionsManager().getFactionByUUID(id);
-        if (playerFaction == claimFaction) return;
-        if (!playerFaction.isAtWarWith(claimFaction)) {
+        Claim claim = claimsManager.getClaim(claimsManager.getClaimId(block.getChunk()));
+        Faction claimFaction = plugin.getFactionsManager().getFactionByUUID(claim.getOwner());
+        if (claimFaction == null) return;
+        else if (playerFaction == claimFaction) return;
+        else if (!playerFaction.isAtWarWith(claimFaction)) {
             player.sendMessage(plugin.getConfigUtils().getLocalisation("terrain-claimed"));
             event.setCancelled(true);
         }
