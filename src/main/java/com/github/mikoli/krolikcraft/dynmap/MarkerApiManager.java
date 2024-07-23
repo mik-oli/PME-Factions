@@ -12,6 +12,7 @@ import org.dynmap.DynmapAPI;
 import org.dynmap.markers.AreaMarker;
 import org.dynmap.markers.MarkerSet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MarkerApiManager {
@@ -80,32 +81,34 @@ public class MarkerApiManager {
     }
 
     public void createClaimStyle(Claim claim) {
-        ClaimType claimType = claim.getClaimType();
-        int range = claimType.getRange();
-        Chunk coreChunk = plugin.getServer().getWorld("world").getChunkAt(claim.getCoreLocation());
-        Chunk topLeftChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() - range, coreChunk.getZ() - range);
-        Chunk bottomRightChunk = coreChunk.getWorld().getChunkAt(coreChunk.getX() + range, coreChunk.getZ() + range);
-        if (!claim.getChunksSet().contains(topLeftChunk) || !claim.getChunksSet().contains(bottomRightChunk)) return; //TODO xDD??
+        ArrayList<int[]> perimeter = getCorners(claim);
+        double[] x = getAxisArray(perimeter, true);
+        double[] z = getAxisArray(perimeter, false);
 
-        int topX = (topLeftChunk.getX()*16);
-        int topZ = (topLeftChunk.getZ()*16);
-        int bottomX = (bottomRightChunk.getX()*16)+15;
-        int bottomZ = (bottomRightChunk.getZ()*16)+15;
-
-        AreaStyle areaStyle = null;
-        if (claimType == ClaimType.NEUTRAL) areaStyle = neutralOutpostStyle;
-        else {
-            Faction faction = plugin.getFactionsManager().getFactionByUUID(claim.getOwner());
-            areaStyle = factionStylesMap.get(faction).getFactionStyle(claimType);
-        }
-
-        AreaMarker areaMarker = markerSet.createAreaMarker(claim.getId() + ".marker", claim.getId().toString(), false, "world",
-                new double[] {topX, bottomX}, new double[] {topZ, bottomZ}, false);
-        updateClaimStyle(areaMarker, areaStyle);
+        AreaMarker areaMarker = markerSet.createAreaMarker(claim.getId() + ".marker", claim.getId().toString(), false, "world", x, z, false);
         claimsMarkersMap.put(claim, areaMarker);
+        if (claim.getClaimType() == ClaimType.NEUTRAL) updateClaimStyle(claim, neutralOutpostStyle);
+        else updateClaimArea(claim);
     }
 
-    public void updateClaimStyle(AreaMarker areaMarker, AreaStyle areaStyle) {
+    public void updateClaimArea(Claim claim) {
+        AreaMarker areaMarker = claimsMarkersMap.get(claim);
+        ArrayList<int[]> perimeter = getCorners(claim);
+        double[] x = getAxisArray(perimeter, true);
+        double[] z = getAxisArray(perimeter, false);
+        areaMarker.setCornerLocations(x, z);
+    }
+
+    public void updateClaimStyle(Claim claim) {
+        AreaMarker areaMarker = claimsMarkersMap.get(claim);
+        AreaStyle areaStyle = getFactionStyles(plugin.getFactionsManager().getFactionByUUID(claim.getOwner())).getFactionStyle(claim.getClaimType());
+        areaMarker.setFillStyle(areaStyle.getFillOpacity(), areaStyle.getFillColor());
+        areaMarker.setLabel(areaStyle.getLabel());
+        areaMarker.setDescription(areaStyle.getDescription());
+    }
+
+    public void updateClaimStyle(Claim claim, AreaStyle areaStyle) {
+        AreaMarker areaMarker = claimsMarkersMap.get(claim);
         areaMarker.setFillStyle(areaStyle.getFillOpacity(), areaStyle.getFillColor());
         areaMarker.setLabel(areaStyle.getLabel());
         areaMarker.setDescription(areaStyle.getDescription());
@@ -117,9 +120,108 @@ public class MarkerApiManager {
     }
 
     public void updateFactionClaimStyles(Faction faction) {
+        for (Claim claim : plugin.getClaimsManager().getClaimsList().values())
+            if (claim.getOwner().equals(faction.getId())) updateClaimStyle(claim);
+    }
 
-        for (Claim claim : plugin.getClaimsManager().getClaimsList().values()) {
-            if (claim.getOwner().equals(faction.getId())) updateClaimStyle(claimsMarkersMap.get(claim), factionStylesMap.get(faction).getFactionStyle(claim.getClaimType()));
+    private ArrayList<int[]> getCorners(Claim claim) {
+        ClaimType claimType = claim.getClaimType();
+        int range = claimType.getRange();
+        Chunk coreChunk = plugin.getServer().getWorld("world").getChunkAt(claim.getCoreLocation());
+
+        int initX = coreChunk.getX() - range;
+        int initZ = coreChunk.getZ() - range;
+        for (Chunk chunk : claim.getChunksSet()) {
+            if (chunk.getX() <= initX && chunk.getZ() <= initZ) {
+                initX = chunk.getX();
+                initZ = chunk.getZ();
+            }
         }
+
+        int curX = initX;
+        int curZ = initZ;
+        Direction direction = Direction.XPLUS;
+        ArrayList<int[]> perimeter = new ArrayList<>();
+        perimeter.add(new int[] { initX, initZ });
+        while (curX != initX || curZ != initZ || direction != Direction.ZMINUS) {
+            switch (direction) {
+                case XPLUS:
+                    if (!isClaimed(claim, coreChunk, curX + 1, curZ)) {
+                        perimeter.add(new int[] { curX + 1, curZ });
+                        direction = Direction.ZPLUS;
+                        continue;
+                    }
+                    if (!isClaimed(claim, coreChunk, curX + 1, curZ - 1)) {
+                        curX++;
+                        continue;
+                    }
+                    perimeter.add(new int[] { curX + 1, curZ });
+                    direction = Direction.ZMINUS;
+                    curX++;
+                    curZ--;
+                    continue;
+                case ZPLUS:
+                    if (!isClaimed(claim, coreChunk, curX, curZ + 1)) {
+                        perimeter.add(new int[] { curX + 1, curZ + 1 });
+                        direction = Direction.XMINUS;
+                        continue;
+                    }
+                    if (!isClaimed(claim, coreChunk, curX + 1, curZ + 1)) {
+                        curZ++;
+                        continue;
+                    }
+                    perimeter.add(new int[] { curX + 1, curZ + 1 });
+                    direction = Direction.XPLUS;
+                    curX++;
+                    curZ++;
+                    continue;
+                case XMINUS:
+                    if (!isClaimed(claim, coreChunk, curX - 1, curZ)) {
+                        perimeter.add(new int[] { curX, curZ + 1 });
+                        direction = Direction.ZMINUS;
+                        continue;
+                    }
+                    if (!isClaimed(claim, coreChunk, curX - 1, curZ + 1)) {
+                        curX--;
+                        continue;
+                    }
+                    perimeter.add(new int[] { curX, curZ + 1 });
+                    direction = Direction.ZPLUS;
+                    curX--;
+                    curZ++;
+                    continue;
+                case ZMINUS:
+                    if (!isClaimed(claim, coreChunk, curX, curZ - 1)) {
+                        perimeter.add(new int[] { curX, curZ });
+                        direction = Direction.XPLUS;
+                        continue;
+                    }
+                    if (!isClaimed(claim, coreChunk, curX - 1, curZ - 1)) {
+                        curZ--;
+                        continue;
+                    }
+                    perimeter.add(new int[] { curX, curZ });
+                    direction = Direction.XMINUS;
+                    curX--;
+                    curZ--;
+            }
+        }
+        return perimeter;
+    }
+
+    private double[] getAxisArray(ArrayList<int[]> perimeter, boolean axis) {
+        int sz = perimeter.size();
+        double[] toReturn = new double[sz];
+        for (int i = 0; i < sz; i++) {
+            int[] line = perimeter.get(i);
+            if (axis) toReturn[i] = line[0] * 16.0D;
+            else toReturn[i] = line[1] * 16.0D;
+        }
+        return toReturn;
+    }
+
+    private boolean isClaimed(Claim claim, Chunk coreChunk, int x, int z) {
+        Chunk chunk = coreChunk.getWorld().getChunkAt(x, z);
+        return claim.isChunkPartOfClaim(chunk);
     }
 }

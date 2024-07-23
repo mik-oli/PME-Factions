@@ -26,11 +26,13 @@ public class ClaimChangeListener implements Listener {
                 markerApi.createClaimStyle(claim);
                 break;
             case CHANGE_OWNER:
-                markerApi.updateClaimStyle(markerApi.getClaimMarker(claim), markerApi.getFactionStyles(plugin.getFactionsManager().getFactionByUUID(claim.getOwner())).getFactionStyle(claim.getClaimType()));
+                markerApi.updateClaimStyle(claim);
                 break;
             case REMOVE:
                 markerApi.removeClaimStyle(claim);
                 break;
+            case ADD_CHUNK:
+                markerApi.updateClaimArea(claim);
         }
     }
 }

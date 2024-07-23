@@ -3,6 +3,9 @@ package com.github.mikoli.krolikcraft.factionsLogic.commands.subCommands.claim;
 import com.github.mikoli.krolikcraft.PMEFactions;
 import com.github.mikoli.krolikcraft.factionsLogic.commands.CommandsArgs;
 import com.github.mikoli.krolikcraft.factionsLogic.commands.ISubCommand;
+import com.github.mikoli.krolikcraft.factionsLogic.events.ClaimChangeEvent;
+import com.github.mikoli.krolikcraft.factionsLogic.events.ClaimChangeType;
+import com.github.mikoli.krolikcraft.factionsLogic.utils.BukkitUtils;
 import com.github.mikoli.krolikcraft.factionsLogic.utils.RankPermissions;
 
 import org.bukkit.Bukkit;
@@ -81,7 +84,8 @@ public class ClaimAddChunkCmd extends ISubCommand {
             return;
         }
 
-        plugin.getClaimsManager().getClaimsList().get(claimId).addChunkToClaim(player.getLocation().getChunk());
+        plugin.getClaimsManager().getClaim(claimId).addChunkToClaim(player.getLocation().getChunk());
         commandSender.sendMessage(plugin.getConfigUtils().getLocalisation("claimed"));
+        BukkitUtils.callEvent(new ClaimChangeEvent(plugin.getClaimsManager().getClaim(claimId), ClaimChangeType.ADD_CHUNK));
     }
 }
