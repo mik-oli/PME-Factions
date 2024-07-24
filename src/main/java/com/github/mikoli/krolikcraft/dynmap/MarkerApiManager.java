@@ -88,7 +88,7 @@ public class MarkerApiManager {
         AreaMarker areaMarker = markerSet.createAreaMarker(claim.getId() + ".marker", claim.getId().toString(), false, "world", x, z, false);
         claimsMarkersMap.put(claim, areaMarker);
         if (claim.getClaimType() == ClaimType.NEUTRAL) updateClaimStyle(claim, neutralOutpostStyle);
-        else updateClaimArea(claim);
+        else updateClaimStyle(claim);
     }
 
     public void updateClaimArea(Claim claim) {
