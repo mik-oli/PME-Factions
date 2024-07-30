@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.mikoli</groupId>
-    <name>PMEFactions</name>
-    <artifactId>pme-factions</artifactId>
+    <name>PVFactions</name>
+    <artifactId>Ringsvalley-Factions</artifactId>
     <version>1.0</version>
     <url>https://github.com/mik-oli/Krolikcraft-Project-Middle-Earth</url>
     <packaging>jar</packaging>
